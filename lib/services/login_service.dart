@@ -4,7 +4,7 @@ import 'package:myapp/utilities/localstorage.dart';
 
 class GraphQLService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
-  static HandleToken handleTokenService = new HandleToken();
+  static HandleToken handleTokenService = HandleToken();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
 
@@ -46,8 +46,8 @@ class GraphQLService {
 
 
       if (isSaved) {
-        final token = await handleTokenService.getAccessToken();
-        print('token is $token');
+        // final token = await handleTokenService.getAccessToken();
+        // print('token is $token');
         return true;
       } else {
         return false;
