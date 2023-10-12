@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/register.dart';
+import 'package:myapp/services/login_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,6 +10,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GraphQLService _graphQLService = GraphQLService();
+
+  final bool loggedIn = false;
 
   bool _isValidEmail(String email) {
     final RegExp emailRegExp =
@@ -235,12 +239,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 30 * fem),
                       TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
-                            print('Email: $_email');
-                            print('Password: $_password');
+                            await _graphQLService.login(
+                                email: _email, password: _password);
+
+                            // print('Email: $_email');
+                            // print('Password: $_password');
 
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(

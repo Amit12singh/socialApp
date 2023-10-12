@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/page-1/feeds/homescreen.dart';
+import 'package:myapp/page-1/login.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
-
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  double fem = 1.0; // Adjust this based on your design
-  double ffem = 0.97; // Adjust this based on your design
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool _isValidEmail(String email) {
+    final RegExp emailRegExp =
+        RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+    return emailRegExp.hasMatch(email);
+  }
+
+  String _email = "";
+  String _password = "";
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
+    double baseWidth = 375;
+    double fem = MediaQuery.of(context).size.width / baseWidth;
+    double ffem = fem * 0.97;
+
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(0, 59 * fem, 0, 0),
         width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
           color: Color(0xff643600),
         ),
@@ -24,172 +37,295 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildHeader(ffem),
-              _buildRegistrationForm(fem, ffem),
-              _buildFooter(fem, ffem),
+              SizedBox(height: 70 * fem),
+              Text(
+                'Login to your account',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 18 * ffem,
+                  fontWeight: FontWeight.w700,
+                  height: 1.5 * ffem,
+                  color: Color(0xffffffff),
+                ),
+              ),
+              SizedBox(height: 30 * fem),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.33 * fem,
+                  vertical: 63 * fem,
+                ),
+                width: 375 * fem,
+                decoration: BoxDecoration(
+                  color: Color(0xffffffff),
+                  borderRadius: BorderRadius.circular(33 * fem),
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Welcome back!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 30 * ffem,
+                          fontWeight: FontWeight.w700,
+                          height: 1.5 * ffem,
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                      SizedBox(height: 40 * fem),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 18.33 * fem),
+                        padding: EdgeInsets.fromLTRB(
+                          14.23 * fem,
+                          17.5 * fem,
+                          16.17 * fem,
+                          17.5 * fem,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(16 * fem),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.inbox,
+                                size: 16 * fem,
+                              ),
+                              SizedBox(width: 17.5 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter Email',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: Color(0xffdadbd8),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Email is required';
+                                    } else if (!_isValidEmail(value)) {
+                                      return 'Enter a valid email';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _email = value!;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 25 * fem),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 60.02 * fem),
+                        padding: EdgeInsets.fromLTRB(
+                          16.17 * fem,
+                          17.5 * fem,
+                          27.81 * fem,
+                          17.5 * fem,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(16 * fem),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.lock,
+                              size: 16 * fem,
+                            ),
+                            SizedBox(width: 15 * fem),
+                            Expanded(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'Enter password',
+                                  hintStyle: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 15 * ffem,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.5 * ffem,
+                                    color: Color(0xffdadbd8),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Password is required';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  _password = value!;
+                                },
+                                obscureText:
+                                    !_isPasswordVisible, // Toggle password visibility
+                              ),
+                            ),
+                            SizedBox(width: 17.5 * fem),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isPasswordVisible = !_isPasswordVisible;
+                                });
+                              },
+                              child: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                size: 22 * fem,
+                                color: _isPasswordVisible
+                                    ? Colors.blue
+                                    : Colors.grey, // Customize the color
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 13 * fem,
+                            height: 13 * fem,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2 * fem),
+                              border: Border.all(color: Color(0xffd9d9d9)),
+                            ),
+                          ),
+                          SizedBox(width: 10.43 * fem),
+                          Text(
+                            'Remember me',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 12 * ffem,
+                              fontWeight: FontWeight.w500,
+                              height: 1.5 * ffem,
+                              color: Color(0xffcccdca),
+                            ),
+                          ),
+                          Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              // Implement your "Forget Your Password?" logic here
+                            },
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: Text(
+                              'Forget Your Password?',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 12 * ffem,
+                                fontWeight: FontWeight.w500,
+                                height: 1.5 * ffem,
+                                color: Color(0xff643600),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30 * fem),
+                      TextButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+
+                            print('Email: $_email');
+                            print('Password: $_password');
+
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => FeedScreen(),
+                              ),
+                            );
+                          }
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: Container(
+                          width: 332 * fem,
+                          height: 58 * fem,
+                          decoration: BoxDecoration(
+                            color: Color(0xff643600),
+                            borderRadius: BorderRadius.circular(16 * fem),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, // Center both elements horizontally
+                            children: [
+                              Text(
+                                'Login',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18 * ffem,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.5 * ffem,
+                                  color: Color(0xffffffff),
+                                ),
+                              ),
+                              SizedBox(
+                                  width: 5 *
+                                      fem), // Add some spacing between text and icon
+                              Icon(
+                                Icons.login,
+                                size: 17.98 * fem,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30 * fem),
+                      Text(
+                        'Don’t have an account?',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 12 * ffem,
+                          fontWeight: FontWeight.w500,
+                          height: 1.5 * ffem,
+                          color: Color(0xffcccdca),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // Navigate to RegisterScreen when the "Register Now" button is pressed
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  LoginScreen(), // Replace RegisterScreen with your actual register screen widget
+                            ),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: Text(
+                          'Register Now',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 12 * ffem,
+                            fontWeight: FontWeight.w500,
+                            height: 1.5 * ffem,
+                            color: Color(0xff643600),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(double ffem) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 23 * ffem),
-      child: Text(
-        'Register Account',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 18 * ffem,
-          fontWeight: FontWeight.w700,
-          height: 1.5 * ffem,
-          color: Color(0xffffffff),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRegistrationForm(double fem, double ffem) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(16.33 * fem, 20.5 * fem, 21 * fem, 63 * fem),
-      width: double.infinity,
-      height: 746 * fem,
-      decoration: BoxDecoration(
-        color: Color(0xffffffff),
-        borderRadius: BorderRadius.circular(33 * fem),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Add your form fields here
-          _buildFormField(
-            labelText: 'Enter your full name',
-            hintStyle: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 15.0, // Adjust as needed
-              fontWeight: FontWeight.w500,
-              color: Color.fromARGB(255, 14, 21, 93),
-            ),
-          ),
-          _buildFormField(
-            labelText: 'Enter your email address',
-            hintStyle: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 15.0, // Adjust as needed
-              fontWeight: FontWeight.w500,
-              color: Color(0xffdadbd8),
-            ),
-          ),
-          _buildFormField(
-            labelText: 'Enter password',
-            hintStyle: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 15.0, // Adjust as needed
-              fontWeight: FontWeight.w500,
-              color: Color(0xffdadbd8),
-            ),
-          ),
-          _buildFormField(
-            labelText: 'Enter Confirm password',
-            hintStyle: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 15.0, // Adjust as needed
-              fontWeight: FontWeight.w500,
-              color: Color(0xffdadbd8),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFormField({
-    required String labelText,
-    required TextStyle hintStyle,
-  }) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 5.67 * fem, 18.33 * fem),
-      padding: EdgeInsets.fromLTRB(
-          16.17 * fem, 16.5 * fem, 130.33 * fem, 18.5 * fem),
-      width: double.infinity,
-      height: 58 * fem,
-      decoration: BoxDecoration(
-        color: Color(0xfff9f9f9),
-        borderRadius: BorderRadius.circular(16 * fem),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 2, 17.5, 0),
-            width: 16,
-            height: 18,
-            child: Icon(
-              Icons.message,
-              size: 16,
-              color: Colors.black,
-            ),
-          ),
-          Container(
-            width: 152,
-            height: double.infinity,
-            child: Center(
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: labelText,
-                  hintStyle: hintStyle,
-                ),
-                textAlign: TextAlign.center,
-                style: hintStyle.copyWith(fontSize: 15.0), // Adjust as needed
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFooter(double fem, double ffem) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(54.42 * fem, 0, 56 * fem, 52.68 * fem),
-      width: double.infinity,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 5.25 * fem, 0),
-            child: Text(
-              'Already have an account?',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14 * ffem,
-                fontWeight: FontWeight.w500,
-                height: 1.5 * ffem,
-                color: Color(0xff3e402d),
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-            ),
-            child: Text(
-              'Log in',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 12 * ffem,
-                fontWeight: FontWeight.w500,
-                height: 1.5 * ffem,
-                color: Color(0xff643600),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
