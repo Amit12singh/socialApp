@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/response_model.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/login.dart';
+import 'package:myapp/services/user_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -11,9 +14,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
   OutlineInputBorder errorBorder = OutlineInputBorder(
     borderSide: BorderSide(color: Colors.red),
   );
+
+  final GraphQLService _graphQLService = GraphQLService();
+
+// variables for integration
+
+  BoolResponseModel? _response;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // _load();
+  }
+
+  UserModel data = UserModel(
+    email: '\$emailController.text',
+    password: '\$passwordController.text',
+    fullName: '\$fullNameController.text',
+  );
+
+ 
 
   bool _isValidEmail(String email) {
     final RegExp emailRegExp =
@@ -23,7 +50,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String _email = "";
   String _password = "";
+  String _fullNmae = "";
+  String _confirmPassword = "";
   bool _isPasswordVisible = false;
+
+
+ 
+
+  void _create() async {
+    setState(() => {isLoading = true, _response = null});
+    BoolResponseModel response = await _graphQLService.registerUser(
+        email: emailController.text,
+        password: passwordController.text,
+        fullName: fullNameController.text);
+    if (response.success) {
+      setState(() => {_response = response, isLoading = false});
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>
+              LoginScreen(), // Replace RegisterScreen with your actual register screen widget
+        ),
+      );
+
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('success'),
+              content: Text(response?.message ?? 'hello'),
+            );
+          });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 17.5 * fem),
                               Expanded(
                                 child: TextFormField(
+                                  controller: fullNameController,
                                   decoration: InputDecoration(
                                     hintText: 'Enter your Full name',
                                     hintStyle: TextStyle(
@@ -161,6 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 17.5 * fem),
                               Expanded(
                                 child: TextFormField(
+                                  controller: emailController,
                                   decoration: InputDecoration(
                                     hintText: 'Enter your email address',
                                     hintStyle: TextStyle(
@@ -210,6 +271,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             SizedBox(width: 15 * fem),
                             Expanded(
                               child: TextFormField(
+                                controller: passwordController,
                                 decoration: InputDecoration(
                                   hintText: 'Enter password',
                                   hintStyle: TextStyle(
@@ -325,17 +387,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 15 * fem),
                       TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           String password = passwordController.text;
                           String confirmPassword =
                               confirmPasswordController.text;
-                          if (password == confirmPassword) {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => LoginScreen(),
-                              ),
-                            );
-                          } else {
+                           
+                          _create();
+
+                          if (password != confirmPassword) {
+                          
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
@@ -353,10 +413,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Container(
                           width: 332 * fem,
                           height: 58 * fem,
+                         
                           decoration: BoxDecoration(
                             color: Color(0xff643600),
                             borderRadius: BorderRadius.circular(16 * fem),
                           ),
+                          
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment
                                 .center, // Center both elements horizontally
@@ -395,13 +457,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          // Navigate to RegisterScreen when the "Register Now" button is pressed
+                         
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
                                   LoginScreen(), // Replace RegisterScreen with your actual register screen widget
                             ),
                           );
+                          // Navigate to RegisterScreen when the "Register Now" button is pressed
+                          
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
