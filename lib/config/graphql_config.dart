@@ -4,14 +4,12 @@ import 'package:myapp/utilities/localstorage.dart';
 
 class GraphQLConfig {
   static HandleToken handleTokenService = HandleToken();
-  
 
   final token = handleTokenService.getAccessToken();
 
   final HttpLink httpLink = HttpLink(
     "https://apis.oldnabhaite.site/oldnabhaiteapis",
   );
-
 
   final AuthLink authLink = AuthLink(getToken: () async => 'BEARER \$token');
 
