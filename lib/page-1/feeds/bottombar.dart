@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/page-1/createpostScreen.dart';
 
 class Bottombar extends StatelessWidget {
   const Bottombar({super.key});
@@ -26,6 +27,16 @@ class Bottombar extends StatelessWidget {
             ),
             label: 'User'),
       ],
+      onTap: (int index) {
+        if (index == 2) {
+          // Check if 'add' button is tapped (index 2)
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => CreatePostScreen(),
+            ),
+          );
+        }
+      },
     ));
   }
 }

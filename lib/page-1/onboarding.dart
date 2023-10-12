@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:myapp/page-1/login.dart';
+import 'package:myapp/register.dart';
 
 class Onboarding extends StatefulWidget {
   @override
@@ -213,7 +214,14 @@ class _OnboardingState extends State<Onboarding> {
                   width: 94 * fem,
                   height: 26 * fem,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterScreen(),
+                        ),
+                      );
+                    },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                     ),
