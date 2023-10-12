@@ -1,9 +1,20 @@
-import 'package:flutter/material.dart';
+class ProfilePicture {
+  final String id;
+  final String mimeType;
+  final String path;
+  final String type;
+
+  ProfilePicture(
+      {required this.id,
+      required this.mimeType,
+      required this.path,
+      required this.type});
+}
 
 class UserModel {
   final String? id;
   final String fullName;
-  final String profilePicture;
+  final ProfilePicture profilePicture;
   final DateTime createdAt;
   final DateTime deletedAt;
   final DateTime updatedAt;
@@ -21,7 +32,11 @@ class UserModel {
     return UserModel(
       id: map['id'],
       fullName: map['fullName'],
-      profilePicture: map['profilePicture'],
+      profilePicture: ProfilePicture(
+          id: map['profilePicture']['id'],
+          mimeType: map['profilePicture']['mimeType'],
+          path: map['profilePicture']['path'],
+          type: map['profilePicture']['type']),
       createdAt: DateTime.fromMillisecondsSinceEpoch(
         int.parse(map['createdAt']),
       ),

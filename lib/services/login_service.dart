@@ -1,6 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/graphql/mutations.dart';
 
 class GraphQLService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
@@ -14,19 +15,7 @@ class GraphQLService {
       QueryResult result = await client.mutate(
         MutationOptions(
           fetchPolicy: FetchPolicy.cacheAndNetwork,
-          document: gql("""
-          mutation Mutation(\$data: UserLoginInput!) {
-  login(data: \$data) {
-    email
-    fullName
-    id
-    message
-    role
-    accessToken
-  }
-}
-
-          """),
+          document: gql(LOGIN_USER),
           variables: {
             "data": {"email": email, "password": password},
           },
