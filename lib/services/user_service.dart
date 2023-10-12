@@ -1,7 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:myapp/models/response_model.dart';
-import 'package:myapp/models/user_model.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/graphql/mutations.dart';
 
@@ -11,7 +10,6 @@ class GraphQLService {
   GraphQLClient client = graphQLConfig.clientToQuery();
 
   Future<bool> login({required String email, required String password}) async {
-    print(email);
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -26,7 +24,7 @@ class GraphQLService {
         throw Exception(result.exception);
       }
 
-      Map? res = result?.data?["login"];
+      Map? res = result.data?["login"];
 
       final isSaved =
           await handleTokenService.saveAccessToken(res?['accessToken']);
@@ -60,7 +58,6 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
-        print(result.exception);
 
         throw Exception(result.exception);
       }
