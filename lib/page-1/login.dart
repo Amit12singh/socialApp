@@ -12,7 +12,29 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GraphQLService _graphQLService = GraphQLService();
 
-  final bool loggedIn = false;
+  bool _loggedIn = false;
+  bool _loading = false;
+
+  @override
+  initState() {
+    super.initState();
+    _load();
+  }
+
+  void _load() async {
+    _loading = true;
+    _loggedIn = await _graphQLService.login(email: _email, password: _password);
+
+    if (_loggedIn) {
+      _loading = false;
+    }
+    print("_loggedIn");
+
+    print(_loggedIn);
+
+    setState(() {});
+  }
+  
 
   bool _isValidEmail(String email) {
     final RegExp emailRegExp =
@@ -243,17 +265,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
-                            await _graphQLService.login(
+                            final isLogedin = await _graphQLService.login(
                                 email: _email, password: _password);
 
-                            // print('Email: $_email');
+                            print('isLogedin: $isLogedin');
                             // print('Password: $_password');
 
-                            Navigator.of(context).pushReplacement(
+                            if (isLogedin) {
+                              Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (context) => FeedScreen(),
                               ),
                             );
+                            }
                           }
                         },
                         style: TextButton.styleFrom(
