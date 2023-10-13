@@ -34,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() {});
   }
-  
 
   bool _isValidEmail(String email) {
     final RegExp emailRegExp =
@@ -273,10 +272,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             if (isLogedin) {
                               Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => FeedScreen(),
-                              ),
-                            );
+                                MaterialPageRoute(
+                                  builder: (context) => FeedScreen(),
+                                ),
+                              );
                             }
                           }
                         },
