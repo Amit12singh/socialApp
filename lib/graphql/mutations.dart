@@ -73,3 +73,14 @@ mutation CreateArticle(\$data: ArticleInput!) {
   }
 }
  """;
+
+
+const UPLOAD_MULTIPLE_FILE = """
+mutation Mutation(\$type: mediaType!, \$files: [Upload!]!) {
+  multipleUpload(type: \$type, files: \$files) {
+    mimeType
+    name
+    type
+  }
+}
+""";

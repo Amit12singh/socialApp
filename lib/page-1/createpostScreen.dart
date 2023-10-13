@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/services/article_service.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({Key? key}) : super(key: key);
@@ -12,12 +13,31 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   TextEditingController postController = TextEditingController();
+  PostService postService = PostService();
   List<XFile> _mediaFileList = []; // Change to XFile
+  late XFile _capturedMedia; // Change to XFile
   final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  void _createPost() async {
+    final isPostCreated = await postService
+        .createPost(postController.text, [..._mediaFileList, _capturedMedia]);
+
+    print('isPostCreated $isPostCreated');
+  }
+
+  Future<void> _captuteImage() async {
+    XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      setState(() {
+        _capturedMedia = image;
+      });
+    }
   }
 
   Future<void> selectImage() async {
@@ -156,6 +176,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       onTap: () {
                         // Handle Video click
                         // Add your action here
+                        _captuteImage();
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -203,8 +224,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 margin: EdgeInsets.only(bottom: 50.0),
                 child: InkWell(
                   onTap: () {
-                    // Handle the "Post" click
-                    // Add your action here
+                    _createPost();
                   },
                   child: Container(
                     width: double.infinity,
