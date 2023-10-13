@@ -1,286 +1,200 @@
 import 'package:flutter/material.dart';
 
 class CreatePostScreen extends StatefulWidget {
+  const CreatePostScreen({Key? key}) : super(key: key);
+
   @override
-  _CreatePostScreen createState() => _CreatePostScreen();
+  _CreatePostScreenState createState() => _CreatePostScreenState();
 }
 
-class _CreatePostScreen extends State<CreatePostScreen> {
-  final TextEditingController _textController = TextEditingController();
+class _CreatePostScreenState extends State<CreatePostScreen> {
+  TextEditingController postController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: 812,
-        color: Colors.white,
-        child: Stack(
-          children: [
-            Positioned(
-              left: 15.625,
-              top: 23.87890625,
-              child: CreatePostWidget(),
-            ),
-            Positioned(
-              left: 0,
-              top: 72.2421875,
-              child: RectangleWidget(height: 0.5),
-            ),
-            Positioned(
-              left: 0,
-              top: 912.978515625,
-              child: RectangleWidget(height: 4),
-            ),
-            Positioned(
-              left: 0,
-              top: 906.478515625,
-              child: RectangleWidget(height: 1),
-            ),
-            Positioned(
-              left: 0,
-              top: 72.7421875,
-              child: Container(
-                padding: EdgeInsets.fromLTRB(24.38, 18.36, 29.94, 367.63),
-                width: 375,
-                height: 833.74,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(
+        backgroundColor: Colors.white, // Change the background color to black
+        title: Text(
+          'Create Post',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.black, // Change the text color to white
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black, // Change the arrow color to white
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 25.0),
+                width: double.infinity,
+                child: Row(
                   children: [
-                    ProfileWidget(),
-                    TextFormField(
-                      controller: _textController,
-                      decoration: InputDecoration(
-                        hintText: "What's on your mind?",
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xffbebebe),
+                    Container(
+                      margin: EdgeInsets.only(right: 10.0),
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(22),
+                        image: DecorationImage(
+                          fit: BoxFit.contain,
+                          image: AssetImage(
+                              'assets/page-1/images/ellipse-4-bg.png'),
                         ),
                       ),
                     ),
-                    ActionsWidget(),
+                    Text(
+                      'Old Nabhaites',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff000000),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
-}
-
-class CreatePostWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 341.38,
-      height: 26,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CreatePostButton(),
-          Text(
-            'Create post',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Color(0xff000000),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CreatePostButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, 1.5, 179.63, 1.5),
-      height: double.infinity,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          IconWithText(
-            iconUrl: '[auto-group-76wv.png]', // Replace with your image URL
-            text: '9:41',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class IconWithText extends StatelessWidget {
-  final String iconUrl;
-  final String text;
-
-  IconWithText({required this.iconUrl, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.fromLTRB(0, 0, 9.75, 0),
-        width: 27,
-        height: double.infinity,
-        child: Stack(children: [
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Align(
-              child: SizedBox(
-                width: 27,
-                height: 23,
-                child: Text(
-                  text,
+              Container(
+                margin: EdgeInsets.only(bottom: 25.0),
+                child: TextFormField(
+                  controller: postController,
+                  decoration: InputDecoration(
+                    hintText: "What’s on your mind?",
+                    hintStyle: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xffbebebe),
+                    ),
+                  ),
                   style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xff000000),
                   ),
                 ),
               ),
-            ),
-          ),
-          Positioned(
-            left: 8.75,
-            top: 5.5,
-            child: Align(
-              child: SizedBox(
-                width: 14,
-                height: 12,
-                child: Image.network(
-                  iconUrl,
-                  width: 14,
-                  height: 12,
-                ),
+              SizedBox(height: 30.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 150,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Color(0xffefe3d7),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        // Handle Photo click
+                        // Add your action here
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            child: Image(
+                              image: AssetImage(
+                                  'assets/page-1/images/auto-group-dbpd.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Text(
+                            'Photo',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff000000),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Color(0xffefe3d7),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        // Handle Video click
+                        // Add your action here
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            child: Image(
+                              image: AssetImage(
+                                  'assets/page-1/images/auto-group-76wv.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Text(
+                            'Video',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff000000),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          )
-        ]));
-  }
-}
-
-class RectangleWidget extends StatelessWidget {
-  final double height;
-
-  RectangleWidget({required this.height});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      child: SizedBox(
-        width: 375,
-        height: height,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Color(0xffd9d9d9),
+              SizedBox(height: 40),
+              Container(
+                color: Color.fromARGB(255, 220, 166, 112),
+                margin: EdgeInsets.only(bottom: 50.0),
+                child: InkWell(
+                  onTap: () {
+                    // Handle the "Post" click
+                    // Add your action here
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(
+                          'POST',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 16, // Customize the text size
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black, // Customize the text color
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 170.69, 24.86),
-      width: double.infinity,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatarWidget(
-              imageUrl:
-                  'logo-3-removebg-preview-1.png'), // Replace with your image URL
-          Text(
-            'Old Nabhaites',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(0xff000000),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ActionsWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ActionButtonWidget(text: 'Photo', iconUrl: 'auto-group-dbpd.png'),
-        ActionButtonWidget(text: 'Video', iconUrl: 'auto-group-76wv.png'),
-      ],
-    );
-  }
-}
-
-class ActionButtonWidget extends StatelessWidget {
-  final String text;
-  final String iconUrl;
-
-  ActionButtonWidget({required this.text, required this.iconUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 15.13, 0),
-      padding: EdgeInsets.fromLTRB(53, 15, 53, 14.5),
-      width: 150,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        color: Color(0xffefe3d7),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatarWidget(imageUrl: iconUrl),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Color(0xff000000),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CircleAvatarWidget extends StatelessWidget {
-  final String imageUrl;
-
-  CircleAvatarWidget({required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 5.5),
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22),
-        image: DecorationImage(
-          fit: BoxFit.contain,
-          image: NetworkImage(imageUrl),
         ),
       ),
     );
