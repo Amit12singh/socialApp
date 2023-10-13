@@ -11,6 +11,17 @@ class ProfilePicture {
       this.path,
       required this.name,
       required this.type});
+
+
+  static ProfilePicture fromMap({required Map<String, dynamic> map}) {
+    return ProfilePicture(
+      id: map['id'] as String?,
+      mimeType: map['mimeType'] as String,
+      name: map['name'] as String,
+      type: map['type'] as String,
+      path: map['path'] as String?,
+    );
+  }
 }
 
 class UserModel {
