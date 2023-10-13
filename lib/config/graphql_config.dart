@@ -3,26 +3,18 @@ import 'package:graphql/client.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
 class GraphQLConfig {
-  HandleToken? tokenService;
-  String? token;
+  static HandleToken handleTokenService = HandleToken();
 
-  GraphQLConfig() {
-    tokenService = HandleToken();
-    token = '';
-  }
-
-  Future<String?> initializeToken() async {
-    return await tokenService?.getAccessToken();
-  }
+  final token = handleTokenService.getAccessToken();
 
   final HttpLink httpLink = HttpLink(
     "https://apis.oldnabhaite.site/oldnabhaiteapis",
   );
 
-  // final AuthLink authLink = AuthLink(getToken: () async => 'BEARER $initializeToken()');
+  final AuthLink authLink = AuthLink(getToken: () async => 'BEARER \$token');
 
   GraphQLClient clientToQuery() => GraphQLClient(
         cache: GraphQLCache(),
-        link: httpLink,
+        link: authLink.concat(httpLink),
       );
 }

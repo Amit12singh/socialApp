@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/register.dart';
-import 'package:myapp/services/login_service.dart';
+import 'package:myapp/services/user_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -23,16 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _load() async {
     _loading = true;
-    _loggedIn = await _graphQLService.login(email: _email, password: _password);
+    bool isLoggedIn =
+        await _graphQLService.login(email: _email, password: _password);
 
     if (_loggedIn) {
       _loading = false;
     }
-    print("_loggedIn");
-
-    print(_loggedIn);
-
-    setState(() {});
+    setState(() => _loggedIn = isLoggedIn);
   }
 
   bool _isValidEmail(String email) {
@@ -267,13 +264,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             final isLogedin = await _graphQLService.login(
                                 email: _email, password: _password);
 
-                            print('isLogedin: $isLogedin');
-                            // print('Password: $_password');
-
                             if (isLogedin) {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => FeedScreen(),
+                                  builder: (context) => const FeedScreen(),
                                 ),
                               );
                             }

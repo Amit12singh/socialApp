@@ -6,7 +6,6 @@ class HandleToken {
 
   Future<bool> saveAccessToken(String token) async {
     const storage = FlutterSecureStorage();
-    print('here accessToken $token');
 // Write value
 try {
       await storage.write(key: 'accessToken', value: token);
