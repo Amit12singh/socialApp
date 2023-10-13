@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({Key? key}) : super(key: key);
@@ -9,6 +12,23 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   TextEditingController postController = TextEditingController();
+  List<XFile> _mediaFileList = []; // Change to XFile
+  final ImagePicker _picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> selectImage() async {
+    List<XFile>? images = await _picker.pickMultiImage();
+
+    if (images != null && images.isNotEmpty) {
+      setState(() {
+        _mediaFileList = images;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +118,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        // Handle Photo click
-                        // Add your action here
+                        selectImage();
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -145,13 +164,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             width: 40,
                             height: 40,
                             child: Image(
-                              image: AssetImage(
-                                  'assets/page-1/images/auto-group-76wv.png'),
+                              image:
+                                  AssetImage('assets/page-1/images/camera.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
                           Text(
-                            'Video',
+                            'Camera',
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 14,
@@ -166,6 +185,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ],
               ),
               SizedBox(height: 40),
+              // Container(
+              //   child: _mediaFileList.isNotEmpty
+              //       ? Flexible(
+              //           flex: 9,
+              //           child: Image.file(File(_mediaFileList[0].path)),
+              //         )
+              //       : Flexible(
+              //           flex: 9,
+              //           child: Center(R
+              //             child: Text("No Image Selected"),
+              //           ),
+              //         ),
+              // ),
               Container(
                 color: Color.fromARGB(255, 220, 166, 112),
                 margin: EdgeInsets.only(bottom: 50.0),
