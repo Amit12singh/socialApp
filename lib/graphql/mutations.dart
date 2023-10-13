@@ -38,3 +38,38 @@ mutation Mutation(\$data: RegisterInput!) {
   }
 }
 """;
+
+
+const CREATE_ARTICLE = """
+mutation CreateArticle(\$data: ArticleInput!) {
+  createArticle(data: \$data) {
+    body
+    createdAt
+    deletedAt
+    id
+    media {
+      mimeType
+      id
+      deletedAt
+      createdAt
+      name
+      path
+      type
+      updatedAt
+    }
+    owner {
+      id
+      fullName
+      email
+      profileImage {
+        id
+        mimeType
+        name
+        path
+        type
+      }
+      role
+    }
+  }
+}
+ """;
