@@ -164,8 +164,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             width: 40,
                             height: 40,
                             child: Image(
-                              image: AssetImage(
-                                  'assets/page-1/images/auto-group-76wv.png'),
+                              image:
+                                  AssetImage('assets/page-1/images/camera.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -193,7 +193,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               //         )
               //       : Flexible(
               //           flex: 9,
-              //           child: Center(
+              //           child: Center(R
               //             child: Text("No Image Selected"),
               //           ),
               //         ),
