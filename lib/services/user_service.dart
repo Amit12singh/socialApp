@@ -10,6 +10,8 @@ class GraphQLService {
   GraphQLClient client = graphQLConfig.clientToQuery();
 
   Future<bool> login({required String email, required String password}) async {
+    print(email);
+
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -25,16 +27,17 @@ class GraphQLService {
       }
 
       Map? res = result.data?["login"];
+      print('here res $res');
 
-      final isSaved =
-          await handleTokenService.saveAccessToken(res?['accessToken']);
-
+      final isSaved = await handleTokenService.saveAccessToken(res);
+      print('isSaved $isSaved');
       if (isSaved) {
         return true;
       } else {
         return false;
       }
     } catch (error) {
+      print('here $error');
       return false;
     }
   }
@@ -58,7 +61,6 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
-
         throw Exception(result.exception);
       }
 
