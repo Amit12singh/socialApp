@@ -8,7 +8,7 @@ class GraphQLConfig {
   final token = handleTokenService.getAccessToken();
 
   final HttpLink httpLink = HttpLink(
-    "https://apis.oldnabhaite.site/oldnabhaiteapis",
+    "http://127.0.0.1:8000",
   );
 
   final AuthLink authLink = AuthLink(getToken: () async => 'BEARER \$token');
