@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/page-1/feeds/homescreen.dart';
+import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/services/article_service.dart';
 
 class CreatePostScreen extends StatefulWidget {
@@ -14,9 +16,10 @@ class CreatePostScreen extends StatefulWidget {
 class _CreatePostScreenState extends State<CreatePostScreen> {
   TextEditingController postController = TextEditingController();
   PostService postService = PostService();
-  List<XFile> _mediaFileList = []; // Change to XFile
-  late XFile _capturedMedia; // Change to XFile
+  List _mediaFileList = []; // Change to XFile
+  late List _capturedMedia = []; // Change to XFile
   final ImagePicker _picker = ImagePicker();
+  final _isPostCreated = false;
 
   @override
   void initState() {
@@ -24,18 +27,27 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   void _createPost() async {
-    final isPostCreated = await postService
-        .createPost(postController.text, [..._mediaFileList, _capturedMedia]);
+    final _isPostCreated =
+        await postService.createPost(postController.text, _mediaFileList);
 
-    print('isPostCreated $isPostCreated');
+    if (_isPostCreated) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>
+              const FeedScreen(), // Replace RegisterScreen with your actual register screen widget
+        ),
+      );
+    }
   }
 
+  dynamic() => print('isPostCreated $_isPostCreated');
+
   Future<void> _captuteImage() async {
-    XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    var image = await _picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
       setState(() {
-        _capturedMedia = image;
+        _mediaFileList = [..._mediaFileList, image];
       });
     }
   }
@@ -43,9 +55,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Future<void> selectImage() async {
     List<XFile>? images = await _picker.pickMultiImage();
 
-    if (images != null && images.isNotEmpty) {
+    if (images.isNotEmpty) {
       setState(() {
-        _mediaFileList = images;
+        _mediaFileList = [..._mediaFileList, ...images];
       });
     }
   }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/article_model.dart';
+import 'package:myapp/services/article_service.dart';
+import 'package:myapp/utilities/localstorage.dart';
 
 class Post {
   final String username;
@@ -17,35 +20,51 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
+  final PostService postService = PostService();
+  final HandleToken useService = HandleToken();
   bool isExpanded = false;
 
-  List<Post> posts = [
-    Post(
-      'Old Nabhaites',
-      'Team ONA called on the New Governor of Punjab, Honorable Shri Banwari Lal Purohit, and welcomed ...',
-      'assets/page-1/images/rectangle-688.png',
-      false, // Set initial isLiked status for the first post
-    ),
-    Post(
-      'Old Nabhaites',
-      'The second Induction Ceremony was organized on 01 March 2021 for the students passing out in ...',
-      'assets/page-1/images/rectangle-693-bg.png',
-      false, // Set initial isLiked status for the second post
-    ),
-    // Add more posts here...
-  ];
+  List<ArticleModel>? posts;
+
+  var _user = null;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadData();
+  }
+
+  void _loadData() async {
+    // Fetch the user information
+    final user = await useService.getUser();
+
+    // Fetch the list of articles (posts)
+    final List<ArticleModel> _posts = await postService.getArticles();
+
+    setState(() {
+      _user = user;
+      posts = _posts;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: posts.length, // Number of posts
-      itemBuilder: (context, index) {
-        return buildPostCard(posts[index]);
-      },
-    );
+    if (posts == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: posts?.length, // Number of posts
+        itemBuilder: (context, index) {
+          return buildPostCard(posts![index]);
+        },
+      );
+    }
   }
 
-  Widget buildPostCard(Post post) {
+  Widget buildPostCard(ArticleModel post) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -63,7 +82,7 @@ class _PostScreenState extends State<PostScreen> {
             ),
           ),
           title: Text(
-            post.username, // Use the username from the Post object
+            post.owner!.email, // Use the username from the Post object
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           trailing: IconButton(
@@ -78,7 +97,7 @@ class _PostScreenState extends State<PostScreen> {
               Text(
                 isExpanded
                     ? 'See less'
-                    : post.content, // Use the content from the Post object
+                    : post.title, // Use the content from the Post object
                 textAlign: TextAlign.justify,
               ),
               Align(
@@ -98,15 +117,26 @@ class _PostScreenState extends State<PostScreen> {
             ],
           ),
         ),
-        Container(
-          height: 300,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage(
-                  post.imageUrl), // Use the image URL from the Post object
-            ),
+        GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Adjust the number of columns as needed
           ),
+          itemBuilder: (context, index) {
+            if (index < post.media!.length) {
+              return Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(post.media?[index].path ?? ''),
+                  ),
+                ),
+              );
+            } else {
+              // Return a placeholder or empty container
+              return Container();
+            }
+          },
+          itemCount: post.media!.length,
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -114,20 +144,21 @@ class _PostScreenState extends State<PostScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: () {
-                  setState(() {
-                    post.isLiked =
-                        !post.isLiked; // Toggle isLiked for this post
-                  });
-                },
-                child: Icon(
-                  post.isLiked
-                      ? Icons.favorite_rounded
-                      : Icons.favorite_border_rounded,
-                  color: post.isLiked ? Colors.red : Colors.black,
-                  size: 35,
-                ),
-              ),
+                  onTap: () {
+                    setState(() {
+                      // post.isLiked =
+                      //     !post.isLiked; // Toggle isLiked for this post
+                    });
+                  },
+                  child: Icon(
+                    post.likes != null &&
+                            post.likes!.isNotEmpty &&
+                            post.likes!.any((e) => e.id == _user.id)
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
+                    color: post.isLiked ? Colors.red : Colors.black,
+                    size: 35,
+                  )),
               Text('1K likes'),
             ],
           ),

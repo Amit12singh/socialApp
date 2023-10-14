@@ -7,6 +7,8 @@ class ArticleModel {
   final DateTime createdAt;
   final DateTime deletedAt;
   final DateTime updatedAt;
+  final UserModel? owner;
+  final List<UserModel>? likes;
 
   ArticleModel({
     this.id,
@@ -15,17 +17,27 @@ class ArticleModel {
     required this.deletedAt,
     required this.updatedAt,
     required this.createdAt,
+    this.likes,
+    this.owner,
   });
+
+  get isLiked => null;
 
   static ArticleModel fromMap({required Map map}) {
     List<ProfilePicture> mediaList = (map['media'] as List)
         .map((mediaData) => ProfilePicture.fromMap(map: mediaData))
         .toList();
 
+    UserModel userList = UserModel.fromMap(map: map['owner']);
+    List<UserModel> likes = (map['likes'] as List<dynamic>)
+        .map((usr) => UserModel.fromMap(map: usr))
+        .toList();
+
     return ArticleModel(
       id: map['id'],
       title: map['title'],
       media: mediaList,
+      owner: userList,
       createdAt: DateTime.fromMillisecondsSinceEpoch(
         int.parse(map['createdAt']),
       ),

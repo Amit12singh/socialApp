@@ -18,19 +18,19 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   initState() {
     super.initState();
-    _load();
+    // _load();
   }
 
-  void _load() async {
-    _loading = true;
-    bool isLoggedIn =
-        await _graphQLService.login(email: _email, password: _password);
+  // void _load() async {
+  //   _loading = true;
+  //   bool isLoggedIn =
+  //       await _graphQLService.login(email: _email, password: _password);
 
-    if (_loggedIn) {
-      _loading = false;
-    }
-    setState(() => _loggedIn = isLoggedIn);
-  }
+  //   if (_loggedIn) {
+  //     _loading = false;
+  //   }
+  //   setState(() => _loggedIn = isLoggedIn);
+  // }
 
   bool _isValidEmail(String email) {
     final RegExp emailRegExp =
@@ -263,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             final isLogedin = await _graphQLService.login(
                                 email: _email, password: _password);
-
+                            print('isLogged in $isLogedin');
                             if (isLogedin) {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(

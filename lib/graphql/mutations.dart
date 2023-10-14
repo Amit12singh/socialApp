@@ -12,7 +12,6 @@ const LOGIN_USER = """
 
           """;
 
-
 const CREATE_USER = """ 
 mutation Mutation(\$data: RegisterInput!) {
   createUser(data: \$data) {
@@ -39,11 +38,11 @@ mutation Mutation(\$data: RegisterInput!) {
 }
 """;
 
-
 const CREATE_ARTICLE = """
 mutation CreateArticle(\$data: ArticleInput!) {
   createArticle(data: \$data) {
     body
+    title
     createdAt
     deletedAt
     id
@@ -73,7 +72,6 @@ mutation CreateArticle(\$data: ArticleInput!) {
   }
 }
  """;
-
 
 const UPLOAD_MULTIPLE_FILE = """
 mutation Mutation(\$type: mediaType!, \$files: [Upload!]!) {
