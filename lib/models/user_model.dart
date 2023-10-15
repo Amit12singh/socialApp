@@ -92,25 +92,17 @@ class UserModel {
 
   // String get imageUrl => null;
 
-  static UserModel fromMap({required Map map}) {
+  static fromMap({map}) {
     print('user model $map');
     ProfilePicture? userProfile;
 
-    if (map['profileImage'] != null) {
-      userProfile = ProfilePicture(
-          id: map['profileImage']['id'],
-          mimeType: map['profileImage']['mimeType'],
-          path: map['profileImage']['path'],
-          name: map['profileImage']['name'],
-          type: map['profileImage']['type']);
-    }
    
 
     return UserModel(
       id: map['id'],
       email: map['email'],
       fullName: map['fullName'],
-      profilePicture: userProfile,
+      profilePicture: map['profileImage'],
       createdAt: DateTime.fromMillisecondsSinceEpoch(
         int.parse(map['createdAt']),
       ),

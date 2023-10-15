@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
+import 'package:myapp/page-1/feeds/homescreen.dart';
 
 class Bottombar extends StatelessWidget {
   const Bottombar({Key? key});
@@ -36,12 +37,19 @@ class Bottombar extends StatelessWidget {
             label: 'User',
           )
         ],
+        // ignore: curly_braces_in_flow_control_structures
         onTap: (int index) {
           if (index == 2) {
-            // Check if 'User' button is tapped (index 4)
+            // Check if the button at index 2 is tapped
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => ProfileScreen(),
+              ),
+            );
+          } else if (index == 0) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => FeedScreen(),
               ),
             );
           }

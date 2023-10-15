@@ -66,13 +66,13 @@ class PostService {
     }
   }
 
-  Future<List<ArticleModel>> getArticles({
+  Future<List> getArticles({
     PaginationModel? data,
   }) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
-          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          fetchPolicy: FetchPolicy.cacheFirst,
           document: gql(GET_ALL_POSTS),
           variables: {
             'data': {
@@ -91,15 +91,13 @@ class PostService {
         print("here run 1");
 
         List res = result.data?['getAllArticles']?['data'];
-        print("here $res");
-        print("here run 1");
 
 
       
         print("here run 2");
 
-        List<ArticleModel> articles =
-            res.map((article) => ArticleModel.fromMap(map: article)).toList();
+        List articles =
+            res.map((article) => ArticleModel.fromJson(article)).toList();
         print("here run 3 $articles");
 
         return articles;

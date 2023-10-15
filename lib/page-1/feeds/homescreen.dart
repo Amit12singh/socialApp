@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/models/article_model.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';
@@ -18,7 +17,7 @@ class _HomeScreenState extends State<FeedScreen> {
   final HandleToken useService = HandleToken();
   bool isExpanded = false;
 
-  List<ArticleModel>? posts; // Use ArticleModel for posts
+  List? posts; // Use ArticleModel for posts
 
   var _user = null;
 
@@ -30,8 +29,9 @@ class _HomeScreenState extends State<FeedScreen> {
 
   void _loadData() async {
     final user = await useService.getUser();
-    final List<ArticleModel> _posts = await postService.getArticles();
-    print("object $_posts");
+    final List _posts = await postService.getArticles();
+    print('here home screen $_posts');
+    print(_posts);
 
     setState(() {
       _user = user;

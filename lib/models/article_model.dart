@@ -26,39 +26,55 @@ class ArticleModel {
   static ArticleModel fromMap({required map}) {
     print('article model $map');
     List<ProfilePicture> mediaList = [];
-    UserModel? userList;
+    // UserModel? userList;
     List<UserModel> likes = [];
-    if (map['media'] != null) {
-      mediaList = (map['media'] as List)
-          .map((mediaData) => ProfilePicture.fromMap(map: mediaData))
-          .toList();
-    }
-    if (map['owner'] != null) {
-      userList = UserModel.fromMap(map: map['owner'] as Map);
-    }
+    print(map['owner']);
+    // if (map['media'] != null) {
+    //   mediaList = (map['media'])
+    //       .map((mediaData) => ProfilePicture.fromJson(mediaData))
+    //       .toList();
+    // }
+    // if (map['owner'] != null) {
+    //   userList = UserModel.fromMap(map: map['owner']);
+    // }
     print('article model media $mediaList');
 
-    // if (map['likes'] != null && map['likes'].isNotEmpty) {
-    //   likes = (map['likes'] as List<dynamic>)
-    //     .map((usr) => UserModel.fromMap(map: usr))
-    //     .toList();
-    // }
+   
 
     return ArticleModel(
       id: map['id'],
       title: map['title'],
       media: mediaList,
-      owner: userList,
-      likes: likes,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(
-        int.parse(map['createdAt'] ?? ''),
-      ),
-      deletedAt: DateTime.fromMillisecondsSinceEpoch(
-        int.parse(map['createdAt'] ?? ''),
-      ),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(
-        int.parse(map['createdAt'] ?? ''),
-      ),
+      // owner: userList,
+      // likes: likes,
+      createdAt: DateTime.parse(map['createdAt']),
+      deletedAt:
+          map['deletedAt'] != null ? DateTime.parse(map['deletedAt']) : null,
+      // updatedAt: DateTime.fromMillisecondsSinceEpoch(
+      //   int.parse(map['createdAt'] ?? ''),
+      // ),
+    );
+  }
+
+  factory ArticleModel.fromJson(Map<String, dynamic> json) {
+    return ArticleModel(
+      id: json['id'],
+      // likes: json['likes'],
+      owner: UserModel.fromJson(json['owner']),
+      title: json['title'],
+      createdAt: DateTime.parse(json['createdAt']),
+      deletedAt:
+          json['deletedAt'] != null ? DateTime.parse(json['deletedAt']) : null,
+      media: (json['media'] as List)
+          .map((mediaJson) => ProfilePicture.fromJson(mediaJson))
+          .toList(),
     );
   }
 }
+    
+
+
+  
+  
+  
+
