@@ -31,6 +31,7 @@ class _HomeScreenState extends State<FeedScreen> {
   void _loadData() async {
     final user = await useService.getUser();
     final List<ArticleModel> _posts = await postService.getArticles();
+    print("object $_posts");
 
     setState(() {
       _user = user;

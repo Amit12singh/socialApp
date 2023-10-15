@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 375;
+    double baseWidth = 400;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
 
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 70 * fem),
+              SizedBox(height: 50 * fem),
               Text(
                 'Login to your account',
                 style: TextStyle(
@@ -70,11 +70,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Color(0xffffffff),
                 ),
               ),
-              SizedBox(height: 30 * fem),
+              SizedBox(height: 20 * fem),
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 16.33 * fem,
-                  vertical: 63 * fem,
+                  horizontal: 20.33 * fem,
+                  vertical: 50 * fem,
                 ),
                 width: 375 * fem,
                 decoration: BoxDecoration(
@@ -97,14 +97,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Color(0xff000000),
                         ),
                       ),
-                      SizedBox(height: 40 * fem),
+                      SizedBox(height: 30 * fem),
                       Container(
                         margin: EdgeInsets.only(bottom: 18.33 * fem),
                         padding: EdgeInsets.fromLTRB(
-                          14.23 * fem,
-                          17.5 * fem,
+                          10.23 * fem,
+                          10.5 * fem,
                           16.17 * fem,
-                          17.5 * fem,
+                          10.5 * fem,
                         ),
                         decoration: BoxDecoration(
                           color: Color(0xfff9f9f9),
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Icon(
                                 Icons.inbox,
-                                size: 16 * fem,
+                                size: 25 * fem,
                               ),
                               SizedBox(width: 17.5 * fem),
                               Expanded(
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 25 * fem),
                       Container(
-                        margin: EdgeInsets.only(bottom: 60.02 * fem),
+                        margin: EdgeInsets.only(bottom: 70.02 * fem),
                         padding: EdgeInsets.fromLTRB(
                           16.17 * fem,
                           17.5 * fem,
@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Icon(
                               Icons.lock,
-                              size: 16 * fem,
+                              size: 25 * fem,
                             ),
                             SizedBox(width: 15 * fem),
                             Expanded(
@@ -204,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _isPasswordVisible
                                     ? Icons.visibility
                                     : Icons.visibility_off,
-                                size: 22 * fem,
+                                size: 25 * fem,
                                 color: _isPasswordVisible
                                     ? Colors.blue
                                     : Colors.grey, // Customize the color
@@ -215,14 +215,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Row(
                         children: [
-                          Container(
-                            width: 13 * fem,
-                            height: 13 * fem,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2 * fem),
-                              border: Border.all(color: Color(0xffd9d9d9)),
-                            ),
-                          ),
+                          TickableContainer(),
+                          // Container(
+                          //   width: 13 * fem,
+                          //   height: 13 * fem,
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(2 * fem),
+                          //     border: Border.all(
+                          //         color: Color.fromARGB(255, 94, 80, 80)),
+                          //   ),
+                          // ),
                           SizedBox(width: 10.43 * fem),
                           Text(
                             'Remember me',
@@ -231,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: 12 * ffem,
                               fontWeight: FontWeight.w500,
                               height: 1.5 * ffem,
-                              color: Color(0xffcccdca),
+                              color: Color.fromARGB(255, 83, 65, 76),
                             ),
                           ),
                           Spacer(),
@@ -349,6 +351,41 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TickableContainer extends StatefulWidget {
+  @override
+  _TickableContainerState createState() => _TickableContainerState();
+}
+
+class _TickableContainerState extends State<TickableContainer> {
+  bool isTicked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    double fem = 10.0; // Replace with your actual value
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isTicked = !isTicked;
+        });
+      },
+      child: Container(
+        width: 2 * fem,
+        height: 2 * fem,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(2 * fem),
+          border: Border.all(
+            color: Color.fromARGB(255, 94, 80, 80),
+          ),
+          color: isTicked
+              ? Colors.brown
+              : Colors.transparent, // Add a color for the ticked state
         ),
       ),
     );
