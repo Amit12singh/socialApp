@@ -18,7 +18,7 @@ class _HomeScreenState extends State<FeedScreen> {
   final HandleToken useService = HandleToken();
   bool isExpanded = false;
 
-  List<ArticleModel>? posts; // Use ArticleModel for posts
+  List? posts; // Use ArticleModel for posts
 
   var _user = null;
 
@@ -30,7 +30,9 @@ class _HomeScreenState extends State<FeedScreen> {
 
   void _loadData() async {
     final user = await useService.getUser();
-    final List<ArticleModel> _posts = await postService.getArticles();
+    final List _posts = await postService.getArticles();
+    print('here home screen $_posts');
+    print(_posts);
 
     setState(() {
       _user = user;

@@ -1,13 +1,12 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
-import 'package:myapp/services/article_service.dart';
-import 'package:myapp/utilities/localstorage.dart';
-import 'package:user_profile_avatar/user_profile_avatar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class PostScreen extends StatefulWidget {
-  final List<ArticleModel> posts; // Add this parameter
+  final List posts; // Add this parameter
 
   const PostScreen({Key? key, required this.posts}) : super(key: key);
 
@@ -20,12 +19,13 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.posts == null) {
+      print('widget $widget');
       return const Center(
         child: CircularProgressIndicator(),
       );
     } else {
       return ListView.builder(
-        itemCount: widget.posts?.length ?? 0, // Number of widget.posts
+        itemCount: widget.posts?.length, // Number of widget.posts
         itemBuilder: (context, index) {
           return buildPostCard(widget.posts![index]);
         },
@@ -34,10 +34,11 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   Widget buildPostCard(ArticleModel post) {
+    print('here build$post');
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      color: Colors.red,
+      color: Color.fromARGB(255, 214, 206, 206),
       child: Column(
         children: [
           Padding(
@@ -49,8 +50,8 @@ class _PostScreenState extends State<PostScreen> {
                 const SizedBox(
                   height: 4.0,
                 ),
-                Text("post.title"),
-                post.imageUrl != null
+                Text(post.title),
+                post?.media == null
                     ? const SizedBox.shrink()
                     : const SizedBox(height: 6),
               ],
@@ -95,13 +96,13 @@ class _PostHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                post.owner!.fullName,
+                '${post?.owner?.fullName ?? ''}',
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
               Row(
                 children: [
                   Text(
-                    '${post.timeAgo}.',
+                    '${post.createdAt}.',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12.0,
