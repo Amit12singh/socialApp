@@ -37,6 +37,9 @@ dependencies:
   http: 1.1.0
   http_parser: ^4.0.2
   flutter_spinkit: ^5.2.0
+  user_profile_avatar: ^0.1.2
+  cached_network_image: ^3.3.0
+  material_design_icons_flutter: ^7.0.7296
 
 dev_dependencies:
   flutter_test:
@@ -49,8 +52,9 @@ flutter:
     - assets/page-1/images/
 
   fonts:
-    - family: Billabong
+    - family: Poppins-MediumItalic
       fonts:
+        - asset: assets/fonts/Poppins-MediumItalic.ttf
         - asset: assets/fonts/Schuyler.ttf
         - asset: assets/fonts/Billabong.ttf
           style: italic

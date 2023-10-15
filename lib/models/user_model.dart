@@ -90,6 +90,8 @@ class UserModel {
       this.createdAt,
       this.password});
 
+  // String get imageUrl => null;
+
   static UserModel fromMap({required Map map}) {
     return UserModel(
       id: map['id'],

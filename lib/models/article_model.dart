@@ -23,6 +23,14 @@ class ArticleModel {
 
   get isLiked => null;
 
+  get user => null;
+
+  get timeAgo => null;
+
+  // String get caption => null;
+
+  get imageUrl => null;
+
   static ArticleModel fromMap({required Map map}) {
     List<ProfilePicture> mediaList = (map['media'] as List)
         .map((mediaData) => ProfilePicture.fromMap(map: mediaData))

@@ -1,169 +1,220 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
-
-class Post {
-  final String username;
-  final String content;
-  final String imageUrl; // URL to the user's profile image
-  bool isLiked; // Add isLiked status for each post
-
-  Post(this.username, this.content, this.imageUrl, this.isLiked);
-}
+import 'package:user_profile_avatar/user_profile_avatar.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class PostScreen extends StatefulWidget {
-  const PostScreen({Key? key}) : super(key: key);
+  final List<ArticleModel> posts; // Add this parameter
+
+  const PostScreen({Key? key, required this.posts}) : super(key: key);
 
   @override
   _PostScreenState createState() => _PostScreenState();
 }
 
 class _PostScreenState extends State<PostScreen> {
-  final PostService postService = PostService();
-  final HandleToken useService = HandleToken();
-  bool isExpanded = false;
-
-  List<ArticleModel>? posts;
-
-  var _user = null;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _loadData();
-  }
-
-  void _loadData() async {
-    // Fetch the user information
-    final user = await useService.getUser();
-
-    // Fetch the list of articles (posts)
-    final List<ArticleModel> _posts = await postService.getArticles();
-
-    setState(() {
-      _user = user;
-      posts = _posts;
-    });
-  }
-
+  // final posts = widget.posts;
   @override
   Widget build(BuildContext context) {
-    if (posts == null) {
+    if (widget.posts == null) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     } else {
       return ListView.builder(
-        itemCount: posts?.length, // Number of posts
+        itemCount: widget.posts?.length ?? 0, // Number of widget.posts
         itemBuilder: (context, index) {
-          return buildPostCard(posts![index]);
+          return buildPostCard(widget.posts![index]);
         },
       );
     }
   }
 
   Widget buildPostCard(ArticleModel post) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          leading: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(),
-              image: DecorationImage(
-                image: AssetImage('assets/page-1/images/ellipse-2-bg.png'),
-                fit: BoxFit.cover,
-              ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      color: Colors.red,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _PostHeader(post: post),
+                const SizedBox(
+                  height: 4.0,
+                ),
+                Text("post.title"),
+                post.imageUrl != null
+                    ? const SizedBox.shrink()
+                    : const SizedBox(height: 6),
+              ],
             ),
           ),
-          title: Text(
-            post.owner!.email, // Use the username from the Post object
-            style: TextStyle(fontWeight: FontWeight.bold),
+          post.media != null && post.media!.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child:
+                      CachedNetworkImage(imageUrl: post!.media?[0].path ?? ''),
+                )
+              : const SizedBox.shrink(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: _PostStats(post: post), // Pass the post to _PostStats
           ),
-          trailing: IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PostHeader extends StatelessWidget {
+  const _PostHeader({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
+
+  final ArticleModel post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CircleAvatar(
+          backgroundImage: NetworkImage(post.media?[0].path ??
+              ''), // Assuming imageUrl is the user's profile image URL
         ),
-        Container(
-          padding: EdgeInsets.all(16.0),
+        SizedBox(width: 8),
+        Expanded(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                isExpanded
-                    ? 'See less'
-                    : post.title, // Use the content from the Post object
-                textAlign: TextAlign.justify,
+                post.owner!.fullName,
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isExpanded = !isExpanded;
-                    });
-                  },
-                  child: Icon(
-                    isExpanded ? Icons.expand_less : Icons.expand_more,
-                    color: Colors.blue,
+              Row(
+                children: [
+                  Text(
+                    '${post.timeAgo}.',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 12.0,
+                    ),
                   ),
-                ),
-              ),
+                  Icon(
+                    Icons.public,
+                    color: Colors.grey[600],
+                    size: 12.0,
+                  )
+                ],
+              )
             ],
           ),
         ),
-        GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Adjust the number of columns as needed
-          ),
-          itemBuilder: (context, index) {
-            if (index < post.media!.length) {
-              return Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(post.media?[index].path ?? ''),
-                  ),
-                ),
-              );
-            } else {
-              // Return a placeholder or empty container
-              return Container();
-            }
-          },
-          itemCount: post.media!.length,
+        IconButton(
+          icon: const Icon(Icons.more_horiz),
+          onPressed: () => print('more'),
+        )
+      ],
+    );
+  }
+}
+
+class _PostStats extends StatelessWidget {
+  const _PostStats({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
+
+  final ArticleModel post;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(4.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.favorite_border_rounded,
+                size: 10,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Text(
+              '${post.likes?.length}',
+              style: TextStyle(
+                color: Colors.grey[600],
+              ),
+            )
+          ],
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      // post.isLiked =
-                      //     !post.isLiked; // Toggle isLiked for this post
-                    });
-                  },
-                  child: Icon(
-                    post.likes != null &&
-                            post.likes!.isNotEmpty &&
-                            post.likes!.any((e) => e.id == _user.id)
-                        ? Icons.favorite_rounded
-                        : Icons.favorite_border_rounded,
-                    color: post.isLiked ? Colors.red : Colors.black,
-                    size: 35,
-                  )),
-              Text('1K likes'),
-            ],
-          ),
+        const Divider(),
+        Row(
+          children: [
+            _PostButton(
+              icon: Icon(
+                MdiIcons.heartOutline, // Use the appropriate icon for "Like"
+                color: Colors.grey[600],
+                size: 20,
+              ),
+              label: 'Like',
+              onTap: () => print('Like'),
+            ),
+          ],
         ),
       ],
+    );
+  }
+}
+
+class _PostButton extends StatelessWidget {
+  final Key? key;
+  final Icon icon;
+  final String label;
+  final Function() onTap;
+
+  _PostButton({
+    this.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            height: 25,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                icon,
+                const SizedBox(
+                  width: 4,
+                ),
+                Text(label),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

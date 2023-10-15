@@ -9,37 +9,35 @@ class Bottombar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       child: BottomNavigationBar(
+        elevation: 8.0,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.black,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        iconSize: 35,
+        selectedFontSize: 8.0,
+        iconSize: 25,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'add'),
+          // BottomNavigationBarItem(icon: Icon(Icons.message), label: 'message'),
+          // BottomNavigationBarItem(icon: Icon(Icons.add), label: 'add'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline_rounded),
-            label: 'heart',
+            icon: Icon(Icons.message),
+            label: 'message',
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
               backgroundColor: Colors.white,
-              backgroundImage:
-                  AssetImage('assets/page-1/images/vector-AZF.png'),
+              child: Image(
+                image: AssetImage('assets/page-1/images/vector-AZF.png'),
+                width: 20.0, // Set the width to the desired size
+                height: 20.0, // Set the height to the desired size
+              ),
             ),
             label: 'User',
-          ),
+          )
         ],
         onTap: (int index) {
           if (index == 2) {
-            // Check if 'add' button is tapped (index 2)
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => CreatePostScreen(),
-              ),
-            );
-          } else if (index == 4) {
             // Check if 'User' button is tapped (index 4)
             Navigator.of(context).push(
               MaterialPageRoute(
