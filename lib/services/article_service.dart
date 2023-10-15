@@ -72,7 +72,7 @@ class PostService {
     try {
       QueryResult result = await client.query(
         QueryOptions(
-          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          fetchPolicy: FetchPolicy.cacheFirst,
           document: gql(GET_ALL_POSTS),
           variables: {
             'data': {
