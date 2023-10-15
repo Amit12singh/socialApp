@@ -46,7 +46,9 @@ class _PostScreenState extends State<PostScreen> {
       _user = user;
       posts = _posts;
     });
+    print("here screen $_posts");
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class _PostScreenState extends State<PostScreen> {
       );
     } else {
       return ListView.builder(
-        itemCount: posts?.length, // Number of posts
+        itemCount: posts?.length ?? 0, // Number of posts
         itemBuilder: (context, index) {
           return buildPostCard(posts![index]);
         },
@@ -82,7 +84,7 @@ class _PostScreenState extends State<PostScreen> {
             ),
           ),
           title: Text(
-            post.owner!.email, // Use the username from the Post object
+            post.owner!.email ?? '', // Use the username from the Post object
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           trailing: IconButton(

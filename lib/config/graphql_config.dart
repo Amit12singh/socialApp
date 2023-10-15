@@ -9,6 +9,10 @@ class GraphQLConfig {
     return await handleTokenService.getAccessToken();
   }
 
+  final HttpLink _httpLink = HttpLink(
+    "https://apis.oldnabhaite.site/oldnabhaiteapis",
+  );
+
   AuthLink _authLink() {
     final link = AuthLink(getToken: () async {
       final token = await getToken();
@@ -18,9 +22,7 @@ class GraphQLConfig {
     return link;
   }
 
-  final HttpLink _httpLink = HttpLink(
-    "https://apis.oldnabhaite.site/oldnabhaiteapis",
-  );
+
 
   GraphQLClient clientToQuery() {
     final link = _authLink().concat(_httpLink);

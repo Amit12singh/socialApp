@@ -91,16 +91,24 @@ class UserModel {
       this.password});
 
   static UserModel fromMap({required Map map}) {
+    print('user model $map');
+    ProfilePicture? userProfile;
+
+    if (map['profileImage'] != null) {
+      userProfile = ProfilePicture(
+          id: map['profileImage']['id'],
+          mimeType: map['profileImage']['mimeType'],
+          path: map['profileImage']['path'],
+          name: map['profileImage']['name'],
+          type: map['profileImage']['type']);
+    }
+   
+
     return UserModel(
       id: map['id'],
       email: map['email'],
       fullName: map['fullName'],
-      profilePicture: ProfilePicture(
-          id: map['profilePicture']['id'],
-          mimeType: map['profilePicture']['mimeType'],
-          path: map['profilePicture']['path'],
-          name: map['profilePicture']['name'],
-          type: map['profilePicture']['type']),
+      profilePicture: userProfile,
       createdAt: DateTime.fromMillisecondsSinceEpoch(
         int.parse(map['createdAt']),
       ),

@@ -1,43 +1,59 @@
 const GET_ALL_POSTS = """
-         query GetAllArticles(\$data: PaginationArgs!) {
+        query GetAllArticles(\$data: PaginationArgs!) {
   getAllArticles(data: \$data) {
     data {
+      body
       id
-      createdAt
       likes {
         id
-        isLiked
-        user {
-          id
-          email
-        }
         article {
           id
         }
-      }
-      owner {
-        id
-        fullName
-        profileImage {
+        user {
           id
-          mimeType
-          path
-          name
-          type
+          profileImage {
+            path
+            name
+            mimeType
+            type
+            id
+            deletedAt
+          }
         }
       }
+      owner {
+        profileImage {
+          type
+          path
+          name
+          mimeType
+          id
+        }
+        id
+        fullName
+        email
+      }
       title
-      updatedAt
+      createdAt
+      deletedAt
+      media {
+        id
+        mimeType
+        name
+        path
+        type
+        deletedAt
+        createdAt
+        updatedAt
+      }
     }
-    message
-    status
-    success
     pagination {
       nextPage
       perPage
-      prevPage
       total
       totalPages
+      prevPage
     }
   }
-} """;
+}
+""";

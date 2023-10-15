@@ -12,6 +12,7 @@ class PostService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
   ProfilePicture convertToMultipartService = ProfilePicture();
+  
 
   final MediaService mediaService = MediaService();
   final ProfilePicture mediaConvert = new ProfilePicture();
@@ -71,12 +72,12 @@ class PostService {
     try {
       QueryResult result = await client.query(
         QueryOptions(
-          fetchPolicy: FetchPolicy.cacheFirst,
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
           document: gql(GET_ALL_POSTS),
           variables: {
             'data': {
-              "page": data?.page,
-              "perPage": data?.perPage,
+              "page": data?.page ?? 1,
+              "perPage": data?.perPage ?? 10,
               "search": data?.search
             },
           },
@@ -84,20 +85,28 @@ class PostService {
       );
 
       if (result.hasException) {
+
         throw Exception(result.exception);
       } else {
-        List res = result.data?['getAllArticles']?['data'];
+        print("here run 1");
 
-        if (res == null || res.isEmpty) {
-          return [];
-        }
+        List res = result.data?['getAllArticles']?['data'];
+        print("here $res");
+        print("here run 1");
+
+
+      
+        print("here run 2");
 
         List<ArticleModel> articles =
             res.map((article) => ArticleModel.fromMap(map: article)).toList();
+        print("here run 3 $articles");
 
         return articles;
+       
       }
     } catch (error) {
+      print('here article catch $error');
       return [];
     }
   }
