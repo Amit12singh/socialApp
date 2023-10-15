@@ -90,6 +90,8 @@ class UserModel {
       this.createdAt,
       this.password});
 
+  // String get imageUrl => null;
+
   static UserModel fromMap({required Map map}) {
     print('user model $map');
     ProfilePicture? userProfile;

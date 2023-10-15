@@ -30,14 +30,13 @@ class ArticleModel {
     List<UserModel> likes = [];
     if (map['media'] != null) {
       mediaList = (map['media'] as List)
-        .map((mediaData) => ProfilePicture.fromMap(map: mediaData))
-        .toList();
+          .map((mediaData) => ProfilePicture.fromMap(map: mediaData))
+          .toList();
     }
     if (map['owner'] != null) {
       userList = UserModel.fromMap(map: map['owner'] as Map);
     }
     print('article model media $mediaList');
-
 
     // if (map['likes'] != null && map['likes'].isNotEmpty) {
     //   likes = (map['likes'] as List<dynamic>)
