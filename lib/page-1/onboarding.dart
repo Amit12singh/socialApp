@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/page-1/feeds/homescreen.dart';
+import 'package:myapp/page-1/feeds/post.dart';
 import 'dart:ui';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/register.dart';
+import 'package:myapp/utilities/localstorage.dart';
 
 class Onboarding extends StatefulWidget {
   @override

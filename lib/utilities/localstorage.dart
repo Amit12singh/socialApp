@@ -5,6 +5,7 @@ import 'package:myapp/models/user_model.dart';
 
 class HandleToken {
   // Create storage
+  final storage = FlutterSecureStorage();
 
   Future<bool> saveAccessToken(user) async {
     const storage = FlutterSecureStorage();
@@ -26,8 +27,6 @@ class HandleToken {
   }
 
   Future<String?> getAccessToken() async {
-    const storage = FlutterSecureStorage();
-
     return await storage.read(key: 'accessToken');
   }
 
@@ -39,6 +38,15 @@ class HandleToken {
     } catch (err) {
       return false;
     }
+  }
+
+  Future<bool> isUserLoggedIn() async {
+    final token = await storage.read(key: 'accessToken');
+
+    if (token != null) {
+      return true;
+    }
+    return false;
   }
 
   Future<UserModel?> getUser() async {

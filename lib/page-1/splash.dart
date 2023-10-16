@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'dart:async';
 import 'package:myapp/page-1/onboarding.dart';
+import 'package:myapp/utilities/localstorage.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -8,14 +10,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final HandleToken localStorageService = HandleToken();
   @override
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (BuildContext context) => Onboarding()),
-      );
+    Timer(Duration(seconds: 3), () async {
+      if (await localStorageService.isUserLoggedIn()) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => FeedScreen()));
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => Onboarding()),
+        );
+      }
     });
   }
 

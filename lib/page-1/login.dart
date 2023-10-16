@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
+import 'package:myapp/utilities/localstorage.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,12 +15,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _loggedIn = false;
   bool _loading = false;
-
-  @override
-  initState() {
-    super.initState();
-    // _load();
-  }
 
   // void _load() async {
   //   _loading = true;
