@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:myapp/models/article_model.dart';
+import 'package:myapp/page-1/SearchPage.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';
@@ -16,8 +19,9 @@ class _HomeScreenState extends State<FeedScreen> {
   final PostService postService = PostService();
   final HandleToken useService = HandleToken();
   bool isExpanded = false;
+  List<ArticleModel>? posts;
 
-  List? posts; // Use ArticleModel for posts
+  // List? posts; // Use ArticleModel for posts
 
   var _user = null;
 
@@ -30,12 +34,14 @@ class _HomeScreenState extends State<FeedScreen> {
   void _loadData() async {
     final user = await useService.getUser();
     final List _posts = await postService.getArticles();
+
     print('here home screen $_posts');
+
     print(_posts);
 
     setState(() {
       _user = user;
-      posts = _posts;
+      posts = _posts.cast<ArticleModel>();
     });
   }
 
@@ -80,7 +86,11 @@ class _HomeScreenState extends State<FeedScreen> {
               color: Colors.black,
             ),
             onPressed: () {
-              // Handle the action when the search icon is tapped
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => SearchPage(),
+              //   ),
+              // );
             },
           ),
         ],

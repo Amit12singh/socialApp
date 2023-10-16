@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         margin: EdgeInsets.only(bottom: 70.02 * fem),
                         padding: EdgeInsets.fromLTRB(
-                          16.17 * fem,
+                          20.17 * fem,
                           17.5 * fem,
                           27.81 * fem,
                           17.5 * fem,
@@ -304,13 +304,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                       fem), // Add some spacing between text and icon
                               Icon(
                                 Icons.login,
-                                size: 17.98 * fem,
+                                size: 20.98 * fem,
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 30 * fem),
+                      SizedBox(height: 40 * fem),
                       Text(
                         'Don’t have an account?',
                         style: TextStyle(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/response_model.dart';
-import 'package:myapp/models/user_model.dart';
-import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/user_service.dart';
 
@@ -22,25 +20,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final GraphQLService _graphQLService = GraphQLService();
 
-// variables for integration
-
   BoolResponseModel? _response;
   bool isLoading = false;
+  bool _isPasswordVisible = false;
 
-  @override
-  void initState() {
-    super.initState();
+  void _create() async {
+    setState(() {
+      isLoading = true;
+      _response = null;
+    });
+    BoolResponseModel response = await _graphQLService.registerUser(
+      email: emailController.text,
+      password: passwordController.text,
+      fullName: fullNameController.text,
+    );
+    if (response.success) {
+      setState(() {
+        _response = response;
+        isLoading = false;
+      });
 
-    // _load();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => LoginScreen(),
+        ),
+      );
+    }
   }
-
-  UserModel data = UserModel(
-    email: '\$emailController.text',
-    password: '\$passwordController.text',
-    fullName: '\$fullNameController.text',
-  );
-
- 
 
   bool _isValidEmail(String email) {
     final RegExp emailRegExp =
@@ -50,39 +56,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String _email = "";
   String _password = "";
-  String _fullNmae = "";
-  String _confirmPassword = "";
-  bool _isPasswordVisible = false;
-
-
- 
-
-  void _create() async {
-    setState(() => {isLoading = true, _response = null});
-    BoolResponseModel response = await _graphQLService.registerUser(
-        email: emailController.text,
-        password: passwordController.text,
-        fullName: fullNameController.text);
-    if (response.success) {
-      setState(() => {_response = response, isLoading = false});
-
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) =>
-              LoginScreen(), // Replace RegisterScreen with your actual register screen widget
-        ),
-      );
-
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('success'),
-              content: Text(response?.message ?? 'hello'),
-            );
-          });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,8 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15 * ffem,
-                            height: 1.5 *
-                                ffem, // Adjust this value to increase line spacing
+                            height: 1.5 * ffem,
                             color: Color(0xff000000),
                           ),
                         ),
@@ -293,8 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onSaved: (value) {
                                   _password = value!;
                                 },
-                                obscureText:
-                                    !_isPasswordVisible, // Toggle password visibility
+                                obscureText: !_isPasswordVisible,
                               ),
                             ),
                             SizedBox(width: 17.5 * fem),
@@ -311,7 +282,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 size: 22 * fem,
                                 color: _isPasswordVisible
                                     ? Colors.blue
-                                    : Colors.grey, // Customize the color
+                                    : Colors.grey,
                               ),
                             ),
                           ],
@@ -361,8 +332,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onSaved: (value) {
                                   _password = value!;
                                 },
-                                obscureText:
-                                    !_isPasswordVisible, // Toggle password visibility
+                                obscureText: !_isPasswordVisible,
                               ),
                             ),
                             SizedBox(width: 17.5 * fem),
@@ -379,7 +349,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 size: 22 * fem,
                                 color: _isPasswordVisible
                                     ? Colors.blue
-                                    : Colors.grey, // Customize the color
+                                    : Colors.grey,
                               ),
                             ),
                           ],
@@ -391,20 +361,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           String password = passwordController.text;
                           String confirmPassword =
                               confirmPasswordController.text;
-                           
-                          _create();
 
                           if (password != confirmPassword) {
-                          
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
                                   'Passwords do not match',
-                                  textAlign: TextAlign
-                                      .center, // Align the text to the center
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             );
+                          } else {
+                            _create();
                           }
                         },
                         style: TextButton.styleFrom(
@@ -413,15 +381,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Container(
                           width: 332 * fem,
                           height: 58 * fem,
-                         
                           decoration: BoxDecoration(
                             color: Color(0xff643600),
                             borderRadius: BorderRadius.circular(16 * fem),
                           ),
-                          
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, // Center both elements horizontally
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 'Register Account',
@@ -433,9 +398,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   color: Color(0xffffffff),
                                 ),
                               ),
-                              SizedBox(
-                                  width: 5 *
-                                      fem), // Add some spacing between text and icon
+                              SizedBox(width: 5 * fem),
                               Icon(
                                 Icons.login,
                                 size: 17.98 * fem,
@@ -457,15 +420,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                         
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  LoginScreen(), // Replace RegisterScreen with your actual register screen widget
+                              builder: (context) => LoginScreen(),
                             ),
                           );
-                          // Navigate to RegisterScreen when the "Register Now" button is pressed
-                          
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -484,9 +443,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(height: 30 * fem),
                       Center(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10 *
-                                  fem), // Adjust the vertical spacing as needed
+                          padding: EdgeInsets.symmetric(vertical: 10 * fem),
                           child: Text(
                             'By creating an account, you agree to our Terms & Conditions and agree to Privacy Policy.',
                             style: TextStyle(
@@ -496,11 +453,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               height: 1.5 * ffem,
                               color: Color(0xff643600),
                             ),
-                            textAlign: TextAlign
-                                .center, // Align the text to the center
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
