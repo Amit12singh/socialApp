@@ -86,8 +86,7 @@ class PostService {
       if (result.hasException) {
         throw Exception(result.exception);
       }
-
-      Map? res = result.data?["createArticle"];
+      // Map? res = result.data?["createArticle"];
 
       return true;
     } catch (error) {
