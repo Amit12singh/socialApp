@@ -31,6 +31,16 @@ class HandleToken {
     return await storage.read(key: 'accessToken');
   }
 
+  Future<bool> clearAccessToken() async {
+    final storage = FlutterSecureStorage();
+    try {
+      await storage.delete(key: 'accessToken');
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
   Future<UserModel?> getUser() async {
     const storage = FlutterSecureStorage();
 

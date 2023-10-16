@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
+import 'package:myapp/page-1/login.dart';
+import 'package:myapp/utilities/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -11,6 +13,17 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<ProfileScreen> {
+  final HandleToken localStorageService = HandleToken();
+
+  void _handleLogout() async {
+    bool isCleared = await localStorageService.clearAccessToken();
+
+    if (isCleared) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
+  }
+
   List<String> posts = [
     'assets/page-1/images/rectangle-688.png',
     'assets/page-1/images/rectangle-693-bg.png',
@@ -63,6 +76,7 @@ class _MyHomePageState extends State<ProfileScreen> {
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
+                  onTap: () => {_handleLogout()},
                   value: 'log_out',
                   child: ListTile(
                     leading: Icon(Icons.exit_to_app),
