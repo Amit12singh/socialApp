@@ -15,10 +15,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 3), () async {
+    Timer(const Duration(seconds: 3), () async {
       if (await localStorageService.isUserLoggedIn()) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => FeedScreen()));
+            MaterialPageRoute(builder: (context) => const FeedScreen()));
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => Onboarding()),
