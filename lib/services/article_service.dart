@@ -66,6 +66,37 @@ class PostService {
     }
   }
 
+
+  Future<bool> LikePost() async {
+    try {
+      List<http.MultipartFile> _multipartFileList = [];
+
+      List<ProfilePicture> _responseMediaList = [];
+
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          document: gql(CREATE_ARTICLE),
+          variables: {
+            "data": {},
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      }
+
+      Map? res = result.data?["createArticle"];
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+
+
   Future<List> getArticles({
     PaginationModel? data,
   }) async {
