@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/models/article_model.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/page-1/feeds/bottombar.dart';
+import 'package:myapp/page-1/feeds/homescreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key});
@@ -18,6 +21,59 @@ class _MyHomePageState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Container(
+            width: 60, // Set the desired width
+            height: 60, // Set the desired height
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: Image.asset(
+              'assets/page-1/images/ellipse-1-bg.png', // Replace with your circular icon asset path
+              width: 45, // Set the same width as the container
+              height: 45, // Set the same height as the container
+            ),
+          ),
+          onPressed: () {
+            // Handle the action when the circular icon is tapped
+          },
+        ),
+        titleSpacing: 3,
+        title: Text(
+          'PPSONA',
+          style: TextStyle(
+            color: Color.fromARGB(255, 167, 135, 135),
+            decoration: TextDecoration.none,
+            fontFamily: 'PermanentMarker-Regular',
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.black, // Set the icon color to black
+            ),
+            onSelected: (value) {
+              //log out logic
+            },
+            itemBuilder: (BuildContext context) {
+              return <PopupMenuEntry<String>>[
+                PopupMenuItem<String>(
+                  value: 'log_out',
+                  child: ListTile(
+                    leading: Icon(Icons.exit_to_app),
+                    title: Text('Log Out'),
+                  ),
+                ),
+              ];
+            },
+          ),
+        ],
+      ),
       body: DefaultTabController(
         length: 1,
         child: NestedScrollView(
@@ -26,8 +82,8 @@ class _MyHomePageState extends State<ProfileScreen> {
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
-                collapsedHeight: 250,
-                expandedHeight: 250,
+                collapsedHeight: 180,
+                expandedHeight: 180,
                 flexibleSpace: const ProfileView(),
               ),
               SliverPersistentHeader(
@@ -78,6 +134,7 @@ class _MyHomePageState extends State<ProfileScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: Bottombar(),
     );
   }
 }

@@ -16,6 +16,7 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   // final posts = widget.posts;
+
   @override
   Widget build(BuildContext context) {
     if (widget.posts == null) {
@@ -27,7 +28,10 @@ class _PostScreenState extends State<PostScreen> {
       return ListView.builder(
         itemCount: widget.posts?.length, // Number of widget.posts
         itemBuilder: (context, index) {
-          return buildPostCard(widget.posts![index]);
+          print("widget.posts");
+
+          print(widget.posts);
+          return buildPostCard(widget.posts[index]);
         },
       );
     }
@@ -100,7 +104,7 @@ class _PostHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${post?.owner?.fullName ?? ''}',
+                '${post.owner?.fullName ?? ''}',
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
               Row(
