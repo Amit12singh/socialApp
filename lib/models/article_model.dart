@@ -1,4 +1,6 @@
+import 'package:myapp/models/like_model.dart';
 import 'package:myapp/models/user_model.dart';
+import 'package:myapp/utilities/localstorage.dart';
 
 class ArticleModel {
   final String? id;
@@ -8,9 +10,8 @@ class ArticleModel {
   final DateTime? deletedAt;
   final DateTime? updatedAt;
   final UserModel? owner;
-  final List<UserModel>? likes;
+  final List<Like>? likes;
   int totalLikes;
-
 
   ArticleModel({
     this.id,
@@ -23,17 +24,21 @@ class ArticleModel {
     this.owner,
   }) : totalLikes = likes?.length ?? 0;
 
-  get isLiked => null;
+  Future<UserModel?> currentUser = HandleToken().getUser();
+  dynamic() => print('currentUser $currentUser');
 
+  // ignore: unnecessary_null_comparison
+  // bool? get isLiked {
+  //   if (currentUser != null && likes != null) {
+  //     return likes?.any((like) => like.user?.id == currentUser.id);
+  //   }
+  //   return false;
+  // }
   static ArticleModel fromMap({required map}) {
     print('article model $map');
     List<ProfilePicture> mediaList = [];
     // UserModel? userList;
-    List<UserModel> likes = [];
-
-   
-
-   
+    List<Like> likes = [];
 
     return ArticleModel(
       id: map['id'],
@@ -43,18 +48,18 @@ class ArticleModel {
           DateTime.fromMillisecondsSinceEpoch(int.parse(map['createdAt'])),
       deletedAt:
           map['deletedAt'] != null ? DateTime.parse(map['deletedAt']) : null,
-      // updatedAt: DateTime.fromMillisecondsSinceEpoch(
-      //   int.parse(map['createdAt'] ?? ''),
-      // ),
     );
   }
 
-  factory ArticleModel.fromJson(Map<String, dynamic> json) {
+  factory ArticleModel.fromJson(Map json) {
+    print('article modal json $json');
     return ArticleModel(
       id: json['id'],
-      likes: (json['likes'] as List)
-          .map((likedUser) => UserModel.fromJson(likedUser))
-          .toList(),
+      likes: (json['likes'] != null)
+          ? (json['likes'] as List)
+              .map((likedUser) => Like.fromJson(likedUser))
+              .toList()
+          : <Like>[],
       owner: UserModel.fromJson(json['owner']),
       title: json['title'],
       createdAt: DateTime.parse(json['createdAt']),
@@ -66,10 +71,3 @@ class ArticleModel {
     );
   }
 }
-    
-
-
-  
-  
-  
-

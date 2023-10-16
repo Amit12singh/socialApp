@@ -96,8 +96,6 @@ class UserModel {
     print('user model $map');
     ProfilePicture? userProfile;
 
-   
-
     return UserModel(
       id: map['id'],
       email: map['email'],
@@ -128,12 +126,13 @@ class UserModel {
   }
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
+    print('here usermodel $map');
     return UserModel(
       id: map['id'],
       email: map['email'],
       fullName: map['fullName'],
-      profilePicture: map['profilePicture'] != null
-          ? ProfilePicture.fromJson(map['profilePicture'])
+      profilePicture: map['profileImage'] != null
+          ? ProfilePicture.fromJson(map['profileImage'])
           : null,
       createdAt:
           map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,

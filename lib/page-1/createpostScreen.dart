@@ -40,8 +40,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     }
   }
 
-  dynamic() => print('isPostCreated $_isPostCreated');
-
   Future<void> _captuteImage() async {
     var image = await _picker.pickImage(source: ImageSource.camera);
 

@@ -82,3 +82,9 @@ mutation Mutation(\$type: mediaType!, \$files: [Upload!]!) {
   }
 }
 """;
+
+const LIKE_POST = """
+mutation Mutation(\$data: likeInput!) {
+  articleLike(data: \$data)
+}
+""";

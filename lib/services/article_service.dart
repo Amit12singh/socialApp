@@ -12,7 +12,6 @@ class PostService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
   ProfilePicture convertToMultipartService = ProfilePicture();
-  
 
   final MediaService mediaService = MediaService();
   final ProfilePicture mediaConvert = new ProfilePicture();
@@ -58,7 +57,7 @@ class PostService {
         throw Exception(result.exception);
       }
 
-      Map? res = result.data?["createArticle"];
+      print('like Result $result');
 
       return true;
     } catch (error) {
@@ -66,35 +65,32 @@ class PostService {
     }
   }
 
-
-  Future<bool> LikePost() async {
+  Future<bool> likePost(String articleId) async {
+    print(articleId);
     try {
-      List<http.MultipartFile> _multipartFileList = [];
-
-      List<ProfilePicture> _responseMediaList = [];
-
       QueryResult result = await client.mutate(
         MutationOptions(
           fetchPolicy: FetchPolicy.cacheAndNetwork,
-          document: gql(CREATE_ARTICLE),
+          document: gql(LIKE_POST),
           variables: {
-            "data": {},
+            "data": {"articleId": articleId},
           },
         ),
       );
 
       if (result.hasException) {
+        print('exeption');
+        print(result.exception);
         throw Exception(result.exception);
       }
       // Map? res = result.data?["createArticle"];
 
       return true;
     } catch (error) {
+      print('like cattch $error');
       return false;
     }
   }
-
-
 
   Future<List> getArticles({
     PaginationModel? data,
@@ -115,26 +111,18 @@ class PostService {
       );
 
       if (result.hasException) {
-
         throw Exception(result.exception);
       } else {
-        print("here run 1");
-
         List res = result.data?['getAllArticles']?['data'];
-
-
-      
-        print("here run 2");
+        print(res);
 
         List articles =
             res.map((article) => ArticleModel.fromJson(article)).toList();
-        print("here run 3 $articles");
 
         return articles;
-       
       }
     } catch (error) {
-      print('here article catch $error');
+      print('article service catch $error');
       return [];
     }
   }

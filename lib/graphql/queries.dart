@@ -6,19 +6,10 @@ const GET_ALL_POSTS = """
       id
       likes {
         id
-        article {
-          id
-        }
         user {
           id
-          profileImage {
-            path
-            name
-            mimeType
-            type
-            id
-            deletedAt
-          }
+         fullName
+         email
         }
       }
       owner {

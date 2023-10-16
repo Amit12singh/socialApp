@@ -4,6 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:myapp/models/user_model.dart';
+import 'package:myapp/services/article_service.dart';
+import 'package:myapp/utilities/localstorage.dart';
 
 class PostScreen extends StatefulWidget {
   final List posts; // Add this parameter
@@ -15,12 +18,40 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
+  final _postService = PostService();
+  bool _isLiked = false;
+  final currentUser = HandleToken().getUser();
+
+  @override
+  @override
+  void initState() {
+    super.initState();
+  }
+
   // final posts = widget.posts;
+
+  Future<bool> isAlreadyLiked() async {
+    final currentUser = await HandleToken().getUser();
+
+    widget.posts.map((e) => {
+          if (currentUser != null && e?.likes != null)
+            {e?.likes?.any((like) => like.user?.id == currentUser.id) ?? false}
+        });
+
+    return false;
+  }
+
+  _likePost(String atricleId) async {
+    final isLiked = await _postService.likePost(atricleId);
+
+    setState(() {
+      _isLiked = isLiked;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     if (widget.posts == null) {
-      print('widget $widget');
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -28,9 +59,6 @@ class _PostScreenState extends State<PostScreen> {
       return ListView.builder(
         itemCount: widget.posts?.length, // Number of widget.posts
         itemBuilder: (context, index) {
-          print("widget.posts");
-
-          print(widget.posts);
           return buildPostCard(widget.posts[index]);
         },
       );
@@ -38,7 +66,6 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   Widget buildPostCard(ArticleModel post) {
-    print('here build$post');
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -72,7 +99,11 @@ class _PostScreenState extends State<PostScreen> {
               : const SizedBox.shrink(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: _PostStats(post: post), // Pass the post to _PostStats
+            child: _PostStats(
+              post: post,
+              likePost: _likePost,
+              isPostLiked: _isLiked,
+            ), // Pass the post to _PostStats
           ),
         ],
       ),
@@ -136,12 +167,16 @@ class _PostHeader extends StatelessWidget {
 }
 
 class _PostStats extends StatelessWidget {
-  const _PostStats({
-    Key? key,
-    required this.post,
-  }) : super(key: key);
+  const _PostStats(
+      {Key? key,
+      required this.post,
+      required this.likePost,
+      required this.isPostLiked})
+      : super(key: key);
 
   final ArticleModel post;
+  final Function likePost;
+  final bool isPostLiked;
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +214,7 @@ class _PostStats extends StatelessWidget {
                 size: 20,
               ),
               label: 'Like',
-              onTap: () => print('Like'),
+              onTap: () => {likePost(post.id)},
             ),
           ],
         ),

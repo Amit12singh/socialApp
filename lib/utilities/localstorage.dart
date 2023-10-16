@@ -14,17 +14,13 @@ class HandleToken {
     final loggedinUser = UserModel(
         fullName: user['fullName'], email: user['email'], id: user['id']);
 
-    print('loggedinUser');
     final jsonString = json.encode(loggedinUser.toJson());
-    print('jsonString $jsonString');
 
     try {
       await storage.write(key: 'accessToken', value: user["accessToken"]);
       await storage.write(key: 'user', value: jsonString);
-      print('save token try');
       return true;
     } catch (err) {
-      print('Error in saveAccessToken: $err');
       return false;
     }
   }
@@ -35,9 +31,19 @@ class HandleToken {
     return await storage.read(key: 'accessToken');
   }
 
-  Future getUser() async {
+  Future<UserModel?> getUser() async {
     const storage = FlutterSecureStorage();
 
-    return await storage.read(key: 'user');
+    String? jsonUser = await storage.read(key: 'user');
+    if (jsonUser != null) {
+      Map<String, dynamic> userMap = json.decode(jsonUser);
+      UserModel user = UserModel.fromJson(userMap);
+
+      print('curr user ');
+      print(user.id);
+
+      return user;
+    }
+    return null;
   }
 }
