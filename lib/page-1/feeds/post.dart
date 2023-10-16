@@ -60,8 +60,10 @@ class _PostScreenState extends State<PostScreen> {
           post.media != null && post.media!.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child:
-                      CachedNetworkImage(imageUrl: post!.media?[0].path ?? ''),
+                  child: Image(
+                    image: NetworkImage(
+                        Uri.parse(post.media?[0].path ?? '').toString()),
+                  ),
                 )
               : const SizedBox.shrink(),
           Padding(
@@ -73,6 +75,8 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 }
+
+class $ {}
 
 class _PostHeader extends StatelessWidget {
   const _PostHeader({
@@ -87,8 +91,8 @@ class _PostHeader extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          backgroundImage: NetworkImage(post.media?[0].path ??
-              ''), // Assuming imageUrl is the user's profile image URL
+          backgroundImage:
+              NetworkImage(post?.owner?.profilePicture?.path ?? ''),
         ),
         SizedBox(width: 8),
         Expanded(
@@ -154,7 +158,7 @@ class _PostStats extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              '${post.likes?.length}',
+              '${post.totalLikes}',
               style: TextStyle(
                 color: Colors.grey[600],
               ),

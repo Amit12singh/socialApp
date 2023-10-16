@@ -9,6 +9,8 @@ class ArticleModel {
   final DateTime? updatedAt;
   final UserModel? owner;
   final List<UserModel>? likes;
+  int totalLikes;
+
 
   ArticleModel({
     this.id,
@@ -19,7 +21,7 @@ class ArticleModel {
     this.createdAt,
     this.likes,
     this.owner,
-  });
+  }) : totalLikes = likes?.length ?? 0;
 
   get isLiked => null;
 
@@ -28,16 +30,8 @@ class ArticleModel {
     List<ProfilePicture> mediaList = [];
     // UserModel? userList;
     List<UserModel> likes = [];
-    print(map['owner']);
-    // if (map['media'] != null) {
-    //   mediaList = (map['media'])
-    //       .map((mediaData) => ProfilePicture.fromJson(mediaData))
-    //       .toList();
-    // }
-    // if (map['owner'] != null) {
-    //   userList = UserModel.fromMap(map: map['owner']);
-    // }
-    print('article model media $mediaList');
+
+   
 
    
 
@@ -45,9 +39,8 @@ class ArticleModel {
       id: map['id'],
       title: map['title'],
       media: mediaList,
-      // owner: userList,
-      // likes: likes,
-      createdAt: DateTime.parse(map['createdAt']),
+      createdAt:
+          DateTime.fromMillisecondsSinceEpoch(int.parse(map['createdAt'])),
       deletedAt:
           map['deletedAt'] != null ? DateTime.parse(map['deletedAt']) : null,
       // updatedAt: DateTime.fromMillisecondsSinceEpoch(
@@ -59,7 +52,9 @@ class ArticleModel {
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
     return ArticleModel(
       id: json['id'],
-      // likes: json['likes'],
+      likes: (json['likes'] as List)
+          .map((likedUser) => UserModel.fromJson(likedUser))
+          .toList(),
       owner: UserModel.fromJson(json['owner']),
       title: json['title'],
       createdAt: DateTime.parse(json['createdAt']),
