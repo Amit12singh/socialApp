@@ -312,6 +312,10 @@ class _PostScreenState extends State<ProfilePostScreen> {
 
   @override
   Widget build(BuildContext context) {
+print('here here');
+
+    print(widget.posts);
+
     if (widget.posts == null) {
       return const Center(
         child: CircularProgressIndicator(),
