@@ -41,7 +41,6 @@ mutation Mutation(\$data: RegisterInput!) {
 const CREATE_ARTICLE = """
 mutation CreateArticle(\$data: ArticleInput!) {
   createArticle(data: \$data) {
-    body
     title
     createdAt
     deletedAt
