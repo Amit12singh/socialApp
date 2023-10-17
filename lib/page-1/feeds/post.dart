@@ -1,15 +1,13 @@
 // ignore_for_file: unnecessary_string_interpolations
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
 class PostScreen extends StatefulWidget {
-  final List posts; // Add this parameter
+  final List<ArticleModel> posts;
 
   const PostScreen({Key? key, required this.posts}) : super(key: key);
 
@@ -23,26 +21,24 @@ class _PostScreenState extends State<PostScreen> {
   final currentUser = HandleToken().getUser();
 
   @override
-  @override
   void initState() {
     super.initState();
   }
 
-  // final posts = widget.posts;
-
   Future<bool> isAlreadyLiked() async {
     final currentUser = await HandleToken().getUser();
 
-    widget.posts.map((e) => {
-          if (currentUser != null && e?.likes != null)
-            {e?.likes?.any((like) => like.user?.id == currentUser.id) ?? false}
-        });
+    widget.posts.forEach((e) {
+      if (currentUser != null && e?.likes != null) {
+        e?.likes?.any((like) => like.user?.id == currentUser.id) ?? false;
+      }
+    });
 
     return false;
   }
 
-  _likePost(String atricleId) async {
-    final isLiked = await _postService.likePost(atricleId);
+  _likePost(String articleId) async {
+    final isLiked = await _postService.likePost(articleId);
 
     setState(() {
       _isLiked = isLiked;
@@ -57,7 +53,7 @@ class _PostScreenState extends State<PostScreen> {
       );
     } else {
       return ListView.builder(
-        itemCount: widget.posts?.length, // Number of widget.posts
+        itemCount: widget.posts.length,
         itemBuilder: (context, index) {
           return buildPostCard(widget.posts[index]);
         },
@@ -93,7 +89,8 @@ class _PostScreenState extends State<PostScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Image(
                     image: NetworkImage(
-                        Uri.parse(post.media?[0].path ?? '').toString()),
+                      Uri.parse(post.media?[0].path ?? '').toString(),
+                    ),
                   ),
                 )
               : const SizedBox.shrink(),
@@ -103,7 +100,7 @@ class _PostScreenState extends State<PostScreen> {
               post: post,
               likePost: _likePost,
               isPostLiked: _isLiked,
-            ), // Pass the post to _PostStats
+            ),
           ),
         ],
       ),
@@ -166,17 +163,32 @@ class _PostHeader extends StatelessWidget {
   }
 }
 
-class _PostStats extends StatelessWidget {
-  const _PostStats(
-      {Key? key,
-      required this.post,
-      required this.likePost,
-      required this.isPostLiked})
-      : super(key: key);
+class _PostStats extends StatefulWidget {
+  const _PostStats({
+    Key? key,
+    required this.post,
+    required this.likePost,
+    required this.isPostLiked,
+  }) : super(key: key);
 
   final ArticleModel post;
   final Function likePost;
   final bool isPostLiked;
+
+  @override
+  _PostStatsState createState() => _PostStatsState();
+}
+
+class _PostStatsState extends State<_PostStats> {
+  bool _isLiked = false;
+  int _likeCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLiked = widget.isPostLiked;
+    _likeCount = widget.post.totalLikes;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,15 +201,17 @@ class _PostStats extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.favorite_border_rounded,
+              child: Icon(
+                widget.isPostLiked
+                    ? Icons.favorite
+                    : Icons.favorite_border_rounded,
                 size: 10,
-                color: Colors.white,
+                color: widget.isPostLiked ? Colors.red : Colors.white,
               ),
             ),
             const SizedBox(width: 4),
             Text(
-              '${post.totalLikes}',
+              '${widget.post.totalLikes}',
               style: TextStyle(
                 color: Colors.grey[600],
               ),
@@ -209,12 +223,22 @@ class _PostStats extends StatelessWidget {
           children: [
             _PostButton(
               icon: Icon(
-                MdiIcons.heartOutline, // Use the appropriate icon for "Like"
-                color: Colors.grey[600],
+                MdiIcons.heartOutline,
+                color: widget.isPostLiked ? Colors.red : Colors.grey[600],
                 size: 20,
               ),
               label: 'Like',
-              onTap: () => {likePost(post.id)},
+              onTap: () {
+                setState(() {
+                  if (_isLiked) {
+                    _likeCount--;
+                  } else {
+                    _likeCount++;
+                  }
+                  _isLiked = !_isLiked;
+                  widget.likePost(widget.post.id);
+                });
+              },
             ),
           ],
         ),
