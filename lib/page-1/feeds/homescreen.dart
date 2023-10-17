@@ -64,7 +64,7 @@ class _HomeScreenState extends State<FeedScreen> {
           },
         ),
         titleSpacing: 3,
-        title: Text(
+        title: const Text(
           'PPSONA',
           style: TextStyle(
             color: Color.fromARGB(255, 167, 135, 135),

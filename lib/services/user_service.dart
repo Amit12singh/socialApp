@@ -1,6 +1,8 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
+import 'package:myapp/graphql/queries.dart';
 import 'package:myapp/models/response_model.dart';
+import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/graphql/mutations.dart';
 
@@ -78,4 +80,35 @@ class GraphQLService {
           message: 'Something went wrong.', success: false);
     }
   }
+
+
+  Future<List> userProfile({required String id}) async {
+    print('here $id');
+
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+            fetchPolicy: FetchPolicy.cacheAndNetwork,
+            document: gql(USER_PROFILE),
+            variables: {"userId": id}),
+      );
+      if (result.hasException) {
+        throw Exception(result.exception);
+      }
+
+      final res = result.data?["me"];
+      print('here exception $res');
+
+      if (res?["success"] == true) {
+        final profile = UserTimelineModel.fromJson(res);
+        return [profile];
+      } else {
+        return [];
+      }
+    } catch (error) {
+      print('here catch $error');
+      return [];
+    }
+  }
+
 }

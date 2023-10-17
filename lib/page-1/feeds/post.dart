@@ -121,7 +121,6 @@ class _PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget imageProvider;
 
     return Row(
       children: [

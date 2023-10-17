@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
+import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/article_service.dart';
+import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -15,6 +17,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final HandleToken localStorageService = HandleToken();
+  final GraphQLService userService = GraphQLService();
+
+  bool isExpanded = false;
+  List<UserTimelineModel>? posts;
+
+  var _user = null;
 
   void _handleLogout() async {
     bool isCleared = await localStorageService.clearAccessToken();
@@ -27,6 +35,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _loadData();
+  }
+
+  void _loadData() async {
+    final user = await localStorageService.getUser();
+    _user = user;
+    final List _posts = await userService.userProfile(id: _user.id);
+    print('get user profile');
+    print('get user profile $_posts');
+    setState(() {
+      posts = _posts.cast<UserTimelineModel>();
+      _user = user;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -35,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           icon: Container(
             width: 60,
             height: 60,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
             child: Image.asset(
@@ -49,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         ),
         titleSpacing: 3,
-        title: Text(
+        title: const Text(
           'PPSONA',
           style: TextStyle(
             color: Color(0xFFA78787),
@@ -115,7 +142,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ];
           },
-          body: ProfilePostScreen(posts: []), // Provide your posts data
+          body: ProfilePostScreen(
+              posts: posts?[0].timeline ?? []), // Provide your posts data
         ),
       ),
       bottomNavigationBar: Bottombar(),
@@ -150,7 +178,11 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({Key? key}) : super(key: key);
+  // final post;
+  const ProfileView({Key? key, UserTimelineModel})
+      : super(
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -262,8 +294,8 @@ class _PostScreenState extends State<ProfilePostScreen> {
     final currentUser = await HandleToken().getUser();
 
     widget.posts.forEach((e) {
-      if (currentUser != null && e?.likes != null) {
-        e?.likes?.any((like) => like.user?.id == currentUser.id) ?? false;
+      if (currentUser != null && e.likes != null) {
+        e?.likes?.any((like) => like.user!.id == currentUser.id) ?? false;
       }
     });
 
@@ -295,6 +327,8 @@ class _PostScreenState extends State<ProfilePostScreen> {
   }
 
   Widget buildPostCard(ArticleModel post) {
+print('posts $post');
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
