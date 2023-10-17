@@ -39,7 +39,6 @@ class PostService {
           variables: {
             "data": {
               "title": title,
-              "body": "test body",
               "media": _responseMediaList.map((media) {
                 return {
                   "type": media.type,
@@ -54,6 +53,8 @@ class PostService {
       );
 
       if (result.hasException) {
+        print('create exeption');
+        print(result);
         throw Exception(result.exception);
       }
 
