@@ -69,7 +69,7 @@ class _PostScreenState extends State<PostScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      color: Color.fromARGB(255, 214, 206, 206),
+      color: Color.fromARGB(255, 255, 255, 255),
       child: Column(
         children: [
           Padding(

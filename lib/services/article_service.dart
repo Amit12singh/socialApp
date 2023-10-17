@@ -102,8 +102,8 @@ class PostService {
           document: gql(GET_ALL_POSTS),
           variables: {
             'data': {
-              "page": data?.page ?? 1,
-              "perPage": data?.perPage ?? 10,
+              "page": data?.page ?? null,
+              "perPage": data?.perPage ?? null,
               "search": data?.search
             },
           },
