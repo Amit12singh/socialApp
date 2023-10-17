@@ -1,10 +1,8 @@
 // ignore_for_file: unnecessary_string_interpolations
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
@@ -51,7 +49,7 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.posts == null) {
+    if (widget.posts.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -79,7 +77,7 @@ class _PostScreenState extends State<PostScreen> {
               children: [
                 _PostHeader(post: post),
                 const SizedBox(
-                  height: 4.0,
+                  height: 8.0,
                 ),
                 Text(post.title),
                 post?.media == null
@@ -123,20 +121,29 @@ class _PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget imageProvider;
+
+  
+
+
+
+
     return Row(
       children: [
-        CircleAvatar(
-          backgroundImage:
-              NetworkImage(post?.owner?.profilePicture?.path ?? ''),
-        ),
+        _Avatar(post: post),
+       
         SizedBox(width: 8),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${post.owner?.fullName ?? ''}',
-                style: const TextStyle(fontWeight: FontWeight.w600),
+              Row(children: [
+                Text(
+                  '${post.owner?.fullName}',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: 17),
+                ),
+              ]
               ),
               Row(
                 children: [
@@ -260,5 +267,37 @@ class _PostButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+      
+
+
+
+class _Avatar extends StatelessWidget {
+  final Key? key;
+  final ArticleModel? post;
+
+  _Avatar({
+    this.key,
+    required this.post,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (post?.owner?.profilePicture != null) {
+      return CircleAvatar(
+          backgroundImage:
+              NetworkImage(post!.owner!.profilePicture!.path ?? ''),
+          backgroundColor: Colors.transparent,
+          radius: 28);
+      // Load network image
+    } else {
+      return const CircleAvatar(
+          backgroundImage:
+              AssetImage('assets/page-1/images/ellipse-1-bg-gnM.png'),
+          backgroundColor: Colors.transparent,
+          radius: 28);
+    }
   }
 }
