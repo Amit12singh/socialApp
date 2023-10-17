@@ -98,17 +98,12 @@ class _HomeScreenState extends State<FeedScreen> {
           ),
           Container(
             width: double.infinity, // Expand the container to full width
-            height: 50,
+            height: 56,
             color: Colors.white,
             child: Row(
               children: [
                 Column(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.person_pin, size: 40),
-                      onPressed: () {},
-                    ),
-                  ],
+                  children: [Avatar(user: _user)],
                 ),
                 Expanded(
                   child: Column(
