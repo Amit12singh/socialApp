@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
@@ -122,15 +123,9 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget imageProvider;
 
-  
-
-
-
-
     return Row(
       children: [
-        _Avatar(post: post),
-       
+        Avatar(user: post.owner),
         SizedBox(width: 8),
         Expanded(
           child: Column(
@@ -142,8 +137,7 @@ class _PostHeader extends StatelessWidget {
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 17),
                 ),
-              ]
-              ),
+              ]),
               Row(
                 children: [
                   Text(
@@ -296,25 +290,20 @@ class _PostButton extends StatelessWidget {
   }
 }
 
-      
-
-
-
-class _Avatar extends StatelessWidget {
+class Avatar extends StatelessWidget {
   final Key? key;
-  final ArticleModel? post;
+  final UserModel? user;
 
-  _Avatar({
+  Avatar({
     this.key,
-    required this.post,
+    required this.user,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (post?.owner?.profilePicture != null) {
+    if (user?.profilePicture != null) {
       return CircleAvatar(
-          backgroundImage:
-              NetworkImage(post!.owner!.profilePicture!.path ?? ''),
+          backgroundImage: NetworkImage(user!.profilePicture!.path ?? ''),
           backgroundColor: Colors.transparent,
           radius: 28);
       // Load network image
