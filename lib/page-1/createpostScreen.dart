@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
-import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/services/article_service.dart';
 
 class CreatePostScreen extends StatefulWidget {
