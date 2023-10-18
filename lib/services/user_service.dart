@@ -82,8 +82,7 @@ class GraphQLService {
   }
 
 
-  Future<List> userProfile({required String id}) async {
-    print('here $id');
+  Future<UserTimelineModel?> userProfile({required String id}) async {
 
     try {
       QueryResult result = await client.mutate(
@@ -101,13 +100,11 @@ class GraphQLService {
 
       if (res?["success"] == true) {
         final profile = UserTimelineModel.fromJson(res);
-        return [profile];
-      } else {
-        return [];
+        return profile;
       }
     } catch (error) {
+      return null;
       print('here catch $error');
-      return [];
     }
   }
 

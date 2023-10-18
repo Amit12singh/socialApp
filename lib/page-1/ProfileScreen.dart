@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
+import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
@@ -20,7 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final GraphQLService userService = GraphQLService();
 
   bool isExpanded = false;
-  List<UserTimelineModel>? posts;
+  UserTimelineModel? posts;
 
   var _user = null;
 
@@ -44,17 +46,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _loadData() async {
     final user = await localStorageService.getUser();
     _user = user;
-    final List _posts = await userService.userProfile(id: _user.id);
-    print('get user profile');
-    print('get user profile $_posts');
+    final UserTimelineModel? _posts =
+        await userService.userProfile(id: _user.id);
     setState(() {
-      posts = _posts.cast<UserTimelineModel>();
+      posts = _posts;
       _user = user;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+
+    print('get user profile $posts');
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -112,16 +117,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       body: DefaultTabController(
+        
         length: 1,
         child: NestedScrollView(
           physics: const NeverScrollableScrollPhysics(),
           headerSliverBuilder: (context, isScrolled) {
+           
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
                 collapsedHeight: 180,
                 expandedHeight: 180,
-                flexibleSpace: const ProfileView(),
+                flexibleSpace: ProfileView(userTimeline: posts),
               ),
               SliverPersistentHeader(
                 delegate: MyDelegate(
@@ -143,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ];
           },
           body: ProfilePostScreen(
-              posts: posts?[0].timeline ?? []), // Provide your posts data
+              posts: posts?.timeline), // Provide your posts data
         ),
       ),
       bottomNavigationBar: Bottombar(),
@@ -178,14 +185,19 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class ProfileView extends StatelessWidget {
-  // final post;
-  const ProfileView({Key? key, UserTimelineModel})
+  UserTimelineModel? userTimeline;
+
+  ProfileView({Key? key, this.userTimeline})
       : super(
           key: key,
         );
 
   @override
   Widget build(BuildContext context) {
+
+   
+   
+
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,18 +210,13 @@ class ProfileView extends StatelessWidget {
                 Container(
                   height: 80,
                   width: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage('assets/page-1/images/aa.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                    child: Avatar(user: userTimeline?.profile)
                 ),
                 Column(
                   children: [
                     Text(
-                      '30',
+                      userTimeline?.totalPosts.toString() ?? '0',
+
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black,
@@ -225,7 +232,8 @@ class ProfileView extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '10K',
+                      userTimeline?.totalLikes.toString() ?? '0',
+
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black,
@@ -247,7 +255,7 @@ class ProfileView extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Amit Kumar',
+                    text: userTimeline?.profile.fullName,
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -255,7 +263,7 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: '\nFlutter Demo\nFlutter web\nFlutter Linux',
+                    text: '\nOld Nabhaies\n',
                     style: const TextStyle(
                       color: Colors.black87,
                       fontSize: 14,
@@ -272,7 +280,7 @@ class ProfileView extends StatelessWidget {
 }
 
 class ProfilePostScreen extends StatefulWidget {
-  final List<ArticleModel> posts;
+  final List<ArticleModel>? posts;
 
   const ProfilePostScreen({Key? key, required this.posts}) : super(key: key);
 
@@ -293,7 +301,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
   Future<bool> isAlreadyLiked() async {
     final currentUser = await HandleToken().getUser();
 
-    widget.posts.forEach((e) {
+    widget.posts?.forEach((e) {
       if (currentUser != null && e.likes != null) {
         e?.likes?.any((like) => like.user!.id == currentUser.id) ?? false;
       }
@@ -322,16 +330,16 @@ print('here here');
       );
     } else {
       return ListView.builder(
-        itemCount: widget.posts.length,
+        itemCount: widget.posts?.length,
         itemBuilder: (context, index) {
-          return buildPostCard(widget.posts[index]);
+          return buildPostCard(widget.posts![index]);
         },
       );
     }
   }
 
   Widget buildPostCard(ArticleModel post) {
-print('posts $post');
+
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
