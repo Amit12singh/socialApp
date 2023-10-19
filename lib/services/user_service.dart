@@ -1,7 +1,9 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:myapp/graphql/queries.dart';
+import 'package:myapp/models/pagination_model.dart';
 import 'package:myapp/models/response_model.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/graphql/mutations.dart';
@@ -108,5 +110,41 @@ class GraphQLService {
       return null;
     }
   }
+
+  Future<List<UserModel>> getUsers({
+    PaginationModel? data,
+  }) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.cacheFirst,
+          document: gql(GET_ALL_USERS),
+          variables: {
+            'data': {
+              "page": data?.page ?? null,
+              "perPage": data?.perPage ?? null,
+              "search": data?.search
+            },
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        List res = result.data?['getAllUser']?['data'];
+        print(res);
+
+        List<UserModel> users =
+            res.map((user) => UserModel.fromJson(user)).toList();
+
+        return users;
+      }
+    } catch (error) {
+      print('article service catch $error');
+      return [];
+    }
+  }
+
 
 }

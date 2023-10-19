@@ -101,3 +101,30 @@ query Me(\$userId: String!) {
   }
 }
 """;
+
+
+const GET_ALL_USERS = """
+query GetAllUser(\$data: PaginationArgs!) {
+  getAllUser(data: \$data) {
+    data {
+      createdAt
+      deletedAt
+      email
+      fullName
+      id
+      profileImage {
+        mimeType
+        id
+        name
+        path
+        type
+      }
+      role
+    }
+    message
+    status
+    success
+  }
+}
+
+""";
