@@ -46,19 +46,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _loadData() async {
     final user = await localStorageService.getUser();
     _user = user;
-    final UserTimelineModel? _posts =
+    posts =
         await userService.userProfile(id: _user.id);
     setState(() {
-      posts = _posts;
+      // posts = _posts;
       _user = user;
     });
+
+    print('here profile home screen');
+    print(posts?.timeline);
   }
 
   @override
   Widget build(BuildContext context) {
 
 
-    print('get user profile $posts');
 
     return Scaffold(
       appBar: AppBar(
@@ -104,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'log_out',
                   child: ListTile(
                     leading: Icon(Icons.exit_to_app),
@@ -262,7 +264,7 @@ class ProfileView extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
-                  TextSpan(
+                  const TextSpan(
                     text: '\nOld Nabhaies\n',
                     style: const TextStyle(
                       color: Colors.black87,
@@ -320,9 +322,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
 
   @override
   Widget build(BuildContext context) {
-print('here here');
 
-    print(widget.posts);
 
     if (widget.posts == null) {
       return const Center(
@@ -387,7 +387,6 @@ print('here here');
   }
 }
 
-class $ {}
 
 class _PostHeader extends StatelessWidget {
   const _PostHeader({
@@ -401,10 +400,7 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          backgroundImage:
-              NetworkImage(post?.owner?.profilePicture?.path ?? ''),
-        ),
+        Avatar(user: post?.owner),
         SizedBox(width: 8),
         Expanded(
           child: Column(

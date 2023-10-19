@@ -12,7 +12,6 @@ class GraphQLService {
   GraphQLClient client = graphQLConfig.clientToQuery();
 
   Future<bool> login({required String email, required String password}) async {
-    print(email);
 
     try {
       QueryResult result = await client.mutate(
@@ -96,15 +95,17 @@ class GraphQLService {
       }
 
       final res = result.data?["me"];
-      print('here exception $res');
 
       if (res?["success"] == true) {
-        final profile = UserTimelineModel.fromJson(res);
+        final profile = await UserTimelineModel.fromJson(res);
         return profile;
+      } else {
+        return null;
+
       }
     } catch (error) {
-      return null;
       print('here catch $error');
+      return null;
     }
   }
 

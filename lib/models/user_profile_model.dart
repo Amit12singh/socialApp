@@ -21,8 +21,8 @@ class UserTimelineModel {
       profile: UserModel.fromJson(json['profile']),
       totalLikes: json['totalLikes'] as int,
       totalPosts: json['totalPosts'] as int,
-      timeline: (json['timeline'] as List<dynamic>?)
-          ?.map((e) => ArticleModel.fromJson(e as Map<String, dynamic>))
+      timeline: (json['TimeLine'] as List<dynamic>?)
+          ?.map((e) => ArticleModel.fromJson(e))
           .toList(),
       success: json['success'] as bool,
     );

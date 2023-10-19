@@ -27,13 +27,6 @@ class ArticleModel {
   Future<UserModel?> currentUser = HandleToken().getUser();
   dynamic() => print('currentUser $currentUser');
 
-  // ignore: unnecessary_null_comparison
-  // bool? get isLiked {
-  //   if (currentUser != null && likes != null) {
-  //     return likes?.any((like) => like.user?.id == currentUser.id);
-  //   }
-  //   return false;
-  // }
   static ArticleModel fromMap({required map}) {
     print('article model $map');
     List<ProfilePicture> mediaList = [];
@@ -69,5 +62,6 @@ class ArticleModel {
           .map((mediaJson) => ProfilePicture.fromJson(mediaJson))
           .toList(),
     );
+    
   }
 }

@@ -48,6 +48,8 @@ query Me(\$userId: String!) {
   me(userId:\$userId) {
     TimeLine {
       title
+        deletedAt
+        createdAt
       owner {
         id
         profileImage {
@@ -59,8 +61,8 @@ query Me(\$userId: String!) {
         }
         fullName
         email
+         deletedAt
         createdAt
-        role
       }
       media {
         id
@@ -77,6 +79,7 @@ query Me(\$userId: String!) {
         user {
           id
           email
+          fullName
         }
       }
     }
@@ -91,7 +94,6 @@ query Me(\$userId: String!) {
         path
         type
       }
-      role
     }
     success
     totalLikes
