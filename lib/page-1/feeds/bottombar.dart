@@ -43,7 +43,9 @@ class Bottombar extends StatelessWidget {
             // Check if the button at index 2 is tapped
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ProfileScreen(),
+                builder: (context) => ProfileScreen(
+                  user: {},
+                ),
               ),
             );
           } else if (index == 0) {
