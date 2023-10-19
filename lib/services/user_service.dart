@@ -112,7 +112,7 @@ class GraphQLService {
   }
 
   Future<List<UserModel>> getUsers({
-    PaginationModel? data,
+    data,
   }) async {
     try {
       QueryResult result = await client.query(
@@ -123,7 +123,7 @@ class GraphQLService {
             'data': {
               "page": data?.page ?? null,
               "perPage": data?.perPage ?? null,
-              "search": data?.search
+              "search": data?.search ?? ''
             },
           },
         ),
@@ -133,7 +133,7 @@ class GraphQLService {
         throw Exception(result.exception);
       } else {
         List res = result.data?['getAllUser']?['data'];
-        print(res);
+        print(result);
 
         List<UserModel> users =
             res.map((user) => UserModel.fromJson(user)).toList();
