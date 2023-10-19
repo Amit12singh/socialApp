@@ -31,4 +31,5 @@ class GraphQLConfig {
       link: link,
     );
   }
+  
 }

@@ -112,8 +112,9 @@ class GraphQLService {
   }
 
   Future<List<UserModel>> getUsers({
-    data,
+    required PaginationModel data,
   }) async {
+    print(data);
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -121,19 +122,23 @@ class GraphQLService {
           document: gql(GET_ALL_USERS),
           variables: {
             'data': {
-              "page": data?.page ?? null,
-              "perPage": data?.perPage ?? null,
+              "page": null,
+              "perPage": null,
               "search": data?.search ?? ''
             },
           },
         ),
       );
 
+      print(result);
+
+
       if (result.hasException) {
+        print(result.exception);
+
         throw Exception(result.exception);
       } else {
         List res = result.data?['getAllUser']?['data'];
-        print(result);
 
         List<UserModel> users =
             res.map((user) => UserModel.fromJson(user)).toList();
@@ -141,7 +146,7 @@ class GraphQLService {
         return users;
       }
     } catch (error) {
-      print('article service catch $error');
+      print('service catch $error');
       return [];
     }
   }

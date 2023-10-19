@@ -1,7 +1,7 @@
 class PaginationModel {
-  int? page;
-  int? perPage;
-  String? search;
+  final int? page;
+  final int? perPage;
+  final String? search;
 
-  PaginationModel({this.page = 1, this.perPage = 20, this.search = ''}) {}
+  PaginationModel({this.page, this.perPage, this.search = ''});
 }

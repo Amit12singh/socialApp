@@ -15,6 +15,7 @@ class _SearchPageState extends State<SearchPage> {
   GraphQLService userService = GraphQLService();
   TextEditingController searchController = TextEditingController();
 List<UserModel>? _data;
+late PaginationModel _pagination;
 
   @override
   void initState() {
@@ -23,14 +24,22 @@ List<UserModel>? _data;
   }
 
   void _searchUser() async {
+    PaginationModel pagination = PaginationModel(
+      page: null, // Set your page value here
+      perPage: null, // Set your perPage value here
+      search: searchController.text, // Use the searchController's text
+    );
     List<UserModel> data =
-        await userService.getUsers(data: {"search": searchController.text});
+        await userService.getUsers(data: pagination);
     print('data $data');
 
     setState(() {
       _data = data;
+      _pagination = pagination;
     });
   }
+
+ 
 
 
 
@@ -75,7 +84,7 @@ List<UserModel>? _data;
             Expanded(
               child: FutureBuilder<List>(
                 future: userService
-                    .getUsers(data: {"search": searchController.text}),
+                    .getUsers(data: _pagination),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return ListView.builder(
