@@ -82,11 +82,11 @@ class _HomeScreenState extends State<FeedScreen> {
               color: Colors.black,
             ),
             onPressed: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => SearchPage(),
-              //   ),
-              // );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(),
+                ),
+              );
             },
           ),
         ],
