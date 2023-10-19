@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
+import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
+import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/article_service.dart';
+import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -15,6 +19,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final HandleToken localStorageService = HandleToken();
+  final GraphQLService userService = GraphQLService();
+
+  bool isExpanded = false;
+  UserTimelineModel? posts;
+
+  var _user = null;
 
   void _handleLogout() async {
     bool isCleared = await localStorageService.clearAccessToken();
@@ -27,7 +37,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _loadData();
+  }
+
+  void _loadData() async {
+    final user = await localStorageService.getUser();
+    _user = user;
+    posts =
+        await userService.userProfile(id: _user.id);
+    setState(() {
+      // posts = _posts;
+      _user = user;
+    });
+
+    print('here profile home screen');
+    print(posts?.timeline);
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -35,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           icon: Container(
             width: 60,
             height: 60,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
             child: Image.asset(
@@ -49,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         ),
         titleSpacing: 3,
-        title: Text(
+        title: const Text(
           'PPSONA',
           style: TextStyle(
             color: Color(0xFFA78787),
@@ -72,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'log_out',
                   child: ListTile(
                     leading: Icon(Icons.exit_to_app),
@@ -85,16 +119,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       body: DefaultTabController(
+        
         length: 1,
         child: NestedScrollView(
           physics: const NeverScrollableScrollPhysics(),
           headerSliverBuilder: (context, isScrolled) {
+           
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
                 collapsedHeight: 180,
                 expandedHeight: 180,
-                flexibleSpace: const ProfileView(),
+                flexibleSpace: ProfileView(userTimeline: posts),
               ),
               SliverPersistentHeader(
                 delegate: MyDelegate(
@@ -115,7 +151,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ];
           },
-          body: ProfilePostScreen(posts: []), // Provide your posts data
+          body: ProfilePostScreen(
+              posts: posts?.timeline), // Provide your posts data
         ),
       ),
       bottomNavigationBar: Bottombar(),
@@ -150,10 +187,19 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({Key? key}) : super(key: key);
+  UserTimelineModel? userTimeline;
+
+  ProfileView({Key? key, this.userTimeline})
+      : super(
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {
+
+   
+   
+
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,18 +212,13 @@ class ProfileView extends StatelessWidget {
                 Container(
                   height: 80,
                   width: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage('assets/page-1/images/aa.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                    child: Avatar(user: userTimeline?.profile)
                 ),
                 Column(
                   children: [
                     Text(
-                      '30',
+                      userTimeline?.totalPosts.toString() ?? '0',
+
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black,
@@ -193,7 +234,8 @@ class ProfileView extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '10K',
+                      userTimeline?.totalLikes.toString() ?? '0',
+
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black,
@@ -215,15 +257,15 @@ class ProfileView extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Amit Kumar',
+                    text: userTimeline?.profile.fullName,
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  TextSpan(
-                    text: '\nFlutter Demo\nFlutter web\nFlutter Linux',
+                  const TextSpan(
+                    text: '\nOld Nabhaies\n',
                     style: const TextStyle(
                       color: Colors.black87,
                       fontSize: 14,
@@ -240,7 +282,7 @@ class ProfileView extends StatelessWidget {
 }
 
 class ProfilePostScreen extends StatefulWidget {
-  final List<ArticleModel> posts;
+  final List<ArticleModel>? posts;
 
   const ProfilePostScreen({Key? key, required this.posts}) : super(key: key);
 
@@ -261,9 +303,9 @@ class _PostScreenState extends State<ProfilePostScreen> {
   Future<bool> isAlreadyLiked() async {
     final currentUser = await HandleToken().getUser();
 
-    widget.posts.forEach((e) {
-      if (currentUser != null && e?.likes != null) {
-        e?.likes?.any((like) => like.user?.id == currentUser.id) ?? false;
+    widget.posts?.forEach((e) {
+      if (currentUser != null && e.likes != null) {
+        e?.likes?.any((like) => like.user!.id == currentUser.id) ?? false;
       }
     });
 
@@ -280,21 +322,25 @@ class _PostScreenState extends State<ProfilePostScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
     if (widget.posts == null) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     } else {
       return ListView.builder(
-        itemCount: widget.posts.length,
+        itemCount: widget.posts?.length,
         itemBuilder: (context, index) {
-          return buildPostCard(widget.posts[index]);
+          return buildPostCard(widget.posts![index]);
         },
       );
     }
   }
 
   Widget buildPostCard(ArticleModel post) {
+
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -341,7 +387,6 @@ class _PostScreenState extends State<ProfilePostScreen> {
   }
 }
 
-class $ {}
 
 class _PostHeader extends StatelessWidget {
   const _PostHeader({
@@ -355,10 +400,7 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          backgroundImage:
-              NetworkImage(post?.owner?.profilePicture?.path ?? ''),
-        ),
+        Avatar(user: post?.owner),
         SizedBox(width: 8),
         Expanded(
           child: Column(

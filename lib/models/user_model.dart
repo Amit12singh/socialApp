@@ -93,8 +93,6 @@ class UserModel {
   // String get imageUrl => null;
 
   static fromMap({map}) {
-    print('user model $map');
-    ProfilePicture? userProfile;
 
     return UserModel(
       id: map['id'],
