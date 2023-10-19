@@ -84,7 +84,7 @@ class _HomeScreenState extends State<FeedScreen> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const SearchPage(),
+                  builder: (context) => SearchPage(),
                 ),
               );
             },

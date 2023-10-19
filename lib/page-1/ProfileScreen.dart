@@ -11,7 +11,8 @@ import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key, required Map<String, dynamic> user})
+      : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -46,8 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _loadData() async {
     final user = await localStorageService.getUser();
     _user = user;
-    posts =
-        await userService.userProfile(id: _user.id);
+    posts = await userService.userProfile(id: _user.id);
     setState(() {
       // posts = _posts;
       _user = user;
@@ -59,9 +59,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -119,12 +116,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       body: DefaultTabController(
-        
         length: 1,
         child: NestedScrollView(
           physics: const NeverScrollableScrollPhysics(),
           headerSliverBuilder: (context, isScrolled) {
-           
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
@@ -139,6 +134,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Tab(
                         icon: Icon(Icons.grid_on),
                         text: 'Timeline',
+                      ),
+                      Tab(
+                        icon: Icon(Icons.messenger), // Add your new icon here
+                        text: 'Messenger',
                       ),
                     ],
                     indicatorColor: Colors.black,
@@ -196,10 +195,6 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-   
-   
-
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,15 +205,13 @@ class ProfileView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: 80,
-                  width: 80,
-                    child: Avatar(user: userTimeline?.profile)
-                ),
+                    height: 80,
+                    width: 80,
+                    child: Avatar(user: userTimeline?.profile)),
                 Column(
                   children: [
                     Text(
                       userTimeline?.totalPosts.toString() ?? '0',
-
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black,
@@ -235,7 +228,6 @@ class ProfileView extends StatelessWidget {
                   children: [
                     Text(
                       userTimeline?.totalLikes.toString() ?? '0',
-
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black,
@@ -322,8 +314,6 @@ class _PostScreenState extends State<ProfilePostScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     if (widget.posts == null) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -339,8 +329,6 @@ class _PostScreenState extends State<ProfilePostScreen> {
   }
 
   Widget buildPostCard(ArticleModel post) {
-
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -387,14 +375,17 @@ class _PostScreenState extends State<ProfilePostScreen> {
   }
 }
 
-
 class _PostHeader extends StatelessWidget {
   const _PostHeader({
     Key? key,
     required this.post,
+    // required this.onEdit,
+    // required this.onDelete,
   }) : super(key: key);
 
   final ArticleModel post;
+  // final Function() onEdit;
+  // final Function() onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -425,14 +416,41 @@ class _PostHeader extends StatelessWidget {
                     size: 12.0,
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.more_horiz),
-          onPressed: () => print('more'),
-        )
+        PopupMenuButton<String>(
+          icon: Icon(
+            Icons.more_horiz,
+            color: Colors.black,
+          ),
+          onSelected: (value) {
+            // if (value == 'edit') {
+            //   onEdit();
+            // } else if (value == 'delete') {
+            //   onDelete();
+            // }
+          },
+          itemBuilder: (BuildContext context) {
+            return <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'edit',
+                child: ListTile(
+                  leading: Icon(Icons.edit),
+                  title: Text('Edit'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'delete',
+                child: ListTile(
+                  leading: Icon(Icons.delete),
+                  title: Text('Delete'),
+                ),
+              ),
+            ];
+          },
+        ),
       ],
     );
   }
