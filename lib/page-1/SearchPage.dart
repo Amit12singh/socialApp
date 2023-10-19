@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/services/user_service.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SearchPage extends StatefulWidget {
@@ -11,11 +12,12 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchController = TextEditingController();
 
-  get statesServices => null;
+
+  get userService => null;
 
   @override
   Widget build(BuildContext context) {
-    // StatesServices statesServices = StatesServices();
+    GraphQLService userService = GraphQLService();
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
@@ -42,7 +44,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             Expanded(
               child: FutureBuilder<List<dynamic>>(
-                future: statesServices.countriesListApi(),
+                future: userService.getUsers(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return ListView.builder(
@@ -90,14 +92,14 @@ class _SearchPageState extends State<SearchPage> {
                                 },
                                 child: ListTile(
                                   title: Text(snapshot.data![index]['Name']),
-                                  // leading: Image(
-                                  //   height: 50,
-                                  //   width: 50,
-                                  //   image: NetworkImage(
-                                  //     snapshot.data![index]['countryInfo']
-                                  //         ['flag'],
-                                  //   ),
-                                  // ),
+                                  leading: Image(
+                                    height: 50,
+                                    width: 50,
+                                    image: NetworkImage(
+                                      snapshot.data![index]['countryInfo']
+                                          ['flag'],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -113,14 +115,14 @@ class _SearchPageState extends State<SearchPage> {
                                 },
                                 child: ListTile(
                                   title: Text(snapshot.data![index]['Name']),
-                                  // leading: Image(
-                                  //   height: 50,
-                                  //   width: 50,
-                                  //   image: NetworkImage(
-                                  //     snapshot.data![index]['countryInfo']
-                                  //         ['flag'],
-                                  //   ),
-                                  // ),
+                                  leading: Image(
+                                    height: 50,
+                                    width: 50,
+                                    image: NetworkImage(
+                                      snapshot.data![index]['countryInfo']
+                                          ['flag'],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],

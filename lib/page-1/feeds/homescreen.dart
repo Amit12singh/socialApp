@@ -50,7 +50,7 @@ class _HomeScreenState extends State<FeedScreen> {
           icon: Container(
             width: 60, // Set the desired width
             height: 60, // Set the desired height
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
             child: Image.asset(
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<FeedScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
               size: 25,
               color: Colors.black,
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<FeedScreen> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => SearchPage(),
+                  builder: (context) => const SearchPage(),
                 ),
               );
             },
