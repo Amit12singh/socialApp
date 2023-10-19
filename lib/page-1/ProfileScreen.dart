@@ -135,6 +135,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         icon: Icon(Icons.grid_on),
                         text: 'Timeline',
                       ),
+                      Tab(
+                        icon: Icon(Icons.messenger), // Add your new icon here
+                        text: 'Messenger',
+                      ),
                     ],
                     indicatorColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
@@ -375,9 +379,13 @@ class _PostHeader extends StatelessWidget {
   const _PostHeader({
     Key? key,
     required this.post,
+    // required this.onEdit,
+    // required this.onDelete,
   }) : super(key: key);
 
   final ArticleModel post;
+  // final Function() onEdit;
+  // final Function() onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -408,14 +416,41 @@ class _PostHeader extends StatelessWidget {
                     size: 12.0,
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.more_horiz),
-          onPressed: () => print('more'),
-        )
+        PopupMenuButton<String>(
+          icon: Icon(
+            Icons.more_horiz,
+            color: Colors.black,
+          ),
+          onSelected: (value) {
+            // if (value == 'edit') {
+            //   onEdit();
+            // } else if (value == 'delete') {
+            //   onDelete();
+            // }
+          },
+          itemBuilder: (BuildContext context) {
+            return <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'edit',
+                child: ListTile(
+                  leading: Icon(Icons.edit),
+                  title: Text('Edit'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'delete',
+                child: ListTile(
+                  leading: Icon(Icons.delete),
+                  title: Text('Delete'),
+                ),
+              ),
+            ];
+          },
+        ),
       ],
     );
   }
