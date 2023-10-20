@@ -258,9 +258,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
+                            _loading = true;
+
                             final isLogedin = await _graphQLService.login(
                                 email: _email, password: _password);
-                            print('isLogged in $isLogedin');
+                            _loading = false;
+
                             if (isLogedin) {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
@@ -285,7 +288,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .center, // Center both elements horizontally
                             children: [
                               Text(
-                                'Login',
+
+                                _loading ? "Logging...." : 'Login',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 18 * ffem,
