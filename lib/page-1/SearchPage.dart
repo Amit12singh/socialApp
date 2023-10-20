@@ -22,21 +22,20 @@ class _SearchPageState extends State<SearchPage> {
   @override
   initState() {
     // at the beginning, all users are shown
-    _foundUsers = _allUsers;
     _load();
+    _foundUsers = _allUsers;
     super.initState();
   }
 
-  void _load() async {
-    print('run 1');
+  _load() async {
 
-    final allUsers = await userService.getUsers(search: enteredKeyword);
-    print(allUsers);
-    print('run 2');
+    final allUsers = await userService.getUsers(search: enteredKeyword ?? ' ');
 
     setState(() {
       _allUsers = allUsers;
+      _foundUsers = allUsers;
     });
+    return allUsers;
   }
 
   // This function is called whenever the text field changes
