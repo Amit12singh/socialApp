@@ -29,7 +29,7 @@ class _SearchPageState extends State<SearchPage> {
 
   _load() async {
 
-    final allUsers = await userService.getUsers(search: enteredKeyword ?? ' ');
+    final allUsers = await userService.getUsers(search: enteredKeyword);
 
     setState(() {
       _allUsers = allUsers;
@@ -82,7 +82,7 @@ class _SearchPageState extends State<SearchPage> {
                 suffixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(),
+                  borderSide: const BorderSide(),
                 ),
               ),
             ),

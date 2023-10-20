@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';
@@ -11,7 +12,8 @@ import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key, required user})
+  final UserModel? user;
+  const ProfileScreen({Key? key, this.user})
       : super(key: key);
 
   @override
@@ -45,16 +47,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _loadData() async {
-    final user = await localStorageService.getUser();
+    final user = widget.user ?? await localStorageService.getUser();
     _user = user;
+   
     posts = await userService.userProfile(id: _user.id);
     setState(() {
       // posts = _posts;
       _user = user;
     });
 
-    print('here profile home screen');
-    print(posts?.timeline);
   }
 
   @override
@@ -129,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SliverPersistentHeader(
                 delegate: MyDelegate(
-                  TabBar(
+                  const TabBar(
                     tabs: [
                       Tab(
                         icon: Icon(Icons.grid_on),
@@ -319,6 +320,22 @@ class _PostScreenState extends State<ProfilePostScreen> {
         child: CircularProgressIndicator(),
       );
     } else {
+      if (widget.posts!.isEmpty) {
+        return const Padding(
+          padding: EdgeInsets.only(left: 10, right: 4),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Center(
+                child: Text(
+                  'No Posts found.',
+                  style: TextStyle(fontSize: 24),
+                ),
+              )
+            ],
+          ),
+        );
+      }
       return ListView.builder(
         itemCount: widget.posts?.length,
         itemBuilder: (context, index) {

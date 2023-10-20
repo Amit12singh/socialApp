@@ -124,7 +124,6 @@ class UserModel {
   }
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
-    print('here usermodel $map');
     return UserModel(
       id: map['id'],
       email: map['email'],
