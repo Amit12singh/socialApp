@@ -99,7 +99,7 @@ class GraphQLService {
       final res = result.data?["me"];
 
       if (res?["success"] == true) {
-        final profile = await UserTimelineModel.fromJson(res);
+        final profile = UserTimelineModel.fromJson(res);
         return profile;
       } else {
         return null;
@@ -112,9 +112,8 @@ class GraphQLService {
   }
 
   Future<List<UserModel>> getUsers({
-    required PaginationModel data,
+    required String search,
   }) async {
-    print(data);
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -124,17 +123,15 @@ class GraphQLService {
             'data': {
               "page": null,
               "perPage": null,
-              "search": data?.search ?? ''
+              "search": search ?? ''
             },
           },
         ),
       );
 
-      print(result);
 
 
       if (result.hasException) {
-        print(result.exception);
 
         throw Exception(result.exception);
       } else {

@@ -25,10 +25,8 @@ class ArticleModel {
   }) : totalLikes = likes?.length ?? 0;
 
   Future<UserModel?> currentUser = HandleToken().getUser();
-  dynamic() => print('currentUser $currentUser');
 
   static ArticleModel fromMap({required map}) {
-    print('article model $map');
     List<ProfilePicture> mediaList = [];
     // UserModel? userList;
     List<Like> likes = [];
@@ -45,7 +43,6 @@ class ArticleModel {
   }
 
   factory ArticleModel.fromJson(Map json) {
-    print('article modal json $json');
     return ArticleModel(
       id: json['id'],
       likes: (json['likes'] != null)

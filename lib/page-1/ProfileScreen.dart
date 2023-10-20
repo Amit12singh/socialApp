@@ -11,7 +11,7 @@ import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key, required Map<String, dynamic> user})
+  const ProfileScreen({Key? key, required user})
       : super(key: key);
 
   @override
