@@ -29,7 +29,7 @@ class ArticleModel {
   static ArticleModel fromMap({required map}) {
     List<ProfilePicture> mediaList = [];
     // UserModel? userList;
-    List<Like> likes = [];
+    // List<Like> likes = [];
 
     return ArticleModel(
       id: map['id'],
@@ -59,6 +59,5 @@ class ArticleModel {
           .map((mediaJson) => ProfilePicture.fromJson(mediaJson))
           .toList(),
     );
-    
   }
 }

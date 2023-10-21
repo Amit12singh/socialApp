@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/user_model.dart';
-import 'package:myapp/page-1/ProfileScreen.dart';
+import 'package:myapp/page-1/profilescreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/services/user_service.dart';
@@ -28,7 +28,6 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   _load() async {
-
     final allUsers = await userService.getUsers(search: enteredKeyword);
 
     setState(() {
@@ -46,8 +45,7 @@ class _SearchPageState extends State<SearchPage> {
       results = _allUsers;
     } else {
       results = _allUsers
-          .where((user) =>
-              user.fullName
+          .where((user) => user.fullName
               .toLowerCase()
               .contains(enteredKeyword.toLowerCase()))
           .toList();
@@ -60,7 +58,6 @@ class _SearchPageState extends State<SearchPage> {
       _foundUsers = results;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +120,7 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
-      bottomNavigationBar: Bottombar(),
+      bottomNavigationBar: const Bottombar(),
     );
   }
 }

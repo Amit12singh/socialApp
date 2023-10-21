@@ -30,8 +30,8 @@ class _PostScreenState extends State<PostScreen> {
     final currentUser = await HandleToken().getUser();
 
     widget.posts.forEach((e) {
-      if (currentUser != null && e?.likes != null) {
-        e?.likes?.any((like) => like.user?.id == currentUser.id) ?? false;
+      if (currentUser != null && e.likes != null) {
+        e.likes?.any((like) => like.user?.id == currentUser.id) ?? false;
       }
     });
 
@@ -66,7 +66,7 @@ class _PostScreenState extends State<PostScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      color: Color.fromARGB(255, 255, 255, 255),
+      color: const Color.fromARGB(255, 255, 255, 255),
       child: Column(
         children: [
           Padding(
@@ -79,7 +79,7 @@ class _PostScreenState extends State<PostScreen> {
                   height: 8.0,
                 ),
                 Text(post.title),
-                post?.media == null
+                post.media == null
                     ? const SizedBox.shrink()
                     : const SizedBox(height: 6),
               ],
@@ -121,11 +121,10 @@ class _PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Row(
       children: [
         Avatar(user: post.owner),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,13 +182,13 @@ class _PostStats extends StatefulWidget {
 
 class _PostStatsState extends State<_PostStats> {
   bool _isLiked = false;
-  int _likeCount = 0;
+  int likeCount = 0;
 
   @override
   void initState() {
     super.initState();
     _isLiked = widget.isPostLiked;
-    _likeCount = widget.post.totalLikes;
+    likeCount = widget.post.totalLikes;
   }
 
   @override
@@ -200,7 +199,7 @@ class _PostStatsState extends State<_PostStats> {
           children: [
             Container(
               padding: const EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -233,9 +232,9 @@ class _PostStatsState extends State<_PostStats> {
               onTap: () {
                 setState(() {
                   if (_isLiked) {
-                    _likeCount--;
+                    likeCount--;
                   } else {
-                    _likeCount++;
+                    likeCount++;
                   }
                   _isLiked = !_isLiked;
                   widget.likePost(widget.post.id);

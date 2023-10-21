@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/page-1/ProfileScreen.dart';
-import 'package:myapp/page-1/createpostScreen.dart';
+import 'package:myapp/page-1/profilescreen.dart';
+
 import 'package:myapp/page-1/feeds/homescreen.dart';
 
 class Bottombar extends StatelessWidget {
-  const Bottombar({Key? key});
+  const Bottombar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class Bottombar extends StatelessWidget {
         showUnselectedLabels: false,
         selectedFontSize: 8.0,
         iconSize: 25,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
           // BottomNavigationBarItem(icon: Icon(Icons.message), label: 'message'),
           // BottomNavigationBarItem(icon: Icon(Icons.add), label: 'add'),
@@ -43,14 +43,13 @@ class Bottombar extends StatelessWidget {
             // Check if the button at index 2 is tapped
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ProfileScreen(
-                ),
+                builder: (context) => const ProfileScreen(),
               ),
             );
           } else if (index == 0) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => FeedScreen(),
+                builder: (context) => const FeedScreen(),
               ),
             );
           }

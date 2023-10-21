@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
             68.67 * fem, 301.53 * fem, 68.67 * fem, 301.53 * fem),
         width: double.infinity,
         height: 812 * fem,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color(0xffd9d9d9),
         ),
         child: Center(

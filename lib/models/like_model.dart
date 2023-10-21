@@ -1,4 +1,3 @@
-import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/user_model.dart';
 
 class Like {

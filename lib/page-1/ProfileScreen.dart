@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/user_model.dart';
@@ -13,8 +13,7 @@ import 'package:myapp/utilities/localstorage.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserModel? user;
-  const ProfileScreen({Key? key, this.user})
-      : super(key: key);
+  const ProfileScreen({Key? key, this.user}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -49,13 +48,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _loadData() async {
     final user = widget.user ?? await localStorageService.getUser();
     _user = user;
-   
+
     posts = await userService.userProfile(id: _user.id);
     setState(() {
       // posts = _posts;
       _user = user;
     });
-
   }
 
   @override
@@ -84,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: const Text(
           'PPSONA',
           style: TextStyle(
-            color: Color(0xFFA78787),
+            color: const Color(0xFFA78787),
             decoration: TextDecoration.none,
             fontFamily: 'PermanentMarker-Regular',
             fontWeight: FontWeight.bold,
@@ -298,7 +296,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
 
     widget.posts?.forEach((e) {
       if (currentUser != null && e.likes != null) {
-        e?.likes?.any((like) => like.user!.id == currentUser.id) ?? false;
+        e.likes?.any((like) => like.user!.id == currentUser.id) ?? false;
       }
     });
 
@@ -349,7 +347,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      color: Color(0xFFFFFFFF),
+      color: const Color(0xFFFFFFFF),
       child: Column(
         children: [
           Padding(
@@ -362,7 +360,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
                   height: 4.0,
                 ),
                 Text(post.title),
-                post?.media == null
+                post.media == null
                     ? const SizedBox.shrink()
                     : const SizedBox(height: 6),
               ],
@@ -408,7 +406,7 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Avatar(user: post?.owner),
+        Avatar(user: post.owner),
         SizedBox(width: 8),
         Expanded(
           child: Column(

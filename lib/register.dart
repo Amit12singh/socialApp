@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xff643600),
+          color: const Color(0xff643600),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -82,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   fontSize: 18 * ffem,
                   fontWeight: FontWeight.w700,
                   height: 1.5 * ffem,
-                  color: Color(0xffffffff),
+                  color: const Color(0xffffffff),
                 ),
               ),
               SizedBox(height: 30 * fem),
@@ -93,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 width: 375 * fem,
                 decoration: BoxDecoration(
-                  color: Color(0xffffffff),
+                  color: const Color(0xffffffff),
                   borderRadius: BorderRadius.circular(33 * fem),
                 ),
                 child: Form(
@@ -111,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontSize: 30 * ffem,
                             fontWeight: FontWeight.w700,
                             height: 1.5 * ffem,
-                            color: Color(0xff000000),
+                            color: const Color(0xff000000),
                           ),
                         ),
                       ),
@@ -124,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontFamily: 'Poppins',
                             fontSize: 15 * ffem,
                             height: 1.5 * ffem,
-                            color: Color(0xff000000),
+                            color: const Color(0xff000000),
                           ),
                         ),
                       ),
@@ -138,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           17.5 * fem,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xfff9f9f9),
+                          color: const Color(0xfff9f9f9),
                           borderRadius: BorderRadius.circular(16 * fem),
                         ),
                         child: Padding(
@@ -160,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       fontSize: 15 * ffem,
                                       fontWeight: FontWeight.w500,
                                       height: 1.5 * ffem,
-                                      color: Color(0xffdadbd8),
+                                      color: const Color(0xffdadbd8),
                                     ),
                                   ),
                                 ),
@@ -179,7 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           17.5 * fem,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xfff9f9f9),
+                          color: const Color(0xfff9f9f9),
                           borderRadius: BorderRadius.circular(16 * fem),
                         ),
                         child: Padding(
@@ -201,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       fontSize: 15 * ffem,
                                       fontWeight: FontWeight.w500,
                                       height: 1.5 * ffem,
-                                      color: Color(0xffdadbd8),
+                                      color: const Color(0xffdadbd8),
                                     ),
                                   ),
                                   validator: (value) {
@@ -231,7 +231,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           17.5 * fem,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xfff9f9f9),
+                          color: const Color(0xfff9f9f9),
                           borderRadius: BorderRadius.circular(16 * fem),
                         ),
                         child: Row(
@@ -251,7 +251,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     fontSize: 15 * ffem,
                                     fontWeight: FontWeight.w500,
                                     height: 1.5 * ffem,
-                                    color: Color(0xffdadbd8),
+                                    color: const Color(0xffdadbd8),
                                   ),
                                   errorBorder: errorBorder,
                                   focusedErrorBorder: errorBorder,
@@ -298,7 +298,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           17.5 * fem,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xfff9f9f9),
+                          color: const Color(0xfff9f9f9),
                           borderRadius: BorderRadius.circular(16 * fem),
                         ),
                         child: Row(
@@ -318,7 +318,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     fontSize: 15 * ffem,
                                     fontWeight: FontWeight.w500,
                                     height: 1.5 * ffem,
-                                    color: Color(0xffdadbd8),
+                                    color: const Color(0xffdadbd8),
                                   ),
                                   errorBorder: errorBorder,
                                   focusedErrorBorder: errorBorder,
@@ -382,7 +382,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: 332 * fem,
                           height: 58 * fem,
                           decoration: BoxDecoration(
-                            color: Color(0xff643600),
+                            color: const Color(0xff643600),
                             borderRadius: BorderRadius.circular(16 * fem),
                           ),
                           child: Row(
@@ -395,7 +395,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   fontSize: 18 * ffem,
                                   fontWeight: FontWeight.w700,
                                   height: 1.5 * ffem,
-                                  color: Color(0xffffffff),
+                                  color: const Color(0xffffffff),
                                 ),
                               ),
                               SizedBox(width: 5 * fem),
@@ -415,7 +415,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fontSize: 12 * ffem,
                           fontWeight: FontWeight.w500,
                           height: 1.5 * ffem,
-                          color: Color(0xffcccdca),
+                          color: const Color(0xffcccdca),
                         ),
                       ),
                       TextButton(
@@ -436,7 +436,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontSize: 12 * ffem,
                             fontWeight: FontWeight.w500,
                             height: 1.5 * ffem,
-                            color: Color(0xff643600),
+                            color: const Color(0xff643600),
                           ),
                         ),
                       ),
@@ -451,7 +451,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 12 * ffem,
                               fontWeight: FontWeight.w500,
                               height: 1.5 * ffem,
-                              color: Color(0xff643600),
+                              color: const Color(0xff643600),
                             ),
                             textAlign: TextAlign.center,
                           ),

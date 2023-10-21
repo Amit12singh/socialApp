@@ -23,7 +23,7 @@ class _OnboardingState extends State<Onboarding> {
         width: double.infinity,
         height: 812 * fem,
         decoration: BoxDecoration(
-          color: Color(0xff643600),
+          color: const Color(0xff643600),
         ),
         child: Stack(
           children: [
@@ -36,7 +36,7 @@ class _OnboardingState extends State<Onboarding> {
                   height: 1159.11 * fem,
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0x7fffffff)),
+                      border: Border.all(color: const Color(0x7fffffff)),
                     ),
                   ),
                 ),
@@ -51,7 +51,7 @@ class _OnboardingState extends State<Onboarding> {
                   height: 1159.11 * fem,
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0x7fffffff)),
+                      border: Border.all(color: const Color(0x7fffffff)),
                     ),
                   ),
                 ),
@@ -66,7 +66,7 @@ class _OnboardingState extends State<Onboarding> {
                   height: 1159.11 * fem,
                   child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0x7fffffff)),
+                      border: Border.all(color: const Color(0x7fffffff)),
                     ),
                   ),
                 ),
@@ -106,7 +106,7 @@ class _OnboardingState extends State<Onboarding> {
                         fontWeight: FontWeight.w400,
                         height: 1.5 * ffem / fem,
                         letterSpacing: 0.32 * fem,
-                        color: Color(0xff643600),
+                        color: const Color(0xff643600),
                       ),
                     ),
                   ),
@@ -129,7 +129,7 @@ class _OnboardingState extends State<Onboarding> {
                       fontWeight: FontWeight.w500,
                       height: 1.8571428571 * ffem / fem,
                       letterSpacing: 0.28 * fem,
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                       decoration: TextDecoration.none,
                     ),
                   ),
@@ -159,7 +159,7 @@ class _OnboardingState extends State<Onboarding> {
                           fontSize: 35 * ffem,
                           fontWeight: FontWeight.w400,
                           height: 1.2857142857 * ffem / fem,
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                           decoration: TextDecoration.none,
                         ),
                       ),
@@ -177,7 +177,7 @@ class _OnboardingState extends State<Onboarding> {
                           fontWeight: FontWeight.w500,
                           height: 1.8571428571 * ffem / fem,
                           letterSpacing: 0.28 * fem,
-                          color: Color(0xccffffff),
+                          color: const Color(0xccffffff),
                           decoration: TextDecoration.none,
                         ),
                       ),
@@ -202,7 +202,7 @@ class _OnboardingState extends State<Onboarding> {
                       fontWeight: FontWeight.w500,
                       height: 1.8571428571 * ffem / fem,
                       letterSpacing: 0.28 * fem,
-                      color: Color(0xccffffff),
+                      color: const Color(0xccffffff),
                       decoration: TextDecoration.none,
                     ),
                   ),
@@ -237,7 +237,7 @@ class _OnboardingState extends State<Onboarding> {
                         fontWeight: FontWeight.w500,
                         height: 1.8571428571 * ffem / fem,
                         letterSpacing: 0.28 * fem,
-                        color: Color(0xccffffff),
+                        color: const Color(0xccffffff),
                       ),
                     ),
                   ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
-import 'package:myapp/utilities/localstorage.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -48,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xff643600),
+          color: const Color(0xff643600),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -62,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 18 * ffem,
                   fontWeight: FontWeight.w700,
                   height: 1.5 * ffem,
-                  color: Color(0xffffffff),
+                  color: const Color(0xffffffff),
                 ),
               ),
               SizedBox(height: 20 * fem),
@@ -73,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 width: 375 * fem,
                 decoration: BoxDecoration(
-                  color: Color(0xffffffff),
+                  color: const Color(0xffffffff),
                   borderRadius: BorderRadius.circular(33 * fem),
                 ),
                 child: Form(
@@ -89,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 30 * ffem,
                           fontWeight: FontWeight.w700,
                           height: 1.5 * ffem,
-                          color: Color(0xff000000),
+                          color: const Color(0xff000000),
                         ),
                       ),
                       SizedBox(height: 30 * fem),
@@ -102,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           10.5 * fem,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xfff9f9f9),
+                          color: const Color(0xfff9f9f9),
                           borderRadius: BorderRadius.circular(16 * fem),
                         ),
                         child: Padding(
@@ -123,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       fontSize: 15 * ffem,
                                       fontWeight: FontWeight.w500,
                                       height: 1.5 * ffem,
-                                      color: Color(0xffdadbd8),
+                                      color: const Color(0xffdadbd8),
                                     ),
                                   ),
                                   validator: (value) {
@@ -153,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           17.5 * fem,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xfff9f9f9),
+                          color: const Color(0xfff9f9f9),
                           borderRadius: BorderRadius.circular(16 * fem),
                         ),
                         child: Row(
@@ -172,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontSize: 15 * ffem,
                                     fontWeight: FontWeight.w500,
                                     height: 1.5 * ffem,
-                                    color: Color(0xffdadbd8),
+                                    color: const Color(0xffdadbd8),
                                   ),
                                 ),
                                 validator: (value) {
@@ -246,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 12 * ffem,
                                 fontWeight: FontWeight.w500,
                                 height: 1.5 * ffem,
-                                color: Color(0xff643600),
+                                color: const Color(0xff643600),
                               ),
                             ),
                           ),
@@ -280,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 332 * fem,
                           height: 58 * fem,
                           decoration: BoxDecoration(
-                            color: Color(0xff643600),
+                            color: const Color(0xff643600),
                             borderRadius: BorderRadius.circular(16 * fem),
                           ),
                           child: Row(
@@ -288,14 +287,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .center, // Center both elements horizontally
                             children: [
                               Text(
-
                                 _loading ? "Logging...." : 'Login',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 18 * ffem,
                                   fontWeight: FontWeight.w700,
                                   height: 1.5 * ffem,
-                                  color: Color(0xffffffff),
+                                  color: const Color(0xffffffff),
                                 ),
                               ),
                               SizedBox(
@@ -317,7 +315,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 12 * ffem,
                           fontWeight: FontWeight.w500,
                           height: 1.5 * ffem,
-                          color: Color(0xffcccdca),
+                          color: const Color(0xffcccdca),
                         ),
                       ),
                       TextButton(
@@ -340,7 +338,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 12 * ffem,
                             fontWeight: FontWeight.w500,
                             height: 1.5 * ffem,
-                            color: Color(0xff643600),
+                            color: const Color(0xff643600),
                           ),
                         ),
                       )

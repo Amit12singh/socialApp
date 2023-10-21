@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:myapp/models/article_model.dart';
-import 'package:myapp/page-1/SearchPage.dart';
-import 'package:myapp/page-1/createpostScreen.dart';
+import 'package:myapp/page-1/searchpage.dart';
+import 'package:myapp/page-1/create_post_screen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/services/article_service.dart';
@@ -122,12 +121,12 @@ class _HomeScreenState extends State<FeedScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25),
                             ),
-                            side: BorderSide(
+                            side: const BorderSide(
                               width: 1.0,
                               color: Colors.black,
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             "                    What's on your mind?                      ",
                             style: TextStyle(color: Colors.black),
                           ),
@@ -139,17 +138,17 @@ class _HomeScreenState extends State<FeedScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Divider(
+          const Divider(
             color: Colors.black,
             thickness: 0,
           ),
           Expanded(child: PostScreen(posts: posts ?? [])),
         ],
       ),
-      bottomNavigationBar: Bottombar(),
+      bottomNavigationBar: const Bottombar(),
     );
   }
 }

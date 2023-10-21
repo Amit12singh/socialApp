@@ -1,4 +1,3 @@
-import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:io';
@@ -93,7 +92,6 @@ class UserModel {
   // String get imageUrl => null;
 
   static fromMap({map}) {
-
     return UserModel(
       id: map['id'],
       email: map['email'],
