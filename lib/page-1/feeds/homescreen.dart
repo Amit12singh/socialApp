@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
-import 'package:myapp/page-1/searchpage.dart';
+import 'package:myapp/page-1/SearchPage.dart';
 import 'package:myapp/page-1/create_post_screen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';

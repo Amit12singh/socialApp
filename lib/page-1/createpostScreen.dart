@@ -15,9 +15,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   TextEditingController postController = TextEditingController();
   PostService postService = PostService();
   List _mediaFileList = []; // Change to XFile
-  // late List _capturedMedia = []; // Change to XFile
   final ImagePicker _picker = ImagePicker();
-  //final _isPostCreated = false;
 
   @override
   void initState() {
@@ -93,7 +91,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       height: 44,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(22),
-                        image: const DecorationImage(
+                        image: DecorationImage(
                           fit: BoxFit.contain,
                           image: AssetImage(
                               'assets/page-1/images/ellipse-4-bg.png'),
@@ -106,7 +104,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         fontFamily: 'Inter',
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xff000000),
+                        color: Color(0xff000000),
                       ),
                     ),
                   ],
@@ -154,7 +152,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     width: 150,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: const Color(0xffefe3d7),
+                      color: Color(0xffefe3d7),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: InkWell(
@@ -167,19 +165,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                           Container(
                             width: 40,
                             height: 40,
-                            child: const Image(
+                            child: Image(
                               image: AssetImage(
                                   'assets/page-1/images/auto-group-dbpd.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
-                          const Text(
+                          Text(
                             'Photo',
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: const Color(0xff000000),
+                              color: Color(0xff000000),
                             ),
                           ),
                         ],
@@ -190,7 +188,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     width: 150,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: const Color(0xffefe3d7),
+                      color: Color(0xffefe3d7),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: InkWell(
@@ -205,13 +203,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                           Container(
                             width: 40,
                             height: 40,
-                            child: const Image(
+                            child: Image(
                               image:
                                   AssetImage('assets/page-1/images/camera.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
-                          const Text(
+                          Text(
                             'Camera',
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -228,16 +226,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ),
               SizedBox(height: 40),
               Container(
-                color: const Color.fromARGB(255, 220, 166, 112),
-                margin: const EdgeInsets.only(bottom: 50.0),
+                color: Color.fromARGB(255, 220, 166, 112),
+                margin: EdgeInsets.only(bottom: 50.0),
                 child: InkWell(
                   onTap: () {
                     _createPost();
                   },
                   child: Container(
                     width: double.infinity,
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child: Text(
                           'POST',
