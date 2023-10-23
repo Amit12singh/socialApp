@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/page-1/MessengerPage.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
-
 import 'package:myapp/page-1/feeds/homescreen.dart';
 
 class Bottombar extends StatelessWidget {
@@ -50,6 +50,12 @@ class Bottombar extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const FeedScreen(),
+              ),
+            );
+          } else if (index == 1) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => MessengerPage(),
               ),
             );
           }
