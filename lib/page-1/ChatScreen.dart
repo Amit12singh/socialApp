@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utilities/localstorage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatScreen extends StatefulWidget {
@@ -10,7 +11,10 @@ class ChatScreen extends StatefulWidget {
 
 
 class _ChatScreenState extends State<ChatScreen> {
+  HandleToken localStorageService = HandleToken();
   late IO.Socket socket;
+  String? token;
+
 
   @override
   void initState() {
@@ -18,14 +22,19 @@ class _ChatScreenState extends State<ChatScreen> {
     connect();
   }
 
-  void connect() {
+  void connect() async {
+    token = await localStorageService.getAccessToken();
+    print(token);
+
     // MessageModel messageModel = MessageModel(sourceId: widget.sourceChat.id.toString(),targetId: );
     socket = IO.io("http://192.168.101.7:8000", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
+      "query": {"token": token}
+       
     });
     socket.connect();
-    // socket.emit("signin", widget.sourchat.id);
+    socket.emit("joinRoom", "1");
     socket.onConnect((data) {
       print("Connected $data");
       socket.on("message", (msg) {
@@ -37,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     print("socket");
 
-    print(socket);
+    print(socket.connected);
   }
 
   @override
