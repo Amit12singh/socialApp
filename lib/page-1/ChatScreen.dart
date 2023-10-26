@@ -13,6 +13,7 @@ class _ChatScreenState extends State<ChatScreen> {
   HandleToken localStorageService = HandleToken();
   late IO.Socket socket;
   String? token;
+  final messageController = TextEditingController();
 
   @override
   void initState() {
@@ -31,12 +32,15 @@ class _ChatScreenState extends State<ChatScreen> {
       "query": {"token": token}
     });
     socket.connect();
-    socket.emit("joinRoom", "1");
+    // socket.emit("joinRoom", );
     socket.on('message', (data) {
       print('Received: $data');
     });
     socket.onConnect((data) {
       print("Connected $data");
+
+      socket.on('message', (data) => {print('response $data')});
+
     });
 
     print(socket.connected);
@@ -45,12 +49,13 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     socket.disconnect();
+    messageController.dispose();
     super.dispose();
   }
 
   void sendMessage(String message) {
     socket.emit('messageToRoom', {
-      'receiverID': '2', // Replace with the actual recipient ID
+      'receiverID': '1', // Replace with the actual recipient ID
       'text': message,
     });
   }
@@ -258,6 +263,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               SizedBox(width: 15),
                               Expanded(
                                 child: TextFormField(
+                                  controller: messageController,
                                   style: TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -267,8 +273,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                               ),
                               FloatingActionButton(
-                                onPressed: () =>
-                                    sendMessage('Hello from Flutter!'),
+                                onPressed: () {
+                                  if (messageController.text.length > 0) {
+                                    sendMessage(messageController.text);
+                                    messageController.clear();
+                                  }
+                                },
+                               
                                 child: Icon(
                                   Icons.send,
                                   color: Colors.white54,
