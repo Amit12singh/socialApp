@@ -35,18 +35,29 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     socket.connect();
     socket.emit("joinRoom", "1");
+    socket.on('message', (data) {
+      print('Received: $data');
+    });
     socket.onConnect((data) {
       print("Connected $data");
-      socket.on("message", (msg) {
-        print(msg);
-        // setMessage("destination", msg["message"]);
-        // _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        // duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-      });
+    
     });
-    print("socket");
 
     print(socket.connected);
+  }
+
+
+  @override
+  void dispose() {
+    socket.disconnect();
+    super.dispose();
+  }
+
+  void sendMessage(String message) {
+    socket.emit('messageToRoom', {
+      'receiverID': '2', // Replace with the actual recipient ID
+      'text': message,
+    });
   }
 
   @override
@@ -246,18 +257,41 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                       ),
                       const SizedBox(width: 15),
-                      const Text(
-                        'Message',
-                        style: TextStyle(color: Colors.white54),
+                      Container(
+                        width: 100.0, // Adjust the width as needed
+                        height:
+                            50.0, // Set the same height as the width to make it circular
+                        decoration: BoxDecoration(
+                          color: Colors.transparent, // Background color
+                          borderRadius: BorderRadius.circular(
+                              25.0), // Half of the width (50 / 2)
+                        ),
+                        child: const TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Type a message...',
+                            hintStyle: TextStyle(color: Colors.white),
+                            border:
+                                InputBorder.none, // Remove the default border
+                          ),
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       const Spacer(),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      FloatingActionButton(
+                        onPressed: () => sendMessage('Hello from Flutter!'),
                         child: Icon(
                           Icons.send,
                           color: Colors.white54,
                         ),
-                      ),
+                        backgroundColor: Colors
+                            .transparent, // Set your desired button background color
+                        elevation: 0, // Remove elevation for a flat appearance
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              50.0), // Adjust the radius to make it circular
+                        ),
+)
+
                     ],
                   ),
                 ),
