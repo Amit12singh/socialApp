@@ -9,12 +9,10 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-
 class _ChatScreenState extends State<ChatScreen> {
   HandleToken localStorageService = HandleToken();
   late IO.Socket socket;
   String? token;
-
 
   @override
   void initState() {
@@ -31,7 +29,6 @@ class _ChatScreenState extends State<ChatScreen> {
       "transports": ["websocket"],
       "autoConnect": false,
       "query": {"token": token}
-       
     });
     socket.connect();
     socket.emit("joinRoom", "1");
@@ -40,12 +37,10 @@ class _ChatScreenState extends State<ChatScreen> {
     });
     socket.onConnect((data) {
       print("Connected $data");
-    
     });
 
     print(socket.connected);
   }
-
 
   @override
   void dispose() {
@@ -63,37 +58,39 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 169, 145, 36),
       body: Padding(
         padding: const EdgeInsets.only(left: 14, right: 14),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundImage:
-                        Image.asset('assets/page-1/images/rectangle-688.png')
-                            .image,
-                  ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'Danny Hopkins',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: ('Quicksand'),
-                      color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage:
+                          AssetImage('assets/page-1/images/rectangle-688.png'),
                     ),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.search_rounded,
-                    color: Colors.white70,
-                    size: 40,
-                  )
-                ],
+                    SizedBox(width: 10),
+                    Text(
+                      'Danny Hopkins',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Quicksand',
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                    Icon(
+                      Icons.search_rounded,
+                      color: Colors.white70,
+                      size: 40,
+                    )
+                  ],
+                ),
               ),
               const SizedBox(height: 30),
               const Center(
@@ -105,10 +102,11 @@ class _ChatScreenState extends State<ChatScreen> {
               const SizedBox(height: 8),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xff373E4E)),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xff373E4E),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'I commented on Figma, I want to add \n some fancy icons. Do you have any icon \n set?',
                     style: TextStyle(
@@ -138,10 +136,11 @@ class _ChatScreenState extends State<ChatScreen> {
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xff373E4E)),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xff373E4E),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Next Month?',
                     style: TextStyle(
@@ -193,14 +192,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Center(
-                child: Text(
-                  '08:43',
-                  style: TextStyle(color: Colors.white70),
-                ),
-              ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -217,15 +209,16 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               const SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.only(left: 300.0),
+                padding: const EdgeInsets.only(left: 320.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color(0xff7A8194)),
-                  child: const Padding(
-                    padding: EdgeInsets.all(10.0),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xff7A8194),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      'thums up',
+                      '👍',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -233,69 +226,71 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
               ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Container(
-                  height: 45,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: const Color(0xff304354),
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.white30,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: const Icon(Icons.camera_alt_outlined),
-                        ),
-                      ),
-                      const SizedBox(width: 15),
-                      Container(
-                        width: 100.0, // Adjust the width as needed
-                        height:
-                            50.0, // Set the same height as the width to make it circular
+              Spacer(),
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Container(
+                        height: 50,
+                        width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.transparent, // Background color
-                          borderRadius: BorderRadius.circular(
-                              25.0), // Half of the width (50 / 2)
+                          borderRadius: BorderRadius.circular(30),
+                          color: Color(0xff304354),
                         ),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Type a message...',
-                            hintStyle: TextStyle(color: Colors.white),
-                            border:
-                                InputBorder.none, // Remove the default border
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white30,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Icon(Icons.camera_alt_outlined),
+                                ),
+                              ),
+                              SizedBox(width: 15),
+                              Expanded(
+                                child: TextFormField(
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Type your message here',
+                                    hintStyle: TextStyle(color: Colors.white54),
+                                  ),
+                                ),
+                              ),
+                              FloatingActionButton(
+                                onPressed: () =>
+                                    sendMessage('Hello from Flutter!'),
+                                child: Icon(
+                                  Icons.send,
+                                  color: Colors.white54,
+                                ),
+                                backgroundColor: Colors
+                                    .transparent, // Set your desired button background color
+                                elevation:
+                                    0, // Remove elevation for a flat appearance
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      50.0), // Adjust the radius to make it circular
+                                ),
+                              ),
+                            ],
                           ),
-                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      const Spacer(),
-                      FloatingActionButton(
-                        onPressed: () => sendMessage('Hello from Flutter!'),
-                        child: Icon(
-                          Icons.send,
-                          color: Colors.white54,
-                        ),
-                        backgroundColor: Colors
-                            .transparent, // Set your desired button background color
-                        elevation: 0, // Remove elevation for a flat appearance
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              50.0), // Adjust the radius to make it circular
-                        ),
-)
-
-                    ],
-                  ),
+                    ),
+                    // Other widgets can be added here
+                  ],
                 ),
-              ),
+              )
             ],
           ),
         ),

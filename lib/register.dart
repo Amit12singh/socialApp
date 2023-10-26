@@ -85,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   color: const Color(0xffffffff),
                 ),
               ),
-              SizedBox(height: 30 * fem),
+              SizedBox(height: 20 * fem),
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 12 * fem,
@@ -102,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(0.5),
                         child: Text(
                           'Welcome',
                           textAlign: TextAlign.center,
@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(3.0),
                         child: Text(
                           'Register Account to keep connected & get updates from us.',
                           textAlign: TextAlign.center,
@@ -128,28 +128,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 25 * fem),
+                      SizedBox(height: 15 * fem),
                       Container(
-                        margin: EdgeInsets.only(bottom: 18.33 * fem),
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
                         padding: EdgeInsets.fromLTRB(
-                          14.23 * fem,
-                          17.5 * fem,
-                          16.17 * fem,
-                          17.5 * fem,
+                          12.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          12.5 * fem,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xfff9f9f9),
-                          borderRadius: BorderRadius.circular(16 * fem),
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.person,
-                                size: 16 * fem,
+                                size: 20 * fem,
                               ),
-                              SizedBox(width: 17.5 * fem),
+                              SizedBox(width: 10.5 * fem),
                               Expanded(
                                 child: TextFormField(
                                   controller: fullNameController,
@@ -171,24 +171,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 15 * fem),
                       Container(
-                        margin: EdgeInsets.only(bottom: 18.33 * fem),
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
                         padding: EdgeInsets.fromLTRB(
-                          14.23 * fem,
-                          17.5 * fem,
-                          16.17 * fem,
-                          17.5 * fem,
+                          10.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          10.5 * fem,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xfff9f9f9),
-                          borderRadius: BorderRadius.circular(16 * fem),
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.inbox,
-                                size: 16 * fem,
+                                size: 20 * fem,
                               ),
                               SizedBox(width: 17.5 * fem),
                               Expanded(
@@ -223,136 +223,142 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 15 * fem),
                       Container(
-                        margin: EdgeInsets.only(bottom: 30.02 * fem),
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
                         padding: EdgeInsets.fromLTRB(
-                          16.17 * fem,
-                          17.5 * fem,
-                          27.81 * fem,
-                          17.5 * fem,
+                          10.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          10.5 * fem,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xfff9f9f9),
-                          borderRadius: BorderRadius.circular(16 * fem),
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.lock,
-                              size: 16 * fem,
-                            ),
-                            SizedBox(width: 15 * fem),
-                            Expanded(
-                              child: TextFormField(
-                                controller: passwordController,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter password',
-                                  hintStyle: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15 * ffem,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.5 * ffem,
-                                    color: const Color(0xffdadbd8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.lock,
+                                size: 20 * fem,
+                              ),
+                              SizedBox(width: 15 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: passwordController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter password',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                    errorBorder: errorBorder,
+                                    focusedErrorBorder: errorBorder,
                                   ),
-                                  errorBorder: errorBorder,
-                                  focusedErrorBorder: errorBorder,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Password is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _password = value!;
+                                  },
+                                  obscureText: !_isPasswordVisible,
                                 ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Password is required';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _password = value!;
-                                },
-                                obscureText: !_isPasswordVisible,
                               ),
-                            ),
-                            SizedBox(width: 17.5 * fem),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                              child: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                size: 22 * fem,
-                                color: _isPasswordVisible
-                                    ? Colors.blue
-                                    : Colors.grey,
+                              SizedBox(width: 0.5 * fem),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
+                                child: Icon(
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  size: 22 * fem,
+                                  color: _isPasswordVisible
+                                      ? Colors.blue
+                                      : Colors.grey,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                      SizedBox(height: 6 * fem),
+                      SizedBox(height: 15 * fem),
                       Container(
-                        margin: EdgeInsets.only(bottom: 40.02 * fem),
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
                         padding: EdgeInsets.fromLTRB(
-                          16.17 * fem,
-                          17.5 * fem,
-                          27.81 * fem,
-                          17.5 * fem,
+                          10.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          10.5 * fem,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xfff9f9f9),
-                          borderRadius: BorderRadius.circular(16 * fem),
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.lock,
-                              size: 16 * fem,
-                            ),
-                            SizedBox(width: 15 * fem),
-                            Expanded(
-                              child: TextFormField(
-                                controller: confirmPasswordController,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter Confirm password',
-                                  hintStyle: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15 * ffem,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.5 * ffem,
-                                    color: const Color(0xffdadbd8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.lock,
+                                size: 20 * fem,
+                              ),
+                              SizedBox(width: 15 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: confirmPasswordController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter Confirm password',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                    errorBorder: errorBorder,
+                                    focusedErrorBorder: errorBorder,
                                   ),
-                                  errorBorder: errorBorder,
-                                  focusedErrorBorder: errorBorder,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Password is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _password = value!;
+                                  },
+                                  obscureText: !_isPasswordVisible,
                                 ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Password is required';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _password = value!;
-                                },
-                                obscureText: !_isPasswordVisible,
                               ),
-                            ),
-                            SizedBox(width: 17.5 * fem),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                              child: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                size: 22 * fem,
-                                color: _isPasswordVisible
-                                    ? Colors.blue
-                                    : Colors.grey,
+                              SizedBox(width: 0.5 * fem),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
+                                child: Icon(
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  size: 22 * fem,
+                                  color: _isPasswordVisible
+                                      ? Colors.blue
+                                      : Colors.grey,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 15 * fem),
@@ -366,13 +372,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  'Passwords do not match',
+                                  'Passwords do not match, Please enter correct Password',
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                             );
                           } else {
-                            _create();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Register Success.',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
                           }
                         },
                         style: TextButton.styleFrom(
@@ -399,15 +412,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               SizedBox(width: 5 * fem),
-                              Icon(
-                                Icons.login,
-                                size: 17.98 * fem,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.login,
+                                  size: 17.98 * fem,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 30 * fem),
+                      SizedBox(height: 15 * fem),
                       Text(
                         'Already have an account?',
                         style: TextStyle(
@@ -440,10 +456,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 30 * fem),
+                      SizedBox(height: 0.5 * fem),
                       Center(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10 * fem),
+                          padding: EdgeInsets.symmetric(vertical: 0.5 * fem),
                           child: Text(
                             'By creating an account, you agree to our Terms & Conditions and agree to Privacy Policy.',
                             style: TextStyle(
