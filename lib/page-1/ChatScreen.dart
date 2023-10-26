@@ -133,7 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
       text: message.text,
     );
     socket.emit('messageToRoom', {
-      'receiverID': '1', // Replace with the actual recipient ID
+      'receiverID': widget.receiver.id, // Replace with the actual recipient ID
       'text': message.text,
     });
     _addMessage(textMessage);
