@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
+import 'package:myapp/models/chat_model.dart';
+import 'package:myapp/services/chat_service.dart';
+import 'package:myapp/utilities/localstorage.dart';
 
 class MessengerPage extends StatefulWidget {
   const MessengerPage({Key? key});
@@ -10,10 +13,35 @@ class MessengerPage extends StatefulWidget {
 }
 
 class _MessengerPageState extends State<MessengerPage> {
+
+  final HandleToken localStorageService = HandleToken();
+  final ChatService _chatService = ChatService();
+
+  List chatItems = [
+    // Add more chat items as needed
+  ];
+
+  @override
+  void initState() {
+    _load();
+    super.initState();
+  }
+
+  void _load() async {
+    final user = await localStorageService.getUser();
+
+    final _data = await _chatService.recentChat(userId: user?.id);
+    setState(() {
+      chatItems = _data;
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 224, 170, 23),
+      backgroundColor: Color.fromARGB(255, 83, 76, 56),
       body: SafeArea(
         child: Column(
           children: [
@@ -68,73 +96,79 @@ class _MessengerPageState extends State<MessengerPage> {
                   topRight: Radius.circular(50),
                 ),
               ),
-              child: ListView(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
+                child: ListView.builder(
+                  itemCount: chatItems.length,
+                  itemBuilder: (context, index) {
+                    ChatModel chatItem = chatItems[index];
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ChatScreen()));
-                    },
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 26.0, top: 35, right: 10),
-                      child: Row(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundImage: AssetImage(
-                                    'assets/page-1/images/rectangle-688.png'),
-                              ),
-                            ],
+                            builder: (context) =>
+                                ChatScreen(receiver: chatItems[index]),
                           ),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'Danny Hopkins',
-                                    style: TextStyle(
-                                      color:
-                                          const Color.fromARGB(255, 18, 16, 16),
-                                      fontFamily: 'Quicksand',
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 100,
-                                  ),
-                                  Text(
-                                    '08:43',
-                                    style: TextStyle(
-                                      color:
-                                          const Color.fromARGB(179, 17, 16, 16),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                'dannydon@gmail.com',
-                                style: TextStyle(
-                                  color: const Color.fromARGB(179, 18, 17, 17),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 26.0, top: 35, right: 10),
+                        child: Row(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      NetworkImage(chatItem.avatarImage ?? ''),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            ),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      chatItem.name,
+                                      style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 18, 16, 16),
+                                        fontFamily: 'Quicksand',
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 100,
+                                    ),
+                                    Text(
+                                      chatItem.time,
+                                      style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            179, 17, 16, 16),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  chatItem.text,
+                                  style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(179, 18, 17, 17),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                    );
+                  },
+                )),
           ],
         ),
       ),

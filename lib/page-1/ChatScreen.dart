@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -6,7 +7,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:myapp/models/user_model.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  final ChatModel receiver;
+  const ChatScreen({Key? key, required this.receiver}) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -70,45 +72,55 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 169, 145, 36),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundImage:
-                      AssetImage('assets/page-1/images/rectangle-688.png'),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'Danny Hopkins',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Quicksand',
-                    color: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 169, 145, 36),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+              child: Row(
+                children: [
+                  widget.receiver.avatarImage != null
+                      ?
+                  CircleAvatar(
+                          radius: 25,
+                          backgroundImage:
+                    
+                              NetworkImage(widget.receiver.avatarImage ?? ''))
+                      : const CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Colors.white,
+                          backgroundImage: AssetImage(
+                              'assets/page-1/images/logo-3-removebg-preview-1.png'),
+                        ),
+                  const SizedBox(width: 10),
+                  Text(
+                    widget.receiver.name,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'Quicksand',
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                Spacer(),
-                Icon(
-                  Icons.search_rounded,
-                  color: Colors.white70,
-                  size: 40,
-                )
-              ],
+                  const Spacer(),
+                  const Icon(
+                    Icons.search_rounded,
+                    color: Colors.white70,
+                    size: 40,
+                  )
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Chat(
-              messages: _messages,
-              onSendPressed: _handleSendPressed,
-              user: types.User(id: _user?.id ?? ''),
+            Expanded(
+              child: Chat(
+                messages: _messages,
+                onSendPressed: _handleSendPressed,
+                user: types.User(id: _user?.id ?? ''),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

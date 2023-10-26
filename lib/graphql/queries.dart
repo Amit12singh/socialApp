@@ -128,3 +128,40 @@ query GetAllUser(\$data: PaginationArgs!) {
 }
 
 """;
+
+const GET_RECENT_CHATS = """
+query GetRecentChatsForUser(\$userId: String!) {
+  getRecentChatsForUser(userId: \$userId) {
+    createdAt
+    deletedAt
+    id
+    text
+    updatedAt
+    receiver {
+      id
+      fullName
+      profileImage {
+        name
+        mimeType
+        path
+        id
+        type
+      }
+      email
+    }
+    sender {
+      id
+      fullName
+      email
+      profileImage {
+        path
+        name
+        mimeType
+        id
+        type
+      }
+    }
+  }
+}
+
+""";
