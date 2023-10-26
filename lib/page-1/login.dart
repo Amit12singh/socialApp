@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 50 * fem),
+              SizedBox(height: 70 * fem),
               Text(
                 'Login to your account',
                 style: TextStyle(
@@ -80,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(height: 30 * fem),
                       Text(
                         'Welcome back!',
                         textAlign: TextAlign.center,
@@ -93,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 30 * fem),
                       Container(
-                        margin: EdgeInsets.only(bottom: 18.33 * fem),
+                        margin: EdgeInsets.only(bottom: 10 * fem),
                         padding: EdgeInsets.fromLTRB(
                           10.23 * fem,
                           10.5 * fem,
@@ -102,17 +103,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xfff9f9f9),
-                          borderRadius: BorderRadius.circular(16 * fem),
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.inbox,
                                 size: 25 * fem,
                               ),
-                              SizedBox(width: 17.5 * fem),
+                              SizedBox(width: 15 * fem),
                               Expanded(
                                 child: TextFormField(
                                   decoration: InputDecoration(
@@ -142,71 +143,75 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 25 * fem),
+                      SizedBox(height: 30 * fem),
                       Container(
-                        margin: EdgeInsets.only(bottom: 70.02 * fem),
+                        margin: EdgeInsets.only(bottom: 10 * fem),
                         padding: EdgeInsets.fromLTRB(
-                          20.17 * fem,
-                          17.5 * fem,
-                          27.81 * fem,
-                          17.5 * fem,
+                          10.23 * fem,
+                          10.5 * fem,
+                          16.17 * fem,
+                          10.5 * fem,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xfff9f9f9),
-                          borderRadius: BorderRadius.circular(16 * fem),
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.lock,
-                              size: 25 * fem,
-                            ),
-                            SizedBox(width: 15 * fem),
-                            Expanded(
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  hintText: 'Enter password',
-                                  hintStyle: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 15 * ffem,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.5 * ffem,
-                                    color: const Color(0xffdadbd8),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Password is required';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _password = value!;
-                                },
-                                obscureText:
-                                    !_isPasswordVisible, // Toggle password visibility
-                              ),
-                            ),
-                            SizedBox(width: 17.5 * fem),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                              child: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.lock,
                                 size: 25 * fem,
-                                color: _isPasswordVisible
-                                    ? Colors.blue
-                                    : Colors.grey, // Customize the color
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 15 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter password',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Password is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _password = value!;
+                                  },
+                                  obscureText:
+                                      !_isPasswordVisible, // Toggle password visibility
+                                ),
+                              ),
+                              SizedBox(width: 0.5 * fem),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
+                                child: Icon(
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  size: 25 * fem,
+                                  color: _isPasswordVisible
+                                      ? Colors.blue
+                                      : Colors.grey, // Customize the color
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      SizedBox(height: 30 * fem),
                       Row(
                         children: [
                           TickableContainer(),
@@ -219,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           //         color: Color.fromARGB(255, 94, 80, 80)),
                           //   ),
                           // ),
-                          SizedBox(width: 10.43 * fem),
+                          SizedBox(width: 15 * fem),
                           Text(
                             'Remember me',
                             style: TextStyle(
@@ -233,7 +238,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           Spacer(),
                           TextButton(
                             onPressed: () {
-                              // Implement your "Forget Your Password?" logic here
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => RegisterScreen(),
+                                ),
+                              );
                             },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,

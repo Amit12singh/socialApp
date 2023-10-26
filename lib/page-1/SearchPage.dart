@@ -37,11 +37,9 @@ class _SearchPageState extends State<SearchPage> {
     return allUsers;
   }
 
-  // This function is called whenever the text field changes
   void _runFilter(String enteredKeyword) {
     List<UserModel> results = [];
     if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
       results = _allUsers;
     } else {
       results = _allUsers
@@ -49,10 +47,8 @@ class _SearchPageState extends State<SearchPage> {
               .toLowerCase()
               .contains(enteredKeyword.toLowerCase()))
           .toList();
-      // we use the toLowerCase() method to make it case-insensitive
     }
 
-    // Refresh the UI
     setState(() {
       enteredKeyword = enteredKeyword;
       _foundUsers = results;
@@ -64,6 +60,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 187, 142, 29),
         title: const Text("Friends List"),
       ),
       body: Padding(
@@ -76,10 +73,20 @@ class _SearchPageState extends State<SearchPage> {
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 hintText: "Search",
-                suffixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
+                suffixIcon: const Icon(
+                  Icons.search,
+                  color: Color.fromARGB(255, 244, 209, 54),
+                ),
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: const BorderSide(),
+                  borderSide: const BorderSide(
+                      color: Colors.grey), // Color when not focused
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                      color: Color.fromARGB(
+                          255, 185, 153, 72)), // Color when focused
                 ),
               ),
             ),

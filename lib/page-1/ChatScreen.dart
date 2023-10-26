@@ -11,37 +11,39 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 169, 145, 36),
       body: Padding(
-        padding: EdgeInsets.only(left: 14, right: 14),
+        padding: const EdgeInsets.only(left: 14, right: 14),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundImage:
-                        Image.asset('assets/page-1/images/rectangle-688.png')
-                            .image,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Danny Hopkins',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: ('Quicksand'),
-                      color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage:
+                          AssetImage('assets/page-1/images/rectangle-688.png'),
                     ),
-                  ),
-                  Spacer(),
-                  Icon(
-                    Icons.search_rounded,
-                    color: Colors.white70,
-                    size: 40,
-                  )
-                ],
+                    SizedBox(width: 10),
+                    Text(
+                      'Danny Hopkins',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Quicksand',
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                    Icon(
+                      Icons.search_rounded,
+                      color: Colors.white70,
+                      size: 40,
+                    )
+                  ],
+                ),
               ),
               SizedBox(height: 30),
               Center(
@@ -53,8 +55,9 @@ class _ChatScreenState extends State<ChatScreen> {
               SizedBox(height: 8),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color(0xff373E4E)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xff373E4E),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
@@ -86,8 +89,9 @@ class _ChatScreenState extends State<ChatScreen> {
               SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color(0xff373E4E)),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color(0xff373E4E),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
@@ -142,13 +146,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              Center(
-                child: Text(
-                  '08:43',
-                  style: TextStyle(color: Colors.white70),
-                ),
-              ),
-              SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -165,15 +162,16 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.only(left: 300.0),
+                padding: const EdgeInsets.only(left: 320.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xff7A8194)),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xff7A8194),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      'thums up',
+                      '👍',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -182,45 +180,61 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Container(
-                  height: 45,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Color(0xff304354),
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.white30,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Icon(Icons.camera_alt_outlined),
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Color(0xff304354),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white30,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Icon(Icons.camera_alt_outlined),
+                                ),
+                              ),
+                              SizedBox(width: 15),
+                              Expanded(
+                                child: TextFormField(
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Type your message here',
+                                    hintStyle: TextStyle(color: Colors.white54),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.send,
+                                  color: Colors.white54,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      SizedBox(width: 15),
-                      Text(
-                        'Message',
-                        style: TextStyle(color: Colors.white54),
-                      ),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.send,
-                          color: Colors.white54,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    // Other widgets can be added here
+                  ],
                 ),
-              ),
+              )
             ],
           ),
         ),

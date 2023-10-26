@@ -29,7 +29,7 @@ class Bottombar extends StatelessWidget {
             icon: CircleAvatar(
               backgroundColor: Colors.white,
               child: Image(
-                image: AssetImage('assets/page-1/images/vector-AZF.png'),
+                image: AssetImage('assets/page-1/images/man.png'),
                 width: 20.0, // Set the width to the desired size
                 height: 20.0, // Set the height to the desired size
               ),

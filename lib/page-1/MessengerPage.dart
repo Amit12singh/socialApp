@@ -13,7 +13,7 @@ class _MessengerPageState extends State<MessengerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 224, 170, 23),
       body: SafeArea(
         child: Column(
           children: [
@@ -28,11 +28,10 @@ class _MessengerPageState extends State<MessengerPage> {
                       Text(
                         'Messages',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Quicksand',
-                          fontSize: 30,
-                          color: Colors.white,
-                        ),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Quicksand',
+                            fontSize: 30,
+                            color: Colors.white),
                       ),
                       IconButton(
                         onPressed: () {},
@@ -63,7 +62,7 @@ class _MessengerPageState extends State<MessengerPage> {
               height: 645.6,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0xff292F3F),
+                color: Color.fromARGB(255, 229, 230, 232),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50),
                   topRight: Radius.circular(50),
@@ -102,7 +101,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          const Color.fromARGB(255, 18, 16, 16),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -113,7 +113,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color:
+                                          const Color.fromARGB(179, 17, 16, 16),
                                     ),
                                   ),
                                 ],
@@ -122,7 +123,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 18, 17, 17),
                                 ),
                               ),
                             ],
@@ -162,7 +163,7 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Color.fromARGB(255, 11, 10, 10),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -173,7 +174,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color:
+                                          const Color.fromARGB(179, 12, 12, 12),
                                     ),
                                   ),
                                 ],
@@ -182,7 +184,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 14, 14, 14),
                                 ),
                               ),
                             ],
@@ -222,7 +224,7 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Color.fromARGB(255, 14, 13, 13),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -233,7 +235,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color:
+                                          const Color.fromARGB(179, 15, 15, 15),
                                     ),
                                   ),
                                 ],
@@ -242,7 +245,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 13, 13, 13),
                                 ),
                               ),
                             ],
@@ -282,7 +285,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          const Color.fromARGB(255, 13, 13, 13),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -293,7 +297,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color:
+                                          const Color.fromARGB(179, 12, 12, 12),
                                     ),
                                   ),
                                 ],
@@ -302,7 +307,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 10, 10, 10),
                                 ),
                               ),
                             ],
@@ -342,7 +347,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          const Color.fromARGB(255, 14, 14, 14),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -353,7 +359,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color:
+                                          const Color.fromARGB(179, 10, 10, 10),
                                     ),
                                   ),
                                 ],
@@ -362,7 +369,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 12, 12, 12),
                                 ),
                               ),
                             ],
@@ -402,7 +409,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          const Color.fromARGB(255, 13, 13, 13),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -413,7 +421,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color:
+                                          const Color.fromARGB(179, 12, 12, 12),
                                     ),
                                   ),
                                 ],
@@ -422,7 +431,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 15, 14, 14),
                                 ),
                               ),
                             ],
@@ -462,7 +471,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          const Color.fromARGB(255, 11, 11, 11),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -473,7 +483,7 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color: const Color.fromARGB(179, 9, 9, 9),
                                     ),
                                   ),
                                 ],
@@ -482,7 +492,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 11, 11, 11),
                                 ),
                               ),
                             ],
@@ -522,7 +532,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          const Color.fromARGB(255, 16, 15, 15),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -533,7 +544,7 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color: const Color.fromARGB(179, 9, 9, 9),
                                     ),
                                   ),
                                 ],
@@ -542,7 +553,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 14, 14, 14),
                                 ),
                               ),
                             ],
@@ -582,7 +593,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     'Danny Hopkins',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          const Color.fromARGB(255, 14, 14, 14),
                                       fontFamily: 'Quicksand',
                                       fontSize: 17,
                                     ),
@@ -593,7 +605,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                   Text(
                                     '08:43',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color:
+                                          const Color.fromARGB(179, 19, 18, 18),
                                     ),
                                   ),
                                 ],
@@ -602,7 +615,7 @@ class _MessengerPageState extends State<MessengerPage> {
                               Text(
                                 'dannydon@gmail.com',
                                 style: TextStyle(
-                                  color: Colors.white70,
+                                  color: const Color.fromARGB(179, 18, 17, 17),
                                 ),
                               ),
                             ],
