@@ -127,4 +127,34 @@ class PostService {
       return [];
     }
   }
+
+
+  Future<bool> deleteArticle(String articleId) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          document:
+              gql(DELETE_ARTICLE), // Define your GraphQL mutation for deletion
+          variables: {
+            "data": {"id": articleId}
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        print('delete article exception');
+        print(result.exception);
+        throw Exception(result.exception);
+      }
+
+      print('delete article result $result');
+
+      return true;
+    } catch (error) {
+      print('delete article catch $error');
+      return false;
+    }
+  }
+
 }

@@ -150,7 +150,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ];
           },
           body: ProfilePostScreen(
-              posts: posts?.timeline), // Provide your posts data
+              posts: posts?.timeline,
+              load: _loadData), // Provide your posts data
         ),
       ),
       bottomNavigationBar: Bottombar(),
@@ -274,8 +275,10 @@ class ProfileView extends StatelessWidget {
 
 class ProfilePostScreen extends StatefulWidget {
   final List<ArticleModel>? posts;
+  final Function load;
 
-  const ProfilePostScreen({Key? key, required this.posts}) : super(key: key);
+  const ProfilePostScreen({Key? key, required this.posts, required this.load})
+      : super(key: key);
 
   @override
   _PostScreenState createState() => _PostScreenState();
@@ -309,6 +312,14 @@ class _PostScreenState extends State<ProfilePostScreen> {
     setState(() {
       _isLiked = isLiked;
     });
+  }
+
+  onDelete(String postId) async {
+    print('id $postId');
+    final isDeleted = await _postService.deleteArticle(postId);
+    if (isDeleted) {
+      widget.load();
+    }
   }
 
   @override
@@ -355,7 +366,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _PostHeader(post: post),
+                _PostHeader(post: post, onDelete: onDelete),
                 const SizedBox(
                   height: 4.0,
                 ),
@@ -395,12 +406,12 @@ class _PostHeader extends StatelessWidget {
     Key? key,
     required this.post,
     // required this.onEdit,
-    // required this.onDelete,
+    required this.onDelete,
   }) : super(key: key);
 
   final ArticleModel post;
   // final Function() onEdit;
-  // final Function() onDelete;
+  final Function(String) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -441,11 +452,12 @@ class _PostHeader extends StatelessWidget {
             color: Colors.black,
           ),
           onSelected: (value) {
-            // if (value == 'edit') {
-            //   onEdit();
-            // } else if (value == 'delete') {
-            //   onDelete();
-            // }
+            if (value == 'edit') {
+              // onEdit();
+              () {};
+            } else if (value == 'delete') {
+              onDelete(post.id ?? '');
+            }
           },
           itemBuilder: (BuildContext context) {
             return <PopupMenuEntry<String>>[
@@ -458,6 +470,7 @@ class _PostHeader extends StatelessWidget {
               ),
               const PopupMenuItem<String>(
                 value: 'delete',
+                // onTap: () {},
                 child: ListTile(
                   leading: Icon(Icons.delete),
                   title: Text('Delete'),
