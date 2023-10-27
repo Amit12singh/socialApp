@@ -56,7 +56,9 @@ class _ChatScreenState extends State<ChatScreen> {
       print("Connected");
 
       socket.on('message', (msg) {
+        addReceivedMessage(msg);
         print('response $msg');
+        
       });
     });
 
@@ -149,13 +151,13 @@ class _ChatScreenState extends State<ChatScreen> {
     _addMessages([textMessage]);
   }
 
-  void addReceivedRessage(types.PartialText message) {
+  void addReceivedMessage(String message) {
     final receivedMessage = types.TextMessage(
       author:
           types.User(id: widget.receiver.id), // Set the receiver as the author
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: UniqueKey().toString(),
-      text: message.text,
+      text: message,
     );
     _addMessages([receivedMessage]);
   }
