@@ -12,7 +12,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       scrollBehavior: MyCustomScrollBehavior(),
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         errorColor: Colors.red,
       ),
       home: Scaffold(

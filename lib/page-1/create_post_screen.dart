@@ -29,7 +29,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         await postService.createPost(postController.text, _mediaFileList);
 
     if (_isPostCreated) {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) =>
               const FeedScreen(), // Replace RegisterScreen with your actual register screen widget
@@ -39,7 +39,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   Future<void> _captuteImage() async {
-    var image = await _picker.pickImage(source: ImageSource.camera);
+    var image =
+        await _picker.pickImage(source: ImageSource.camera, imageQuality: 1);
 
     if (image != null) {
       setState(() {
@@ -62,14 +63,32 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, // Change the background color to black
-        title: Text(
-          'Create Post',
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Container(
+            width: 60,
+            height: 60,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: Image.asset(
+              'assets/page-1/images/ellipse-1-bg.png',
+              width: 45,
+              height: 45,
+            ),
+          ),
+          onPressed: () {},
+        ), // Change the background color to black
+        titleSpacing: 3,
+        title: const Text(
+          'PPSONA',
           style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Colors.black, // Change the text color to white
+            color: Color.fromARGB(255, 167, 135, 135),
+            decoration: TextDecoration.none,
+            fontFamily: 'PermanentMarker-Regular',
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
           ),
         ),
         iconTheme: IconThemeData(
@@ -82,8 +101,23 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text(
+                'Create a Post',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 167, 135, 135),
+                  decoration: TextDecoration.none,
+                  fontFamily: 'PermanentMarker-Regular',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              Divider(
+                color: Color.fromARGB(40, 167, 135, 135),
+                height: 20,
+                thickness: 3,
+              ),
               Container(
-                margin: EdgeInsets.only(bottom: 25.0),
+                margin: EdgeInsets.only(bottom: 0.0),
                 width: double.infinity,
                 child: Row(
                   children: [
@@ -147,8 +181,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
               ),
               SizedBox(height: 30.0),
+              Divider(
+                color: Color.fromARGB(40, 167, 135, 135),
+                height: 30,
+                thickness: 1,
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     width: 150,

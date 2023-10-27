@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
+import 'package:myapp/page-1/forgetPassword.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
 
@@ -11,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GraphQLService _graphQLService = GraphQLService();
+  bool rememberMe = false;
 
   bool _loggedIn = false;
   bool _loading = false;
@@ -214,25 +216,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 30 * fem),
                       Row(
                         children: [
-                          TickableContainer(),
-                          // Container(
-                          //   width: 13 * fem,
-                          //   height: 13 * fem,
-                          //   decoration: BoxDecoration(
-                          //     borderRadius: BorderRadius.circular(2 * fem),
-                          //     border: Border.all(
-                          //         color: Color.fromARGB(255, 94, 80, 80)),
-                          //   ),
-                          // ),
-                          SizedBox(width: 15 * fem),
-                          Text(
-                            'Remember me',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 12 * ffem,
-                              fontWeight: FontWeight.w500,
-                              height: 1.5 * ffem,
-                              color: Color.fromARGB(255, 83, 65, 76),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                rememberMe = !rememberMe;
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                  value: rememberMe,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      rememberMe = newValue!;
+                                    });
+                                  },
+                                ),
+                                SizedBox(width: 0.5 * fem),
+                                Text(
+                                  'Remember me',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 12 * ffem,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.5 * ffem,
+                                    color: Color.fromARGB(255, 83, 65, 76),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           Spacer(),
@@ -240,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => RegisterScreen(),
+                                  builder: (context) => ForgetPassword(),
                                 ),
                               );
                             },
@@ -261,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       SizedBox(height: 30 * fem),
-                      TextButton(
+                      MaterialButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
@@ -273,27 +284,52 @@ class _LoginScreenState extends State<LoginScreen> {
                             _loading = false;
 
                             if (isLogedin) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Login successful.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors
+                                      .green, // Set background color to green
+                                ),
+                              );
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (context) => const FeedScreen(),
                                 ),
                               );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Login failed. Please check your credentials.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
                             }
                           }
                         },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Container(
-                          width: 332 * fem,
+                          width: 500 * fem,
                           height: 58 * fem,
                           decoration: BoxDecoration(
                             color: const Color(0xff643600),
                             borderRadius: BorderRadius.circular(16 * fem),
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, // Center both elements horizontally
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 _loading ? "Logging...." : 'Login',
@@ -305,9 +341,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: const Color(0xffffffff),
                                 ),
                               ),
-                              SizedBox(
-                                  width: 5 *
-                                      fem), // Add some spacing between text and icon
+                              SizedBox(width: 10 * fem),
                               Icon(
                                 Icons.login,
                                 size: 20.98 * fem,
@@ -329,11 +363,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          // Navigate to RegisterScreen when the "Register Now" button is pressed
-                          Navigator.of(context).push(
+                          Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  RegisterScreen(), // Replace RegisterScreen with your actual register screen widget
+                              builder: (context) => RegisterScreen(),
                             ),
                           );
                         },
@@ -373,7 +405,7 @@ class _TickableContainerState extends State<TickableContainer> {
 
   @override
   Widget build(BuildContext context) {
-    double fem = 10.0; // Replace with your actual value
+    double fem = 10.0;
 
     return GestureDetector(
       onTap: () {

@@ -14,8 +14,9 @@ class CreatePostScreen extends StatefulWidget {
 class _CreatePostScreenState extends State<CreatePostScreen> {
   TextEditingController postController = TextEditingController();
   PostService postService = PostService();
-  List _mediaFileList = []; // Change to XFile
+  List<XFile> _mediaFileList = [];
   final ImagePicker _picker = ImagePicker();
+  bool isPosting = false;
 
   @override
   void initState() {
@@ -23,21 +24,43 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   void _createPost() async {
+    if (isPosting) return;
+    setState(() {
+      isPosting = true;
+    });
+
     final _isPostCreated =
         await postService.createPost(postController.text, _mediaFileList);
 
     if (_isPostCreated) {
-      Navigator.of(context).push(
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Post created successfully',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>
-              const FeedScreen(), // Replace RegisterScreen with your actual register screen widget
+          builder: (context) => const FeedScreen(),
         ),
       );
     }
+    setState(() {
+      isPosting = false;
+    });
   }
 
   Future<void> _captuteImage() async {
-    var image = await _picker.pickImage(source: ImageSource.camera);
+    var image =
+        await _picker.pickImage(source: ImageSource.camera, imageQuality: 1);
 
     if (image != null) {
       setState(() {
@@ -61,13 +84,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white, // Change the background color to black
-        title: Text(
-          'Create Post',
+        titleSpacing: 3,
+        title: const Text(
+          'PPSONA',
           style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Colors.black, // Change the text color to white
+            color: const Color(0xFFA78787),
+            decoration: TextDecoration.none,
+            fontFamily: 'PermanentMarker-Regular',
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
           ),
         ),
         iconTheme: IconThemeData(
@@ -122,7 +147,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         fontWeight: FontWeight.w400,
                         color: Color(0xffbebebe),
                       ),
-                      border: InputBorder.none, // Remove the bottom border
+                      border: InputBorder.none,
                     ),
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -130,8 +155,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       fontWeight: FontWeight.w400,
                       color: Color(0xff000000),
                     ),
-                    maxLines:
-                        null, // This allows the TextField to expand vertically as needed.
+                    maxLines: null,
                   )),
               SizedBox(height: 30.0),
               Container(
@@ -224,6 +248,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ],
               ),
+              if (isPosting)
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
               SizedBox(height: 40),
               Container(
                 color: Color.fromARGB(255, 220, 166, 112),
@@ -241,9 +269,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                           'POST',
                           style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 16, // Customize the text size
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black, // Customize the text color
+                            color: Colors.black,
                           ),
                         ),
                       ),

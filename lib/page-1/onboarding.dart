@@ -14,64 +14,26 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 375;
+    double baseWidth = 380;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-    return Container(
-      width: double.infinity,
-      child: Container(
+    return Scaffold(
+      appBar: null,
+      backgroundColor: Color(0xff643600),
+      resizeToAvoidBottomInset: false,
+      body: Container(
         width: double.infinity,
-        height: 812 * fem,
+        height: double.infinity,
+        padding: EdgeInsets.zero,
+        margin: EdgeInsets.zero,
         decoration: BoxDecoration(
-          color: const Color(0xff643600),
-        ),
+            // image: DecorationImage(
+            //   image: AssetImage('assets/your_decorative_line.png'),
+            //   fit: BoxFit.cover,
+            // ),
+            ),
         child: Stack(
           children: [
-            Positioned(
-              left: 0 * fem,
-              top: 0 * fem,
-              child: Align(
-                child: SizedBox(
-                  width: 1159.11 * fem,
-                  height: 1159.11 * fem,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0x7fffffff)),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0 * fem,
-              top: 0 * fem,
-              child: Align(
-                child: SizedBox(
-                  width: 1159.11 * fem,
-                  height: 1159.11 * fem,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0x7fffffff)),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0 * fem,
-              top: 0 * fem,
-              child: Align(
-                child: SizedBox(
-                  width: 1159.11 * fem,
-                  height: 1159.11 * fem,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0x7fffffff)),
-                    ),
-                  ),
-                ),
-              ),
-            ),
             Positioned(
               left: 25 * fem,
               top: 670 * fem,
@@ -210,7 +172,7 @@ class _OnboardingState extends State<Onboarding> {
               ),
             ),
             Positioned(
-              left: 230.75 * fem,
+              left: 210.75 * fem,
               top: 741 * fem,
               child: Align(
                 child: SizedBox(
@@ -218,7 +180,7 @@ class _OnboardingState extends State<Onboarding> {
                   height: 26 * fem,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => RegisterScreen(),

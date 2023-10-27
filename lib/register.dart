@@ -22,7 +22,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   BoolResponseModel? _response;
   bool isLoading = false;
-  bool _isPasswordVisible = false;
+  bool _isPasswordVisible1 = false;
+  bool _isPasswordVisible2 = false;
 
   void _create() async {
     setState(() {
@@ -40,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = false;
       });
 
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => LoginScreen(),
         ),
@@ -67,8 +68,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0xff643600),
+        decoration: const BoxDecoration(
+          color: Color(0xff643600),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -267,22 +268,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   onSaved: (value) {
                                     _password = value!;
                                   },
-                                  obscureText: !_isPasswordVisible,
+                                  obscureText: !_isPasswordVisible1,
                                 ),
                               ),
                               SizedBox(width: 0.5 * fem),
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _isPasswordVisible = !_isPasswordVisible;
+                                    _isPasswordVisible1 = !_isPasswordVisible1;
                                   });
                                 },
                                 child: Icon(
-                                  _isPasswordVisible
+                                  _isPasswordVisible1
                                       ? Icons.visibility
                                       : Icons.visibility_off,
                                   size: 22 * fem,
-                                  color: _isPasswordVisible
+                                  color: _isPasswordVisible1
                                       ? Colors.blue
                                       : Colors.grey,
                                 ),
@@ -337,22 +338,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   onSaved: (value) {
                                     _password = value!;
                                   },
-                                  obscureText: !_isPasswordVisible,
+                                  obscureText: !_isPasswordVisible2,
                                 ),
                               ),
                               SizedBox(width: 0.5 * fem),
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _isPasswordVisible = !_isPasswordVisible;
+                                    _isPasswordVisible2 = !_isPasswordVisible2;
                                   });
                                 },
                                 child: Icon(
-                                  _isPasswordVisible
+                                  _isPasswordVisible2
                                       ? Icons.visibility
                                       : Icons.visibility_off,
                                   size: 22 * fem,
-                                  color: _isPasswordVisible
+                                  color: _isPasswordVisible2
                                       ? Colors.blue
                                       : Colors.grey,
                                 ),
@@ -362,7 +363,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       SizedBox(height: 15 * fem),
-                      TextButton(
+                      MaterialButton(
                         onPressed: () async {
                           String password = passwordController.text;
                           String confirmPassword =
@@ -370,26 +371,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                           if (password != confirmPassword) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors
+                                    .red, // Set the background color to red
                                 content: Text(
                                   'Passwords do not match, Please enter correct Password',
                                   textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors
+                                        .black, // Set the text color to black
+                                  ),
                                 ),
                               ),
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors
+                                    .green, // Set the background color to green
                                 content: Text(
                                   'Register Success.',
                                   textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors
+                                        .black, // Set the text color to black
+                                  ),
                                 ),
                               ),
                             );
                           }
                         },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Container(
                           width: 332 * fem,

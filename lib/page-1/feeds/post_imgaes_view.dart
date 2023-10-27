@@ -28,7 +28,6 @@ class ImageArrayWidgetState extends State<ImageArrayWidget> {
                   File(imagePath.path),
                   width: 100,
                   height: 100,
-                  // fit: BoxFit.cover,
                 ),
               );
             }).toList(),

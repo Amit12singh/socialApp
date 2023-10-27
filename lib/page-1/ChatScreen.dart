@@ -15,46 +15,50 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 169, 145, 36),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundImage:
-                      AssetImage('assets/page-1/images/rectangle-688.png'),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'Danny Hopkins',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Quicksand',
-                    color: Colors.white,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 167, 135, 135),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                children: [
+                  SizedBox(width: 10),
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundImage:
+                        AssetImage('assets/page-1/images/rectangle-688.png'),
                   ),
-                ),
-                Spacer(),
-                Icon(
-                  Icons.search_rounded,
-                  color: Colors.white70,
-                  size: 40,
-                )
-              ],
+                  SizedBox(width: 10),
+                  Text(
+                    'Danny Hopkins',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'PermanentMarker-Regular',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  // Spacer(),
+                  // Icon(
+                  //   Icons.search_rounded,
+                  //   color: Colors.white70,
+                  //   size: 40,
+                  // )
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Chat(
-              messages: _messages,
-              onSendPressed: _handleSendPressed,
-              user: _user,
+            Expanded(
+              child: Chat(
+                messages: _messages,
+                onSendPressed: _handleSendPressed,
+                user: _user,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

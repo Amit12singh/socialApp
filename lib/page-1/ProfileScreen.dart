@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/models/user_profile_model.dart';
+import 'package:myapp/page-1/ChatScreen.dart';
+import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
+import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/article_service.dart';
@@ -28,12 +32,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   var _user = null;
 
-  void _handleLogout() async {
+  get selectedIndex => null;
+
+  final List<Widget> pages = [
+    ProfileScreen(),
+    FeedScreen(),
+    MessengerPage(),
+  ];
+
+  void _handleLogout(BuildContext context) async {
     bool isCleared = await localStorageService.clearAccessToken();
 
     if (isCleared) {
-      Navigator.of(context).pushReplacement(
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Logged out successfully',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginScreen()),
+        (Route<dynamic> route) => false,
       );
     }
   }
@@ -60,6 +86,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          statusBarBrightness: Brightness.light, // For iOS (dark icons)
+        ),
+        elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Container(
@@ -74,9 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 45,
             ),
           ),
-          onPressed: () {
-            // Handle the action when the circular icon is tapped
-          },
+          onPressed: () {},
         ),
         titleSpacing: 3,
         title: const Text(
@@ -97,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             onSelected: (value) {
               if (value == 'log_out') {
-                _handleLogout();
+                _handleLogout(context);
               }
             },
             itemBuilder: (BuildContext context) {
@@ -115,7 +146,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       body: DefaultTabController(
-        length: 1,
+        initialIndex: 1,
+        length: 2,
         child: NestedScrollView(
           physics: const NeverScrollableScrollPhysics(),
           headerSliverBuilder: (context, isScrolled) {
@@ -128,15 +160,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SliverPersistentHeader(
                 delegate: MyDelegate(
-                  const TabBar(
+                  TabBar(
+                    onTap: (selectedIndex) {
+                      if (selectedIndex == 0) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(),
+                          ),
+                        );
+                      }
+                    },
+                    isScrollable: true,
                     tabs: [
-                      Tab(
-                        icon: Icon(Icons.grid_on),
-                        text: 'Timeline',
+                      Spacer(),
+                      Container(
+                        color: Colors.white,
+                        child: const Tab(
+                          icon: Icon(Icons.grid_on),
+                          text: "Timeline",
+                          iconMargin: EdgeInsets.zero,
+                        ),
                       ),
-                      Tab(
-                        icon: Icon(Icons.messenger), // Add your new icon here
-                        text: 'Messenger',
+                      Spacer(),
+                      Spacer(),
+                      Spacer(),
+                      Spacer(),
+                      Container(
+                        color: Colors.white,
+                        child: const Tab(
+                          icon: Icon(Icons.messenger_rounded),
+                          iconMargin: EdgeInsetsDirectional.only(),
+                          text: "Chat now",
+                        ),
                       ),
                     ],
                     indicatorColor: Colors.black,
@@ -150,7 +206,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ];
           },
           body: ProfilePostScreen(
-              posts: posts?.timeline), // Provide your posts data
+            posts: posts?.timeline,
+          ),
         ),
       ),
       bottomNavigationBar: Bottombar(),
@@ -369,10 +426,24 @@ class _PostScreenState extends State<ProfilePostScreen> {
           post.media != null && post.media!.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Image(
-                    image: NetworkImage(
-                      Uri.parse(post.media?[0].path ?? '').toString(),
-                    ),
+                  child: Image.network(
+                    Uri.parse(post.media?[0].path ?? '').toString(),
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child; // Image is fully loaded, display it
+                      } else {
+                        // Show a CircularProgressIndicator while loading
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 )
               : const SizedBox.shrink(),
@@ -429,7 +500,7 @@ class _PostHeader extends StatelessWidget {
                     Icons.public,
                     color: Colors.grey[600],
                     size: 12.0,
-                  )
+                  ),
                 ],
               ),
             ],
@@ -469,6 +540,43 @@ class _PostHeader extends StatelessWidget {
       ],
     );
   }
+
+  // void onEdit() {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text('Editing post...'),
+  //     ),
+  //   );
+
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text('Post edited successfully'),
+  //     ),
+  //   );
+  // }
+
+  // void onDelete() {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text('Deleting post...'),
+  //       action: SnackBarAction(
+  //         label: 'Undo',
+  //         onPressed: () {
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //             SnackBar(
+  //               content: Text('Deletion undone'),
+  //             ),
+  //           );
+  //         },
+  //       ),
+  //     ),
+  //   );
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text('Post deleted successfully'),
+  //     ),
+  //   );
+  // }
 }
 
 class _PostStats extends StatefulWidget {

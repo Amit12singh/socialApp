@@ -59,34 +59,78 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 187, 142, 29),
-        title: const Text("Friends List"),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Container(
+            width: 60,
+            height: 60,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: Image.asset(
+              'assets/page-1/images/ellipse-1-bg.png',
+              width: 45,
+              height: 45,
+            ),
+          ),
+          onPressed: () {},
+        ),
+        titleSpacing: 3,
+        title: const Text(
+          'PPSONA',
+          style: TextStyle(
+            color: Color.fromARGB(255, 167, 135, 135),
+            decoration: TextDecoration.none,
+            fontFamily: 'PermanentMarker-Regular',
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            // const Text(
+            //   'Search For your Old Mates',
+            //   textAlign: TextAlign.left,
+            //   style: TextStyle(
+            //     color: Color.fromARGB(255, 167, 135, 135),
+            //     decoration: TextDecoration.none,
+            //     fontFamily: 'PermanentMarker-Regular',
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 20,
+            //   ),
+            // ),
+            // const Divider(
+            //   color: Color.fromARGB(40, 167, 135, 135),
+            //   height: 20,
+            //   thickness: 3,
+            // ),
             TextFormField(
               onChanged: (value) => _runFilter(value),
               decoration: InputDecoration(
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                hintText: "Search",
+                hintText: "Search For your Old Mates",
+                hintStyle: TextStyle(color: Colors.grey),
                 suffixIcon: const Icon(
                   Icons.search,
                   color: Color.fromARGB(255, 244, 209, 54),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(
-                      color: Colors.grey), // Color when not focused
+                    color: Color.fromARGB(80, 167, 135, 135),
+                  ), // Color when not focused
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(
-                          255, 185, 153, 72)), // Color when focused
+                    color:
+                        Color.fromARGB(80, 167, 135, 135), // Color when focused
+                  ),
                 ),
               ),
             ),
@@ -99,7 +143,6 @@ class _SearchPageState extends State<SearchPage> {
                       itemCount: _foundUsers.length,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          // Navigate to the individual ProfileScreen
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -110,11 +153,18 @@ class _SearchPageState extends State<SearchPage> {
                           );
                         },
                         child: Card(
-                          elevation: 1,
-                          margin: const EdgeInsets.symmetric(vertical: 2),
+                          color: Color.fromARGB(0, 167, 135, 135),
+                          elevation: 0,
+                          margin: const EdgeInsets.symmetric(vertical: 1),
                           child: ListTile(
                             leading: Avatar(user: _foundUsers[index]),
-                            title: Text(_foundUsers[index].fullName),
+                            title: Text(
+                              _foundUsers[index].fullName,
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 167, 135, 135),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 16),
+                            ),
                           ),
                         ),
                       ),
@@ -127,7 +177,7 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const Bottombar(),
+      bottomNavigationBar: Bottombar(),
     );
   }
 }

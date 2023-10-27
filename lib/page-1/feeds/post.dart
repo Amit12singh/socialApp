@@ -88,13 +88,51 @@ class _PostScreenState extends State<PostScreen> {
           post.media != null && post.media!.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Image(
-                    image: NetworkImage(
-                      Uri.parse(post.media?[0].path ?? '').toString(),
-                    ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      FutureBuilder<void>(
+                        future: precacheImage(
+                          NetworkImage(
+                              Uri.parse(post.media![0].path ?? '').toString()),
+                          context,
+                        ),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<void> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(22),
+                                image: const DecorationImage(
+                                  fit: BoxFit.contain,
+                                  image: AssetImage(
+                                      'assets/page-1/images/defaultimage.jpg'),
+                                ),
+                              ),
+                            ); // Show loading spinner
+                          } else if (snapshot.hasError) {
+                            return Text('Error loading image');
+                          } else {
+                            return Image.network(
+                              Uri.parse(post.media![0].path ?? '').toString(),
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 )
-              : const SizedBox.shrink(),
+              : Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(22),
+                    image: const DecorationImage(
+                      fit: BoxFit.contain,
+                      image:
+                          AssetImage('assets/page-1/images/defaultimage.jpg'),
+                    ),
+                  ),
+                ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: _PostStats(
@@ -304,7 +342,6 @@ class Avatar extends StatelessWidget {
           backgroundImage: NetworkImage(user!.profilePicture!.path ?? ''),
           backgroundColor: Colors.transparent,
           radius: 28);
-      // Load network image
     } else {
       return const CircleAvatar(
           backgroundImage:

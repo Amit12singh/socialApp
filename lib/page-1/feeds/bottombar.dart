@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/page-1/MessengerPage.dart';
+import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 
 class Bottombar extends StatelessWidget {
-  const Bottombar({super.key});
+  const Bottombar({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,6 @@ class Bottombar extends StatelessWidget {
         iconSize: 25,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-          // BottomNavigationBarItem(icon: Icon(Icons.message), label: 'message'),
-          // BottomNavigationBarItem(icon: Icon(Icons.add), label: 'add'),
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
             label: 'message',
@@ -30,30 +28,28 @@ class Bottombar extends StatelessWidget {
               backgroundColor: Colors.white,
               child: Image(
                 image: AssetImage('assets/page-1/images/man.png'),
-                width: 20.0, // Set the width to the desired size
-                height: 20.0, // Set the height to the desired size
+                width: 20.0,
+                height: 20.0,
               ),
             ),
             label: 'User',
           )
         ],
-        // ignore: curly_braces_in_flow_control_structures
         onTap: (int index) {
           if (index == 2) {
-            // Check if the button at index 2 is tapped
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
               ),
             );
           } else if (index == 0) {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const FeedScreen(),
               ),
             );
           } else if (index == 1) {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => MessengerPage(),
               ),
