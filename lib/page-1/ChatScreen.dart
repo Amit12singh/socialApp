@@ -22,7 +22,7 @@ class _ChatScreenState extends State<ChatScreen> {
   UserModel? _user;
   final messageController = TextEditingController();
   final ChatService chatService = ChatService();
-  List<types.Message> _messages = [];
+  final List<types.Message> _messages = [];
 
   @override
   void initState() {
@@ -45,13 +45,16 @@ class _ChatScreenState extends State<ChatScreen> {
 
     // MessageModel messageModel = MessageModel(sourceId: widget.sourceChat.id.toString(),targetId: );
     socket = IO
-        .io("https://apis.oldnabhaite.site/oldnabhaiteapis", <String, dynamic>{
+        .io("http://192.168.101.7:8000", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
       "query": {"token": token}
     });
+    print(socket);
     socket.connect();
-    // socket.emit("joinRoom", );
+    socket.emit(
+      "joinRoom",
+    );
     socket.onConnect((data) {
       print("Connected");
 
@@ -143,6 +146,8 @@ class _ChatScreenState extends State<ChatScreen> {
       id: "id",
       text: message.text,
     );
+
+    print(socket);
     socket.emit('messageToRoom', {
       'receiverID': widget.receiver.id, // Replace with the actual recipient ID
       'text': message.text,
