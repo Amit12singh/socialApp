@@ -44,7 +44,8 @@ class _ChatScreenState extends State<ChatScreen> {
     print(token);
 
     // MessageModel messageModel = MessageModel(sourceId: widget.sourceChat.id.toString(),targetId: );
-    socket = IO.io("http://192.168.101.7:8000", <String, dynamic>{
+    socket = IO
+        .io("https://apis.oldnabhaite.site/oldnabhaiteapis", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
       "query": {"token": token}
