@@ -79,17 +79,18 @@ class _OnboardingState extends State<Onboarding> {
               left: 319 * fem,
               top: 40 * fem,
               child: Align(
-                child: SizedBox(
-                  width: 31 * fem,
-                  height: 26 * fem,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  },
                   child: Text(
-                    'Skip',
-                    textAlign: TextAlign.right,
+                    'SKIP',
                     style: TextStyle(
                       fontFamily: 'Work Sans',
-                      fontSize: 14 * ffem,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      height: 1.8571428571 * ffem / fem,
                       letterSpacing: 0.28 * fem,
                       color: const Color(0xffffffff),
                       decoration: TextDecoration.none,
@@ -98,6 +99,7 @@ class _OnboardingState extends State<Onboarding> {
                 ),
               ),
             ),
+
             Positioned(
               left: 39.5 * fem,
               top: 150 * fem,
@@ -148,64 +150,64 @@ class _OnboardingState extends State<Onboarding> {
                 ),
               ),
             ),
-            Positioned(
-              left: 53.5 * fem,
-              top: 741 * fem,
-              child: Align(
-                child: SizedBox(
-                  width: 174 * fem,
-                  height: 26 * fem,
-                  child: Text(
-                    'Dont have an account? ',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14 * ffem,
-                      fontWeight: FontWeight.w500,
-                      height: 1.8571428571 * ffem / fem,
-                      letterSpacing: 0.28 * fem,
-                      color: const Color(0xccffffff),
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 210.75 * fem,
-              top: 741 * fem,
-              child: Align(
-                child: SizedBox(
-                  width: 94 * fem,
-                  height: 26 * fem,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RegisterScreen(),
-                        ),
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                    ),
-                    child: Text(
-                      'Register now',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14 * ffem,
-                        fontWeight: FontWeight.w500,
-                        height: 1.8571428571 * ffem / fem,
-                        letterSpacing: 0.28 * fem,
-                        color: const Color(0xccffffff),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Positioned(
+            //   left: 53.5 * fem,
+            //   top: 741 * fem,
+            //   child: Align(
+            //     child: SizedBox(
+            //       width: 174 * fem,
+            //       height: 26 * fem,
+            //       child: Text(
+            //         'Dont have an account? ',
+            //         textAlign: TextAlign.center,
+            //         style: TextStyle(
+            //           fontFamily: 'Poppins',
+            //           fontSize: 14 * ffem,
+            //           fontWeight: FontWeight.w500,
+            //           height: 1.8571428571 * ffem / fem,
+            //           letterSpacing: 0.28 * fem,
+            //           color: const Color(0xccffffff),
+            //           decoration: TextDecoration.none,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Positioned(
+            //   left: 210.75 * fem,
+            //   top: 741 * fem,
+            //   child: Align(
+            //     child: SizedBox(
+            //       width: 94 * fem,
+            //       height: 26 * fem,
+            //       child: TextButton(
+            //         onPressed: () {
+            //           Navigator.pushReplacement(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (context) => RegisterScreen(),
+            //             ),
+            //           );
+            //         },
+            //         style: TextButton.styleFrom(
+            //           padding: EdgeInsets.zero,
+            //         ),
+            //         child: Text(
+            //           'Register now',
+            //           textAlign: TextAlign.center,
+            //           style: TextStyle(
+            //             fontFamily: 'Poppins',
+            //             fontSize: 14 * ffem,
+            //             fontWeight: FontWeight.w500,
+            //             height: 1.8571428571 * ffem / fem,
+            //             letterSpacing: 0.28 * fem,
+            //             color: const Color(0xccffffff),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -13,15 +13,24 @@ class Bottombar extends StatelessWidget {
         elevation: 8.0,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.black,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
         selectedFontSize: 8.0,
         iconSize: 25,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'message',
+              icon: Icon(
+                Icons.home,
+                size: 20.0,
+              ),
+              label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Image(
+              image: AssetImage('assets/page-1/images/messageicon.png'),
+              width: 20.0,
+              height: 20.0,
+            ),
+            label: 'Message',
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(

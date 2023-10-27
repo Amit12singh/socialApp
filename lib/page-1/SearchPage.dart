@@ -58,6 +58,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -91,6 +92,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // const Text(
             //   'Search For your Old Mates',
@@ -134,8 +136,21 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+              child: const Text(
+                'Recent friends',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 167, 135, 135),
+                  decoration: TextDecoration.none,
+                  fontFamily: 'PermanentMarker-Regular',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ),
             const SizedBox(
-              height: 20,
+              height: 8,
             ),
             Expanded(
               child: _foundUsers.isNotEmpty
@@ -169,9 +184,18 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                     )
-                  : const Text(
-                      'No results found. Please try with a different search.',
-                      style: TextStyle(fontSize: 24),
+                  : const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'No results found. Please try with a different search.',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 167, 135, 135),
+                          decoration: TextDecoration.none,
+                          fontFamily: 'PermanentMarker-Regular',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
             ),
           ],

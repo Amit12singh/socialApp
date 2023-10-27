@@ -83,57 +83,54 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 167, 135, 135),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-                child: Row(
-                  children: [
-                    widget.receiver.avatarImage != null
-                        ? CircleAvatar(
-                            radius: 25,
-                            backgroundImage:
-                                NetworkImage(widget.receiver.avatarImage ?? ''))
-                        : const CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Colors.white,
-                            backgroundImage: AssetImage(
-                                'assets/page-1/images/logo-3-removebg-preview-1.png'),
-                          ),
-                    const SizedBox(width: 10),
-                    Text(
-                      widget.receiver.name,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'PermanentMarker-Regular',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 167, 135, 135),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+              child: Row(
+                children: [
+                  widget.receiver.avatarImage != null
+                      ? CircleAvatar(
+                          radius: 25,
+                          backgroundImage:
+                              NetworkImage(widget.receiver.avatarImage ?? ''))
+                      : const CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Colors.white,
+                          backgroundImage: AssetImage(
+                              'assets/page-1/images/logo-3-removebg-preview-1.png'),
+                        ),
+                  const SizedBox(width: 10),
+                  Text(
+                    widget.receiver.name,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'PermanentMarker-Regular',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                    // Spacer(),
-                    // Icon(
-                    //   Icons.search_rounded,
-                    //   color: Colors.white70,
-                    //   size: 40,
-                    // )
-                  ],
-                ),
+                  ),
+                  // Spacer(),
+                  // Icon(
+                  //   Icons.search_rounded,
+                  //   color: Colors.white70,
+                  //   size: 40,
+                  // )
+                ],
               ),
-              Expanded(
-                child: Chat(
-                  messages: _messages,
-                  onSendPressed: _handleSendPressed,
-                  user: types.User(id: _user?.id ?? ''),
-                ),
+            ),
+            Expanded(
+              child: Chat(
+                messages: _messages,
+                onSendPressed: _handleSendPressed,
+                user: types.User(id: _user?.id ?? ''),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

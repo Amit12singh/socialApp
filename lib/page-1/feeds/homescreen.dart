@@ -169,12 +169,12 @@ class _HomeScreenState extends State<FeedScreen> {
               ],
             ),
             bottomNavigationBar: Bottombar(),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add),
-              onPressed: () {},
-            ),
+            // floatingActionButtonLocation:
+            //     FloatingActionButtonLocation.centerDocked,
+            // floatingActionButton: FloatingActionButton(
+            //   child: const Icon(Icons.add),
+            //   onPressed: () {},
+            // ),
             // bottomNavigationBar: BottomAppBar(
             //   shape: CircularNotchedRectangle(),
             //   notchMargin: 4.0,

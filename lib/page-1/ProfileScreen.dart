@@ -16,7 +16,6 @@ import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
-import 'package:myapp/page-1/ChatScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserModel? user;

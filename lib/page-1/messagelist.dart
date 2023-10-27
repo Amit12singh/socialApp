@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/models/chat_model.dart';
@@ -38,133 +39,184 @@ class _MessengerPageState extends State<MessengerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 83, 76, 56),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Messages',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Quicksand',
-                            fontSize: 30,
-                            color: Colors.white),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.search,
-                          color: Colors.white,
-                          size: 36,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Text(
-                    'R E C E N T',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-                height: 645.6,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 229, 230, 232),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
-                ),
-                child: ListView.builder(
-                  itemCount: chatItems.length,
-                  itemBuilder: (context, index) {
-                    ChatModel chatItem = chatItems[index];
-
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ChatScreen(receiver: chatItems[index]),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 26.0, top: 35, right: 10),
-                        child: Row(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage:
-                                      NetworkImage(chatItem.avatarImage ?? ''),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      chatItem.name,
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(255, 18, 16, 16),
-                                        fontFamily: 'Quicksand',
-                                        fontSize: 17,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 100,
-                                    ),
-                                    Text(
-                                      chatItem.time ?? '',
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(179, 17, 16, 16),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  chatItem.text ?? '',
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(179, 18, 17, 17),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                )),
-          ],
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Container(
+            width: 60,
+            height: 60,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: Image.asset(
+              'assets/page-1/images/ellipse-1-bg.png',
+              width: 45,
+              height: 45,
+            ),
+          ),
+          onPressed: () {},
+        ),
+        titleSpacing: 3,
+        title: const Text(
+          'PPSONA',
+          style: TextStyle(
+            color: Color.fromARGB(255, 167, 135, 135),
+            decoration: TextDecoration.none,
+            fontFamily: 'PermanentMarker-Regular',
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          const Text(
+            'Recent Messages',
+            style: TextStyle(
+              color: Color.fromARGB(255, 167, 135, 135),
+              decoration: TextDecoration.none,
+              fontFamily: 'PermanentMarker-Regular',
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          Divider(
+            color: Color.fromARGB(40, 167, 135, 135),
+            height: 20,
+            thickness: 3,
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15.0, right: 15),
+          //   child: Column(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     children: [
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           const Text(
+          //             'Messages',
+          //             style: TextStyle(
+          //                 fontWeight: FontWeight.bold,
+          //                 fontFamily: 'Quicksand',
+          //                 fontSize: 30,
+          //                 color: Colors.white),
+          //           ),
+          //           IconButton(
+          //             onPressed: () {},
+          //             icon: const Icon(
+          //               Icons.search,
+          //               color: Colors.white,
+          //               size: 36,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //       const SizedBox(
+          //         height: 5,
+          //       ),
+          //       const Text(
+          //         'R E C E N T',
+          //         style: TextStyle(
+          //           color: Colors.white,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+
+          Container(
+              //   height: 645.6,
+              width: double.infinity,
+              // decoration: const BoxDecoration(
+              //   color: Color.fromARGB(255, 229, 230, 232),
+              //   borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(50),
+              //     topRight: Radius.circular(50),
+              //   ),
+              // ),
+              child: ListView.builder(
+                itemCount: chatItems.length,
+                shrinkWrap: true,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  ChatModel chatItem = chatItems[index];
+
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ChatScreen(receiver: chatItems[index]),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 26.0, top: 20, right: 10),
+                      child: Row(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundImage:
+                                    NetworkImage(chatItem.avatarImage ?? ''),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    chatItem.name,
+                                    style: const TextStyle(
+                                      color: Color.fromARGB(255, 18, 16, 16),
+                                      fontFamily: 'Quicksand',
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 100,
+                                  ),
+                                  Text(
+                                    chatItem.time ?? '',
+                                    style: const TextStyle(
+                                      color: Color.fromARGB(179, 17, 16, 16),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                chatItem.text ?? '',
+                                style: const TextStyle(
+                                  color: Color.fromARGB(179, 18, 17, 17),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              )),
+        ],
       ),
       bottomNavigationBar: const Bottombar(),
     );
