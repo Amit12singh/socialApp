@@ -4,6 +4,8 @@ import 'package:myapp/graphql/queries.dart';
 import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+
 
 class ChatService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
@@ -59,5 +61,49 @@ class ChatService {
       print('article service catch $error');
       return [];
     }
+
+
+
+
+    
   }
+
+  Future<List<types.TextMessage>> allChats(
+      {String? sender, String? receiver}) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.cacheFirst,
+          document: gql(ALL_CHATS),
+          variables: {"sender": sender, "receiver": receiver},
+        ),
+      );
+
+      if (result.hasException) {
+        print('exeption');
+        throw Exception(result.exception);
+      } else {
+        List res = result.data?['getMessages'];
+        print(res);
+
+        List<types.TextMessage> chats = res.map((chat) {
+          print(chat['id']);
+
+          return types.TextMessage(
+              author: types.User(id: chat['sender']?['id']),
+              id: chat['id'],
+              text: chat['text']);
+        }).toList();
+
+        print(chats);
+
+        return chats;
+      }
+    } catch (error) {
+      print('chats service catch $error');
+      return [];
+    }
+  }
+
+  
 }

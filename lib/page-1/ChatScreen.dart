@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/chat_model.dart';
+import 'package:myapp/services/chat_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -20,6 +21,8 @@ class _ChatScreenState extends State<ChatScreen> {
   String? token;
   UserModel? _user;
   final messageController = TextEditingController();
+  final ChatService chatService = ChatService();
+  List<types.Message> _messages = [];
 
   @override
   void initState() {
@@ -30,14 +33,19 @@ class _ChatScreenState extends State<ChatScreen> {
   void connect() async {
     token = await localStorageService.getAccessToken();
     final currentUser = await HandleToken().getUser();
+    final List<types.TextMessage> messages = await chatService.allChats(
+        sender: currentUser?.id, receiver: widget.receiver.id);
+    _addMessages(messages);
     setState(() {
       _user = currentUser;
+      // _messages = messages;
     });
 
     print(token);
 
     // MessageModel messageModel = MessageModel(sourceId: widget.sourceChat.id.toString(),targetId: );
-    socket = IO.io("http://192.168.101.7:8000", <String, dynamic>{
+    socket = IO
+        .io("https://apis.oldnabhaite.site/oldnabhaiteapis", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
       "query": {"token": token}
@@ -47,7 +55,9 @@ class _ChatScreenState extends State<ChatScreen> {
     socket.onConnect((data) {
       print("Connected");
 
-      socket.on('message', (msg) => {print('response $msg')});
+      socket.on('message', (msg) {
+        print('response $msg');
+      });
     });
 
     print(socket.connected);
@@ -67,7 +77,6 @@ class _ChatScreenState extends State<ChatScreen> {
   //   });
   // }
 
-  List<types.Message> _messages = [];
 
   @override
   Widget build(BuildContext context) {
@@ -136,12 +145,24 @@ class _ChatScreenState extends State<ChatScreen> {
       'receiverID': widget.receiver.id, // Replace with the actual recipient ID
       'text': message.text,
     });
-    _addMessage(textMessage);
+    
+    _addMessages([textMessage]);
   }
 
-  void _addMessage(types.Message message) {
+  void addReceivedRessage(types.PartialText message) {
+    final receivedMessage = types.TextMessage(
+      author:
+          types.User(id: widget.receiver.id), // Set the receiver as the author
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: UniqueKey().toString(),
+      text: message.text,
+    );
+    _addMessages([receivedMessage]);
+  }
+
+  void _addMessages(List<types.Message> messages) {
     setState(() {
-      _messages.insert(0, message);
+      _messages.insertAll(0, messages);
     });
   }
 }

@@ -165,3 +165,25 @@ query GetRecentChatsForUser(\$userId: String!) {
 }
 
 """;
+
+
+const ALL_CHATS = """
+query GetMessages(\$sender: String!, \$receiver: String!) {
+  getMessages(sender: \$sender, receiver: \$receiver) {
+    sender {
+      id
+      fullName
+      email
+    }
+    receiver {
+      id
+      fullName
+      email
+    }
+    id
+    text
+    createdAt
+  }
+}
+
+""";

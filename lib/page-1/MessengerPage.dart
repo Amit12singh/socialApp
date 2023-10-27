@@ -41,7 +41,7 @@ class _MessengerPageState extends State<MessengerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 83, 76, 56),
+      backgroundColor: const Color.fromARGB(255, 83, 76, 56),
       body: SafeArea(
         child: Column(
           children: [
@@ -53,7 +53,7 @@ class _MessengerPageState extends State<MessengerPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Messages',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class _MessengerPageState extends State<MessengerPage> {
                       ),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.search,
                           color: Colors.white,
                           size: 36,
@@ -71,10 +71,10 @@ class _MessengerPageState extends State<MessengerPage> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
-                  Text(
+                  const Text(
                     'R E C E N T',
                     style: TextStyle(
                       color: Colors.white,
@@ -83,13 +83,13 @@ class _MessengerPageState extends State<MessengerPage> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
               height: 645.6,
               width: double.infinity,
-              decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 229, 230, 232),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50),
@@ -126,7 +126,7 @@ class _MessengerPageState extends State<MessengerPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -134,31 +134,31 @@ class _MessengerPageState extends State<MessengerPage> {
                                   children: [
                                     Text(
                                       chatItem.name,
-                                      style: TextStyle(
-                                        color: const Color.fromARGB(
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(
                                             255, 18, 16, 16),
                                         fontFamily: 'Quicksand',
                                         fontSize: 17,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 100,
                                     ),
                                     Text(
-                                      chatItem.time,
-                                      style: TextStyle(
-                                        color: const Color.fromARGB(
+                                      chatItem.time ?? '',
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(
                                             179, 17, 16, 16),
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Text(
-                                  chatItem.text,
-                                  style: TextStyle(
+                                  chatItem.text ?? '',
+                                  style: const TextStyle(
                                     color:
-                                        const Color.fromARGB(179, 18, 17, 17),
+                                        Color.fromARGB(179, 18, 17, 17),
                                   ),
                                 ),
                               ],
@@ -172,7 +172,7 @@ class _MessengerPageState extends State<MessengerPage> {
           ],
         ),
       ),
-      bottomNavigationBar: Bottombar(),
+      bottomNavigationBar: const Bottombar(),
     );
   }
 }
