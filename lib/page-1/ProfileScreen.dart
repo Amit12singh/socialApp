@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
+import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/messagelist.dart';
+import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/feeds/post.dart';
@@ -14,6 +16,7 @@ import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/page-1/ChatScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserModel? user;
@@ -23,12 +26,15 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   final HandleToken localStorageService = HandleToken();
   final GraphQLService userService = GraphQLService();
 
   bool isExpanded = false;
   UserTimelineModel? posts;
+  TabController? _tabController;
+  late ChatModel receiver;
 
   var _user = null;
 
@@ -67,6 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
 
     _loadData();
   }
@@ -74,12 +81,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _loadData() async {
     final user = widget.user ?? await localStorageService.getUser();
     _user = user;
+    receiver =
+        ChatModel(id: widget.user?.id ?? '', name: widget.user?.fullName ?? '');
 
     posts = await userService.userProfile(id: _user.id);
     setState(() {
       // posts = _posts;
       _user = user;
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController?.dispose(); // Dispose of the TabController when not needed
+    super.dispose();
   }
 
   @override
@@ -122,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         actions: [
           PopupMenuButton<String>(
-            icon: Icon(
+            icon: const Icon(
               Icons.more_vert,
               color: Colors.black,
             ),
@@ -161,39 +176,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SliverPersistentHeader(
                 delegate: MyDelegate(
                   TabBar(
-                    onTap: (selectedIndex) {
-                      if (selectedIndex == 0) {
+                    controller: _tabController,
+                    onTap: ((value) {
+                      if (value == 1 && receiver != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ChatScreen(),
+                            builder: (context) =>
+                                ChatScreen(receiver: receiver),
                           ),
                         );
                       }
-                    },
-                    isScrollable: true,
+                    }),
                     tabs: [
-                      Spacer(),
-                      Container(
-                        color: Colors.white,
-                        child: const Tab(
-                          icon: Icon(Icons.grid_on),
-                          text: "Timeline",
-                          iconMargin: EdgeInsets.zero,
-                        ),
+                      const Tab(
+                        icon: Icon(Icons.grid_on),
+                        text: 'Timeline',
                       ),
-                      Spacer(),
-                      Spacer(),
-                      Spacer(),
-                      Spacer(),
-                      Container(
-                        color: Colors.white,
-                        child: const Tab(
-                          icon: Icon(Icons.messenger_rounded),
-                          iconMargin: EdgeInsetsDirectional.only(),
-                          text: "Chat now",
-                        ),
-                      ),
+                      widget.user != null
+                          ? const Tab(
+                              icon: Icon(
+                                  Icons.messenger), // Add your new icon here
+                              text: 'Messenger',
+                            )
+                          : const SizedBox(),
                     ],
                     indicatorColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
@@ -206,11 +212,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ];
           },
           body: ProfilePostScreen(
-            posts: posts?.timeline,
-          ),
+              posts: posts?.timeline,
+              load: _loadData), // Provide your posts data
         ),
       ),
-      bottomNavigationBar: Bottombar(),
+      bottomNavigationBar: const Bottombar(),
     );
   }
 }
@@ -331,8 +337,10 @@ class ProfileView extends StatelessWidget {
 
 class ProfilePostScreen extends StatefulWidget {
   final List<ArticleModel>? posts;
+  final Function load;
 
-  const ProfilePostScreen({Key? key, required this.posts}) : super(key: key);
+  const ProfilePostScreen({Key? key, required this.posts, required this.load})
+      : super(key: key);
 
   @override
   _PostScreenState createState() => _PostScreenState();
@@ -368,6 +376,14 @@ class _PostScreenState extends State<ProfilePostScreen> {
     });
   }
 
+  onDelete(String postId) async {
+    print('id $postId');
+    final isDeleted = await _postService.deleteArticle(postId);
+    if (isDeleted) {
+      widget.load();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.posts == null) {
@@ -383,7 +399,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
               SizedBox(height: 20),
               Center(
                 child: Text(
-                  'No Posts found.',
+                  'No Posts yet.',
                   style: TextStyle(fontSize: 24),
                 ),
               )
@@ -412,7 +428,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _PostHeader(post: post),
+                _PostHeader(post: post, onDelete: onDelete),
                 const SizedBox(
                   height: 4.0,
                 ),
@@ -466,19 +482,19 @@ class _PostHeader extends StatelessWidget {
     Key? key,
     required this.post,
     // required this.onEdit,
-    // required this.onDelete,
+    required this.onDelete,
   }) : super(key: key);
 
   final ArticleModel post;
   // final Function() onEdit;
-  // final Function() onDelete;
+  final Function(String) onDelete;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Avatar(user: post.owner),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -507,16 +523,17 @@ class _PostHeader extends StatelessWidget {
           ),
         ),
         PopupMenuButton<String>(
-          icon: Icon(
+          icon: const Icon(
             Icons.more_horiz,
             color: Colors.black,
           ),
           onSelected: (value) {
-            // if (value == 'edit') {
-            //   onEdit();
-            // } else if (value == 'delete') {
-            //   onDelete();
-            // }
+            if (value == 'edit') {
+              // onEdit();
+              () {};
+            } else if (value == 'delete') {
+              onDelete(post.id ?? '');
+            }
           },
           itemBuilder: (BuildContext context) {
             return <PopupMenuEntry<String>>[
@@ -529,6 +546,7 @@ class _PostHeader extends StatelessWidget {
               ),
               const PopupMenuItem<String>(
                 value: 'delete',
+                // onTap: () {},
                 child: ListTile(
                   leading: Icon(Icons.delete),
                   title: Text('Delete'),
@@ -614,7 +632,7 @@ class _PostStatsState extends State<_PostStats> {
           children: [
             Container(
               padding: const EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
               child: Icon(

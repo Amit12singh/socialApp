@@ -27,7 +27,9 @@ class HandleToken {
   }
 
   Future<String?> getAccessToken() async {
+   
     return await storage.read(key: 'accessToken');
+    
   }
 
   Future<bool> clearAccessToken() async {

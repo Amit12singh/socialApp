@@ -87,3 +87,14 @@ mutation Mutation(\$data: likeInput!) {
   articleLike(data: \$data)
 }
 """;
+
+const DELETE_ARTICLE = """
+mutation Mutation(\$data: IDInput!) {
+  deleteArticle(data: \$data) {
+    message
+    status
+    success
+  }
+}
+
+ """;

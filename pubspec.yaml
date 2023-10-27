@@ -41,8 +41,10 @@ dependencies:
   cached_network_image: ^3.3.0
   material_design_icons_flutter: ^7.0.7296
   shared_preferences: ^2.2.2
+  socket_io_client: ^2.0.3+1
   flutter_chat_ui: ^1.6.9
   another_transformer_page_view: ^2.0.1
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

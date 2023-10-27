@@ -13,6 +13,7 @@ class MessengerPage extends StatefulWidget {
 }
 
 class _MessengerPageState extends State<MessengerPage> {
+
   final HandleToken localStorageService = HandleToken();
   final ChatService _chatService = ChatService();
 
@@ -34,6 +35,8 @@ class _MessengerPageState extends State<MessengerPage> {
       chatItems = _data;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,15 +87,15 @@ class _MessengerPageState extends State<MessengerPage> {
               height: 20,
             ),
             Container(
-                height: 645.6,
-                width: double.infinity,
+              height: 645.6,
+              width: double.infinity,
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 229, 230, 232),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
+                color: Color.fromARGB(255, 229, 230, 232),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
                 ),
+              ),
                 child: ListView.builder(
                   itemCount: chatItems.length,
                   itemBuilder: (context, index) {
@@ -132,7 +135,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                     Text(
                                       chatItem.name,
                                       style: const TextStyle(
-                                        color: Color.fromARGB(255, 18, 16, 16),
+                                        color: Color.fromARGB(
+                                            255, 18, 16, 16),
                                         fontFamily: 'Quicksand',
                                         fontSize: 17,
                                       ),
@@ -143,7 +147,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                     Text(
                                       chatItem.time ?? '',
                                       style: const TextStyle(
-                                        color: Color.fromARGB(179, 17, 16, 16),
+                                        color: Color.fromARGB(
+                                            179, 17, 16, 16),
                                       ),
                                     ),
                                   ],
@@ -152,7 +157,8 @@ class _MessengerPageState extends State<MessengerPage> {
                                 Text(
                                   chatItem.text ?? '',
                                   style: const TextStyle(
-                                    color: Color.fromARGB(179, 18, 17, 17),
+                                    color:
+                                        Color.fromARGB(179, 18, 17, 17),
                                   ),
                                 ),
                               ],
