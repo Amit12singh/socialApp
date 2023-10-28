@@ -10,7 +10,10 @@ import 'package:myapp/utilities/localstorage.dart';
 class PostScreen extends StatefulWidget {
   final List<ArticleModel> posts;
 
-  const PostScreen({Key? key, required this.posts}) : super(key: key);
+  const PostScreen({
+    Key? key,
+    required this.posts,
+  }) : super(key: key);
 
   @override
   _PostScreenState createState() => _PostScreenState();
@@ -18,30 +21,20 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   final _postService = PostService();
-  bool _isLiked = false;
-  final currentUser = HandleToken().getUser();
+  late UserModel? _currentUser;
 
   @override
   void initState() {
     super.initState();
-    
+    _loadUser();
   }
 
-  // Future<bool> isAlreadyLiked() async {
-  //   final currentUser = await HandleToken().getUser();
-
-  //   widget.posts.forEach((e) {
-  //     if (currentUser != null && e.likes != null) {
-  //       e.likes?.any((like) => like.user?.id == currentUser.id) ?? false;
-  //     }
-  //   });
-
-  //   return false;
-  // }
-
- 
-
-  
+  void _loadUser() async {
+    final UserModel? currentUser = await HandleToken().getUser();
+    setState(() {
+      _currentUser = currentUser;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +53,6 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   Widget buildPostCard(ArticleModel post) {
-
-
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -74,7 +64,7 @@ class _PostScreenState extends State<PostScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _PostHeader(post: post),
+                _PostHeader(post: post, owner: _currentUser),
                 const SizedBox(
                   height: 8.0,
                 ),
@@ -112,7 +102,7 @@ class _PostScreenState extends State<PostScreen> {
                               ),
                             ); // Show loading spinner
                           } else if (snapshot.hasError) {
-                            return Text('Error loading image');
+                            return const Text('Error loading image');
                           } else {
                             return Image.network(
                               Uri.parse(post.media![0].path ?? '').toString(),
@@ -138,7 +128,6 @@ class _PostScreenState extends State<PostScreen> {
             child: _PostStats(
               post: post,
               postService: _postService,
-              isPostLiked: _isLiked,
             ),
           ),
         ],
@@ -147,16 +136,13 @@ class _PostScreenState extends State<PostScreen> {
   }
 }
 
-class $ {}
-
 class _PostHeader extends StatelessWidget {
-  const _PostHeader({
-    Key? key,
-    required this.post,
-  }) : super(key: key);
-
+  const _PostHeader({Key? key, required this.post, required this.owner})
+      : super(key: key);
   final ArticleModel post;
+  final UserModel? owner;
 
+  dynamic() => print(owner);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -193,26 +179,27 @@ class _PostHeader extends StatelessWidget {
             ],
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.more_horiz),
-          onPressed: () => print('more'),
-        )
+        post.owner?.id == owner?.id
+            ? IconButton(
+                icon: const Icon(Icons.more_horiz),
+                onPressed: () => print('more'),
+              )
+            : const SizedBox()
       ],
     );
   }
 }
 
 class _PostStats extends StatefulWidget {
-  const _PostStats({
+  _PostStats({
     Key? key,
     required this.post,
     required this.postService,
-    required this.isPostLiked,
   }) : super(key: key);
 
   final ArticleModel post;
+  // ignore: prefer_typing_uninitialized_variables
   final postService;
-  final bool isPostLiked;
 
   @override
   _PostStatsState createState() => _PostStatsState();
@@ -221,43 +208,53 @@ class _PostStats extends StatefulWidget {
 class _PostStatsState extends State<_PostStats> {
   bool _isLiked = false;
   int likeCount = 0;
-  bool _hasExecuted = false;
-  bool currentLike = false;
+  bool isRendered = false;
 
   @override
   void initState() {
     super.initState();
     likeCount = widget.post.totalLikes;
-    if (!_hasExecuted) {
-      _isAlreadyLiked();
-      _hasExecuted = true;
-    }
+    _isAlreadyLiked();
   }
 
   void _isAlreadyLiked() async {
-    print("run $_isLiked");
     final currentUser = await HandleToken().getUser();
+    print('curr user');
 
-    if (currentUser != null && widget.post.likes != null) {
+    if (currentUser != null &&
+        widget.post.likes != null &&
+        isRendered == false) {
       // Check if any like by the current user exists
       bool isLiked =
           widget.post.likes!.any((like) => like.user?.id == currentUser.id);
 
+      isRendered = true;
       setState(() {
         _isLiked = isLiked;
       });
-    } else {
+    }
+    if (widget.post.totalLikes - 1 == widget.post.likes!.length && isRendered) {
       setState(() {
-        _isLiked =
-            false; // Set _isLiked to false if there is no current user or likes list is null.
+        _isLiked = true;
       });
     }
+
+    if (widget.post.totalLikes < widget.post.likes!.length &&
+        isRendered == true) {
+      setState(() {
+        _isLiked = false;
+      });
+    }
+
+    //  else {
+    //   _isLiked = false;S
+    // }
   }
 
   _likePost(String articleId) async {
     await widget.postService.likePost(articleId);
 
-    
+    widget.post.updateLikes(likeCount);
   }
 
   @override
@@ -266,26 +263,26 @@ class _PostStatsState extends State<_PostStats> {
       children: [
         Row(
           children: [
+            Text(
+              likeCount.toString(),
+              style: TextStyle(
+                color: Colors.grey[600],
+              ),
+            ),
+            const SizedBox(width: 4),
             Container(
               padding: const EdgeInsets.all(4.0),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                widget.isPostLiked
-                    ? Icons.favorite
-                    : Icons.favorite_border_rounded,
-                size: 10,
-                color: _isLiked ? Colors.red : Colors.white,
-              ),
+              child: likeCount > 0
+                  ? const Icon(
+                      Icons.favorite,
+                      size: 15,
+                      color: Colors.red,
+                    )
+                  : const SizedBox(),
             ),
-            const SizedBox(width: 4),
-            Text(
-              '${likeCount}',
-              style: TextStyle(
-                color: Colors.grey[600],
-              ),
-            )
           ],
         ),
         const Divider(),

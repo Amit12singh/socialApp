@@ -24,6 +24,10 @@ class ArticleModel {
     this.owner,
   }) : totalLikes = likes?.length ?? 0;
 
+  updateLikes(int like) {
+    totalLikes = like;
+  }
+
   Future<UserModel?> currentUser = HandleToken().getUser();
 
   static ArticleModel fromMap({required map}) {
