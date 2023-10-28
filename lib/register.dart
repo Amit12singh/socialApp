@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/models/response_model.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/user_service.dart';
@@ -52,12 +53,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
     }
-  }
-
-  bool _isValidEmail(String email) {
-    final RegExp emailRegExp =
-        RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
-    return emailRegExp.hasMatch(email);
   }
 
   String _email = "";
@@ -160,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: TextFormField(
                                   controller: fullNameController,
                                   decoration: InputDecoration(
-                                    hintText: 'Enter your Full name',
+                                    hintText: 'Enter your Full name *',
                                     hintStyle: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 15 * ffem,
@@ -201,7 +196,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: TextFormField(
                                   controller: emailController,
                                   decoration: InputDecoration(
-                                    hintText: 'Enter your email address',
+                                    hintText: 'Enter your email address *',
                                     hintStyle: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 15 * ffem,
@@ -213,7 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Email is required';
-                                    } else if (!_isValidEmail(value)) {
+                                    } else if (!isEmailValid(value)) {
                                       return 'Enter a valid email';
                                     }
                                     return null;
@@ -221,6 +216,261 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   onSaved: (value) {
                                     _email = value!;
                                   },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15 * fem),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
+                        padding: EdgeInsets.fromLTRB(
+                          12.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          12.5 * fem,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(20 * fem),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.phone_callback_rounded,
+                                size: 20 * fem,
+                              ),
+                              SizedBox(width: 10.5 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: fullNameController,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                  ],
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter your Phone Number *',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15 * fem),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
+                        padding: EdgeInsets.fromLTRB(
+                          12.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          12.5 * fem,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(20 * fem),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.date_range,
+                                size: 20 * fem,
+                              ),
+                              SizedBox(width: 10.5 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: fullNameController,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                  ],
+                                  decoration: InputDecoration(
+                                    hintText: 'Year Passed Out *',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15 * fem),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
+                        padding: EdgeInsets.fromLTRB(
+                          12.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          12.5 * fem,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(20 * fem),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.house_rounded,
+                                size: 20 * fem,
+                              ),
+                              SizedBox(width: 10.5 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: fullNameController,
+                                  decoration: InputDecoration(
+                                    hintText: 'House(option)',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15 * fem),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
+                        padding: EdgeInsets.fromLTRB(
+                          12.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          12.5 * fem,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(20 * fem),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.house_rounded,
+                                size: 20 * fem,
+                              ),
+                              SizedBox(width: 10.5 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: fullNameController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Your House Number',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15 * fem),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
+                        padding: EdgeInsets.fromLTRB(
+                          12.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          12.5 * fem,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(20 * fem),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.location_city,
+                                size: 20 * fem,
+                              ),
+                              SizedBox(width: 10.5 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: fullNameController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Current Resident *',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15 * fem),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8.33 * fem),
+                        padding: EdgeInsets.fromLTRB(
+                          12.5 * fem,
+                          6.5 * fem,
+                          6.5 * fem,
+                          12.5 * fem,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(20 * fem),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.work_history,
+                                size: 20 * fem,
+                              ),
+                              SizedBox(width: 10.5 * fem),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: fullNameController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Your Profession *',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      color: const Color(0xffdadbd8),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
