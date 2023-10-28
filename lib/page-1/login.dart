@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Row(
                             children: [
                               Icon(
-                                Icons.inbox,
+                                Icons.email_rounded,
                                 size: 25 * fem,
                               ),
                               SizedBox(width: 15 * fem),
