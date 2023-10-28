@@ -347,7 +347,6 @@ class ProfilePostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<ProfilePostScreen> {
   final _postService = PostService();
-  bool _isLiked = false;
   final currentUser = HandleToken().getUser();
 
   @override
@@ -367,13 +366,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
     return false;
   }
 
-  _likePost(String articleId) async {
-    final isLiked = await _postService.likePost(articleId);
 
-    setState(() {
-      _isLiked = isLiked;
-    });
-  }
 
   onDelete(String postId) async {
     print('id $postId');
@@ -466,8 +459,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: _PostStats(
               post: post,
-              likePost: _likePost,
-              isPostLiked: _isLiked,
+              postService: _postService,
             ),
           ),
         ],
@@ -597,16 +589,15 @@ class _PostHeader extends StatelessWidget {
 }
 
 class _PostStats extends StatefulWidget {
-  const _PostStats({
+  _PostStats({
     Key? key,
     required this.post,
-    required this.likePost,
-    required this.isPostLiked,
+    required this.postService,
   }) : super(key: key);
 
   final ArticleModel post;
-  final Function likePost;
-  final bool isPostLiked;
+  // ignore: prefer_typing_uninitialized_variables
+  final postService;
 
   @override
   _PostStatsState createState() => _PostStatsState();
@@ -614,13 +605,54 @@ class _PostStats extends StatefulWidget {
 
 class _PostStatsState extends State<_PostStats> {
   bool _isLiked = false;
-  int _likeCount = 0;
+  int likeCount = 0;
+  bool isRendered = false;
 
   @override
   void initState() {
     super.initState();
-    _isLiked = widget.isPostLiked;
-    _likeCount = widget.post.totalLikes;
+    likeCount = widget.post.totalLikes;
+    _isAlreadyLiked();
+  }
+
+  void _isAlreadyLiked() async {
+    final currentUser = await HandleToken().getUser();
+    print('curr user');
+
+    if (currentUser != null &&
+        widget.post.likes != null &&
+        isRendered == false) {
+      // Check if any like by the current user exists
+      bool isLiked =
+          widget.post.likes!.any((like) => like.user?.id == currentUser.id);
+
+      isRendered = true;
+      setState(() {
+        _isLiked = isLiked;
+      });
+    }
+    if (widget.post.totalLikes - 1 == widget.post.likes!.length && isRendered) {
+      setState(() {
+        _isLiked = true;
+      });
+    }
+
+    if (widget.post.totalLikes < widget.post.likes!.length &&
+        isRendered == true) {
+      setState(() {
+        _isLiked = false;
+      });
+    }
+
+    //  else {
+    //   _isLiked = false;S
+    // }
+  }
+
+  _likePost(String articleId) async {
+    await widget.postService.likePost(articleId);
+
+    widget.post.updateLikes(likeCount);
   }
 
   @override
@@ -629,24 +661,26 @@ class _PostStatsState extends State<_PostStats> {
       children: [
         Row(
           children: [
+            Text(
+              likeCount.toString(),
+              style: TextStyle(
+                color: Colors.grey[600],
+              ),
+            ),
+            const SizedBox(width: 4),
             Container(
               padding: const EdgeInsets.all(4.0),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                _isLiked ? Icons.favorite : Icons.favorite_border_rounded,
-                size: 10,
-                color: _isLiked ? Colors.red : Colors.white,
-              ),
+              child: likeCount > 0
+                  ? const Icon(
+                      Icons.favorite,
+                      size: 15,
+                      color: Colors.red,
+                    )
+                  : const SizedBox(),
             ),
-            const SizedBox(width: 4),
-            Text(
-              '$_likeCount',
-              style: TextStyle(
-                color: Colors.grey[600],
-              ),
-            )
           ],
         ),
         const Divider(),
@@ -654,7 +688,7 @@ class _PostStatsState extends State<_PostStats> {
           children: [
             _PostButton(
               icon: Icon(
-                MdiIcons.heartOutline,
+                _isLiked ? Icons.favorite : MdiIcons.heartOutline,
                 color: _isLiked ? Colors.red : Colors.grey[600],
                 size: 20,
               ),
@@ -662,12 +696,12 @@ class _PostStatsState extends State<_PostStats> {
               onTap: () {
                 setState(() {
                   if (_isLiked) {
-                    _likeCount--;
+                    likeCount--;
                   } else {
-                    _likeCount++;
+                    likeCount++;
                   }
                   _isLiked = !_isLiked;
-                  widget.likePost(widget.post.id);
+                  _likePost(widget.post.id ?? '');
                 });
               },
             ),
