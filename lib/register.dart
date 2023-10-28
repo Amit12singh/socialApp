@@ -15,13 +15,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
-  OutlineInputBorder errorBorder = OutlineInputBorder(
+  TextEditingController houseController = TextEditingController();
+  TextEditingController houseNumberController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController passedOutYearController = TextEditingController();
+  TextEditingController professionController = TextEditingController();
+  TextEditingController currentCityController = TextEditingController();
+  OutlineInputBorder errorBorder = const OutlineInputBorder(
     borderSide: BorderSide(color: Colors.red),
   );
 
   final GraphQLService _graphQLService = GraphQLService();
 
-  BoolResponseModel? _response;
+  late BoolResponseModel? _response;
   bool isLoading = false;
   bool _isPasswordVisible1 = false;
   bool _isPasswordVisible2 = false;
@@ -31,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return regex.hasMatch(email);
   }
 
-  void _create() async {
+  _create() async {
     setState(() {
       isLoading = true;
       _response = null;
@@ -40,16 +46,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
       email: emailController.text,
       password: passwordController.text,
       fullName: fullNameController.text,
+        currentCity: currentCityController.text,
+        house: houseController.text,
+        houseNumber: houseNumberController.text,
+        passedOutYear: passedOutYearController.text,
+        phoneNumber: phoneNumberController.text,
+        profession: phoneNumberController.text
+
     );
-    if (response.success) {
+    print('hee $response');
+    print(response.success);
+    if (response.success == true) {
       setState(() {
         _response = response;
         isLoading = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(
+            'Register Success.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
+      );
 
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => LoginScreen(),
+        ),
+      );
+    }
+      
+                          
+                         
+
+     
+    if (response.success == false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(
+            'Register fail. Try again.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
         ),
       );
     }
@@ -246,7 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 10.5 * fem),
                               Expanded(
                                 child: TextFormField(
-                                  controller: fullNameController,
+                                  controller: phoneNumberController,
                                   inputFormatters: <TextInputFormatter>[
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'[0-9]')),
@@ -292,7 +338,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 10.5 * fem),
                               Expanded(
                                 child: TextFormField(
-                                  controller: fullNameController,
+                                  controller: passedOutYearController,
                                   inputFormatters: <TextInputFormatter>[
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'[0-9]')),
@@ -337,7 +383,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 10.5 * fem),
                               Expanded(
                                 child: TextFormField(
-                                  controller: fullNameController,
+                                  controller: houseController,
                                   decoration: InputDecoration(
                                     hintText: 'House',
                                     hintStyle: TextStyle(
@@ -378,7 +424,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 10.5 * fem),
                               Expanded(
                                 child: TextFormField(
-                                  controller: fullNameController,
+                                  controller: houseNumberController,
                                   decoration: InputDecoration(
                                     hintText: 'Your House Number',
                                     hintStyle: TextStyle(
@@ -419,7 +465,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 10.5 * fem),
                               Expanded(
                                 child: TextFormField(
-                                  controller: fullNameController,
+                                  controller: currentCityController,
                                   decoration: InputDecoration(
                                     hintText: 'Current Resident *',
                                     hintStyle: TextStyle(
@@ -460,7 +506,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 10.5 * fem),
                               Expanded(
                                 child: TextFormField(
-                                  controller: fullNameController,
+                                  controller: professionController,
                                   decoration: InputDecoration(
                                     hintText: 'Your Profession *',
                                     hintStyle: TextStyle(
@@ -636,7 +682,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                             );
-                          } else if (!isEmailValid(email)) {
+                          }
+                          if (!isEmailValid(email)) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.red,
@@ -650,29 +697,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             );
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text(
-                                  'Register Success.',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            );
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()),
-                            );
+                            _create();
+                            print(_response?.success);
                           }
+
+
+                          
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Container(
+                          // onPressed:(){},
+                          
                           width: 332 * fem,
                           height: 58 * fem,
                           decoration: BoxDecoration(

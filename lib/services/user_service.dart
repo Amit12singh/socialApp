@@ -48,7 +48,14 @@ class GraphQLService {
   Future<BoolResponseModel> registerUser(
       {required String fullName,
       required String email,
-      required String password}) async {
+    required String password,
+    required String passedOutYear,
+    required String house,
+    required String houseNumber,
+    required String currentCity,
+    required String phoneNumber,
+    required String profession,
+  }) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -58,7 +65,14 @@ class GraphQLService {
             "data": {
               "fullName": fullName,
               "email": email,
-              "password": password
+              "password": password,
+              "currentCity": currentCity,
+              "house": house,
+              "houseNumber": houseNumber,
+              "phoneNumber": phoneNumber,
+              "profession": profession,
+              "yearPassedOut": passedOutYear
+
             },
           },
         ),
@@ -69,6 +83,8 @@ class GraphQLService {
 
       final res = result.data?["createUser"];
 
+      print(res);
+
       if (res?["success"] == true) {
         return BoolResponseModel(
             message: 'User registered SuccessFully!!', success: true);
@@ -77,6 +93,7 @@ class GraphQLService {
             message: 'User register failed!!', success: false);
       }
     } catch (error) {
+      print(error);
       return BoolResponseModel(
           message: 'Something went wrong.', success: false);
     }

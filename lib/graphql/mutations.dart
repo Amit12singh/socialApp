@@ -16,20 +16,25 @@ const CREATE_USER = """
 mutation Mutation(\$data: RegisterInput!) {
   createUser(data: \$data) {
     data {
+      createdAt
+      currentCity
       email
       fullName
+      house
       id
+      houseNumber
+      phoneNumber
+      profession
       profileImage {
         id
         mimeType
         name
         path
         type
+        createdAt
       }
       role
-      deletedAt
-      createdAt
-      updatedAt
+      yearPassedOut
     }
     message
     status
