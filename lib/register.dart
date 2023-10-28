@@ -188,7 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: Row(
                             children: [
                               Icon(
-                                Icons.inbox,
+                                Icons.email_rounded,
                                 size: 20 * fem,
                               ),
                               SizedBox(width: 17.5 * fem),
@@ -339,7 +339,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: TextFormField(
                                   controller: fullNameController,
                                   decoration: InputDecoration(
-                                    hintText: 'House(option)',
+                                    hintText: 'House',
                                     hintStyle: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 15 * ffem,
@@ -372,7 +372,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: Row(
                             children: [
                               Icon(
-                                Icons.house_rounded,
+                                Icons.house_siding_rounded,
                                 size: 20 * fem,
                               ),
                               SizedBox(width: 10.5 * fem),
