@@ -24,6 +24,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
   bool _isPasswordVisible1 = false;
   bool _isPasswordVisible2 = false;
+  bool isEmailValid(String email) {
+    String emailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
+    RegExp regex = RegExp(emailPattern);
+    return regex.hasMatch(email);
+  }
 
   void _create() async {
     setState(() {
@@ -368,18 +373,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           String password = passwordController.text;
                           String confirmPassword =
                               confirmPasswordController.text;
+                          String email = emailController.text;
 
                           if (password != confirmPassword) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                backgroundColor: Colors
-                                    .red, // Set the background color to red
+                                backgroundColor: Colors.red,
                                 content: Text(
                                   'Passwords do not match, Please enter correct Password',
                                   textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            );
+                          } else if (!isEmailValid(email)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text(
+                                  'Please enter a valid email address',
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Colors
-                                        .black, // Set the text color to black
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
@@ -387,17 +402,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                backgroundColor: Colors
-                                    .green, // Set the background color to green
+                                backgroundColor: Colors.green,
                                 content: Text(
                                   'Register Success.',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Colors
-                                        .black, // Set the text color to black
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
+                            );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()),
                             );
                           }
                         },
