@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/models/article_model.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/page-1/feeds/post_imgaes_view.dart';
 
 class CreatePostScreen extends StatefulWidget {
-  const CreatePostScreen({Key? key}) : super(key: key);
+  CreatePostScreen({Key? key, this.post}) : super(key: key);
+
+  ArticleModel? post;
 
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
@@ -17,10 +22,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   List<XFile> _mediaFileList = [];
   final ImagePicker _picker = ImagePicker();
   bool isPosting = false;
+  bool isUpdate = false;
 
   @override
   void initState() {
     super.initState();
+    if (widget.post != null) {
+      isUpdate = true;
+      postController.text = widget.post!.title;
+    }
   }
 
   void _createPost() async {
@@ -29,12 +39,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       isPosting = true;
     });
 
-    final _isPostCreated =
-        await postService.createPost(postController.text, _mediaFileList);
+    final _isPostCreated = !isUpdate
+        ? await postService.createPost(postController.text, _mediaFileList)
+        : await postService.updatePost(
+            postController.text, [], [], widget.post?.id ?? '');
 
     if (_isPostCreated) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Post created successfully',
             textAlign: TextAlign.center,
@@ -95,7 +107,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             fontSize: 25,
           ),
         ),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black, // Change the arrow color to white
         ),
       ),
@@ -106,17 +118,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(bottom: 25.0),
+                margin: const EdgeInsets.only(bottom: 25.0),
                 width: double.infinity,
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: 10.0),
+                      margin: const EdgeInsets.only(right: 10.0),
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(22),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           fit: BoxFit.contain,
                           image: AssetImage(
                               'assets/page-1/images/ellipse-4-bg.png'),
@@ -136,10 +148,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
               ),
               Container(
-                  margin: EdgeInsets.only(bottom: 25.0),
+                  margin: const EdgeInsets.only(bottom: 25.0),
                   child: TextField(
                     controller: postController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "What’s on your mind?",
                       hintStyle: TextStyle(
                         fontFamily: 'Poppins',
@@ -149,7 +161,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       ),
                       border: InputBorder.none,
                     ),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -157,18 +169,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     ),
                     maxLines: null,
                   )),
-              SizedBox(height: 30.0),
-              Container(
-                child: Column(
-                  children: [
-                    Visibility(
-                      visible: _mediaFileList.isNotEmpty,
-                      child: ImageArrayWidget(imagePaths: _mediaFileList),
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 30.0),
+              Column(
+                children: [
+                  Visibility(
+                    visible: _mediaFileList.isNotEmpty,
+                    child: ImageArrayWidget(imagePaths: _mediaFileList),
+                  ),
+                ],
               ),
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -176,17 +186,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     width: 150,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Color(0xffefe3d7),
+                      color: const Color(0xffefe3d7),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: InkWell(
                       onTap: () {
                         selectImage();
                       },
-                      child: Column(
+                      child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 40,
                             height: 40,
                             child: Image(
@@ -212,7 +222,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     width: 150,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Color(0xffefe3d7),
+                      color: const Color(0xffefe3d7),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: InkWell(
@@ -227,13 +237,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                           Container(
                             width: 40,
                             height: 40,
-                            child: Image(
+                            child: const Image(
                               image:
                                   AssetImage('assets/page-1/images/camera.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
-                          Text(
+                          const Text(
                             'Camera',
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -249,21 +259,21 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ],
               ),
               if (isPosting)
-                Center(
+                const Center(
                   child: CircularProgressIndicator(),
                 ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Container(
-                color: Color.fromARGB(255, 220, 166, 112),
-                margin: EdgeInsets.only(bottom: 50.0),
+                color: const Color.fromARGB(255, 220, 166, 112),
+                margin: const EdgeInsets.only(bottom: 50.0),
                 child: InkWell(
                   onTap: () {
                     _createPost();
                   },
                   child: Container(
                     width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Center(
                         child: Text(
                           'POST',

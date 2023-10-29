@@ -104,29 +104,33 @@ query Me(\$userId: String!) {
 
 
 const GET_ALL_USERS = """
-query GetAllUser(\$data: PaginationArgs!) {
+query Query(\$data: PaginationArgs!) {
   getAllUser(data: \$data) {
     data {
       createdAt
-      deletedAt
+      currentCity
       email
       fullName
+      house
+      houseNumber
       id
+      phoneNumber
+      profession
       profileImage {
         mimeType
         id
+        createdAt
         name
         path
         type
       }
-      role
+      yearPassedOut
     }
     message
     status
     success
   }
 }
-
 """;
 
 const GET_RECENT_CHATS = """

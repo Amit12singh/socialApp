@@ -72,11 +72,17 @@ class UserModel {
   final String? id;
   final String fullName;
   final String email;
-
+  final String? house;
+  final String? houseNumber;
+  final String? phoneNumber;
+  final String? passedOutYear;
+  final String? currentCity;
+  final String? profession;
   final ProfilePicture? profilePicture;
   final DateTime? createdAt;
   final DateTime? deletedAt;
   final DateTime? updatedAt;
+
   final String? password;
 
   UserModel(
@@ -87,27 +93,34 @@ class UserModel {
       this.deletedAt,
       this.updatedAt,
       this.createdAt,
-      this.password});
+    this.password,
+    this.currentCity,
+    this.house,
+    this.houseNumber,
+    this.passedOutYear,
+    this.phoneNumber,
+    this.profession,
+  });
 
   // String get imageUrl => null;
 
-  static fromMap({map}) {
-    return UserModel(
-      id: map['id'],
-      email: map['email'],
-      fullName: map['fullName'],
-      profilePicture: map['profileImage'],
-      createdAt: DateTime.fromMillisecondsSinceEpoch(
-        int.parse(map['createdAt']),
-      ),
-      deletedAt: DateTime.fromMillisecondsSinceEpoch(
-        int.parse(map['createdAt']),
-      ),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(
-        int.parse(map['createdAt']),
-      ),
-    );
-  }
+  // static fromMap({map}) {
+  //   return UserModel(
+  //     id: map['id'],
+  //     email: map['email'],
+  //     fullName: map['fullName'],
+  //     profilePicture: map['profileImage'],
+  //     createdAt: DateTime.fromMillisecondsSinceEpoch(
+  //       int.parse(map['createdAt']),
+  //     ),
+  //     deletedAt: DateTime.fromMillisecondsSinceEpoch(
+  //       int.parse(map['createdAt']),
+  //     ),
+  //     updatedAt: DateTime.fromMillisecondsSinceEpoch(
+  //       int.parse(map['createdAt']),
+  //     ),
+  //   );
+  // }
 
   Map<String, dynamic> toJson() {
     return {
@@ -126,6 +139,12 @@ class UserModel {
       id: map['id'],
       email: map['email'],
       fullName: map['fullName'],
+      phoneNumber: map['phoneNumber'],
+      currentCity: map['currentCity'],
+      house: map['house'],
+      houseNumber: map['houseNumber'],
+      passedOutYear: map['passedOutYear'],
+      profession: map['profession'],
       profilePicture: map['profileImage'] != null
           ? ProfilePicture.fromJson(map['profileImage'])
           : null,

@@ -157,4 +157,58 @@ class PostService {
     }
   }
 
+
+
+  Future<bool> updatePost(String title, List mediaList,
+      List<String> deletedMedia, String id) async {
+    try {
+      List<http.MultipartFile> _multipartFileList = [];
+
+      List<ProfilePicture> _responseMediaList = [];
+
+      if (mediaList.isNotEmpty) {
+        _multipartFileList =
+            await mediaConvert.convertMediaListToMultipart(mediaList);
+
+        _responseMediaList =
+            await mediaService.uploadMultipleImages(_multipartFileList);
+      }
+
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          document: gql(UPDATE_ARTICLE),
+          variables: {
+            "data": {
+              "deletedMedia": deletedMedia,
+              "id": id,
+              "title": title,
+              "media": _responseMediaList.map((media) {
+                return {
+                  "type": media.type,
+                  "mimeType": media.mimeType,
+                  "name": media.name,
+                  // You may need to implement this
+                };
+              }).toList(),
+            },
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        print('create exeption');
+        print(result);
+        throw Exception(result.exception);
+      }
+
+      print('like Result $result');
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+
 }

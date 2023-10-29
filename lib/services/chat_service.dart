@@ -1,5 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
+import 'package:myapp/graphql/mutations.dart';
 import 'package:myapp/graphql/queries.dart';
 import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/models/user_model.dart';
@@ -102,6 +103,39 @@ class ChatService {
     } catch (error) {
       print('chats service catch $error');
       return [];
+    }
+  }
+
+
+  Future<bool> sendMessage(String text, String receiver) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          document: gql(SEND_MESSAGE),
+          variables: {
+            "data": {
+              "text": text,
+              "receiverID": receiver,
+            },
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      }
+
+      Map res = result.data?['sendMessage'];
+
+      if (res != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      print(err);
+      return false;
     }
   }
 

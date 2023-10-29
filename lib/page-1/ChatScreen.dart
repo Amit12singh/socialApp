@@ -45,7 +45,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
     // MessageModel messageModel = MessageModel(sourceId: widget.sourceChat.id.toString(),targetId: );
     socket = IO
-        .io("https://apis.oldnabhaite.site/oldnabhaiteapis", <String, dynamic>{
+        .io(
+        "https://apis.oldnabhaite.site/oldnabhaiteapis:8080", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
       "query": {"token": token}
@@ -58,10 +59,12 @@ class _ChatScreenState extends State<ChatScreen> {
     socket.onConnect((data) {
       print("Connected");
 
-      socket.on('message', (msg) {
+      
+    });
+
+    socket.on('message', (msg) {
         addReceivedMessage(msg);
         print('response $msg');
-      });
     });
 
     print(socket.connected);
@@ -151,6 +154,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     _addMessages([textMessage]);
+    chatService.sendMessage(message.text, widget.receiver.id);
   }
 
   void addReceivedMessage(String message) {

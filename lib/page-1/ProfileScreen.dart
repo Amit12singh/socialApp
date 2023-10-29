@@ -7,6 +7,7 @@ import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
+import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
@@ -520,8 +521,11 @@ class _PostHeader extends StatelessWidget {
           ),
           onSelected: (value) {
             if (value == 'edit') {
-              // onEdit();
-              () {};
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CreatePostScreen(post: post),
+                ),
+              );
             } else if (value == 'delete') {
               onDelete(post.id ?? '');
             }

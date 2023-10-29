@@ -103,3 +103,50 @@ mutation Mutation(\$data: IDInput!) {
 }
 
  """;
+
+
+const UPDATE_ARTICLE = """
+mutation Mutation(\$data: ArticleUpdateInput!) {
+  UpdateArtice(data: \$data) {
+    id
+    likes {
+      id
+      user {
+        id
+        email
+        fullName
+      }
+      createdAt
+    }
+    media {
+      mimeType
+      name
+      path
+      type
+      createdAt
+    }
+    title
+
+  }
+}
+""";
+
+const SEND_MESSAGE = """
+mutation Mutation(\$data: MessageInput!) {
+  sendMessage(data: \$data) {
+    id
+    receiver {
+      id
+      fullName
+      email
+    }
+    sender {
+      id
+      fullName
+      email
+    }
+    text
+    createdAt
+  }
+}
+""";
