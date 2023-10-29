@@ -58,11 +58,9 @@ class _HomeScreenState extends State<FeedScreen> {
           return Scaffold(
             appBar: AppBar(
               systemOverlayStyle: SystemUiOverlayStyle(
-                // Status bar color
                 statusBarColor: Colors.white,
-                statusBarIconBrightness:
-                    Brightness.dark, // For Android (dark icons)
-                statusBarBrightness: Brightness.light, // For iOS (dark icons)
+                statusBarIconBrightness: Brightness.dark,
+                statusBarBrightness: Brightness.light,
               ),
               elevation: 0,
               backgroundColor: Colors.white,
@@ -92,22 +90,22 @@ class _HomeScreenState extends State<FeedScreen> {
                   fontSize: 25,
                 ),
               ),
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.search,
-                    size: 25,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => SearchPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
+              // actions: [
+              //   IconButton(
+              //     icon: const Icon(
+              //       Icons.search,
+              //       size: 25,
+              //       color: Colors.black,
+              //     ),
+              //     onPressed: () {
+              //       Navigator.of(context).push(
+              //         MaterialPageRoute(
+              //           builder: (context) => SearchPage(),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ],
             ),
             body: Column(
               children: [

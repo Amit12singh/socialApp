@@ -15,7 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
-  TextEditingController houseController = TextEditingController();
+  TextEditingController houseOptions = TextEditingController();
   TextEditingController houseNumberController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passedOutYearController = TextEditingController();
@@ -26,6 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   );
 
   final GraphQLService _graphQLService = GraphQLService();
+  String? _selectedHouse;
 
   late BoolResponseModel? _response;
   bool isLoading = false;
@@ -47,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: passwordController.text,
         fullName: fullNameController.text,
         currentCity: currentCityController.text,
-        house: houseController.text,
+        house: houseOptions.text,
         houseNumber: houseNumberController.text,
         passedOutYear: passedOutYearController.text,
         phoneNumber: phoneNumberController.text,
@@ -376,9 +377,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               SizedBox(width: 10.5 * fem),
                               Expanded(
-                                child: TextFormField(
-                                  controller: houseController,
-                                  decoration: InputDecoration(
+                                child: DropdownButtonFormField<String>(
+                                  value: _selectedHouse,
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  iconSize: 24,
+                                  elevation: 16,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedHouse = newValue;
+                                    });
+                                  },
+                                  items: ['Beas', 'Jamuna', 'Ravi', 'Satluj']
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  decoration: InputDecoration.collapsed(
                                     hintText: 'House',
                                     hintStyle: TextStyle(
                                       fontFamily: 'Poppins',
