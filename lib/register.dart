@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: passwordController.text,
         fullName: fullNameController.text,
         currentCity: currentCityController.text,
-        house: houseOptions.text,
+        house: _selectedHouse ?? '',
         houseNumber: houseNumberController.text,
         passedOutYear: passedOutYearController.text,
         phoneNumber: phoneNumberController.text,
