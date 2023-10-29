@@ -43,17 +43,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _response = null;
     });
     BoolResponseModel response = await _graphQLService.registerUser(
-      email: emailController.text,
-      password: passwordController.text,
-      fullName: fullNameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        fullName: fullNameController.text,
         currentCity: currentCityController.text,
         house: houseController.text,
         houseNumber: houseNumberController.text,
         passedOutYear: passedOutYearController.text,
         phoneNumber: phoneNumberController.text,
-        profession: phoneNumberController.text
-
-    );
+        profession: phoneNumberController.text);
     print('hee $response');
     print(response.success);
     if (response.success == true) {
@@ -80,15 +78,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
     }
-      
-                          
-                         
 
-     
     if (response.success == false) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromARGB(255, 174, 40, 10),
           content: Text(
             'Register fail. Try again.',
             textAlign: TextAlign.center,
@@ -700,16 +694,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             _create();
                             print(_response?.success);
                           }
-
-
-                          
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Container(
                           // onPressed:(){},
-                          
+
                           width: 332 * fem,
                           height: 58 * fem,
                           decoration: BoxDecoration(
