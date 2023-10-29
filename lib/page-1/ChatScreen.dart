@@ -6,6 +6,8 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:myapp/models/user_model.dart';
+import 'dart:async';
+
 
 class ChatScreen extends StatefulWidget {
   final ChatModel receiver;
@@ -23,11 +25,32 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageController = TextEditingController();
   final ChatService chatService = ChatService();
   final List<types.Message> _messages = [];
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     connect();
+    startMessagePolling();
+  }
+
+  void startMessagePolling() {
+    const pollingInterval =
+        Duration(seconds: 5); // Adjust the interval as needed
+
+    _timer = Timer.periodic(pollingInterval, (timer) async {
+      final currentUser = await HandleToken().getUser();
+
+      final newMessages = await chatService.allChats(
+          sender: currentUser?.id, receiver: widget.receiver.id);
+      if (newMessages.isNotEmpty && newMessages.length > _messages.length) {
+        _addMessages(newMessages);
+      }
+    });
+  }
+
+  void stopMessagePolling() {
+    _timer?.cancel();
   }
 
   void connect() async {
@@ -74,6 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void dispose() {
     socket.disconnect();
     messageController.dispose();
+    stopMessagePolling();
     super.dispose();
   }
 
