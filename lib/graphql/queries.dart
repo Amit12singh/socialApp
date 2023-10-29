@@ -191,3 +191,25 @@ query GetMessages(\$sender: String!, \$receiver: String!) {
 }
 
 """;
+
+
+
+const lastChatsBySender = """
+query GetResentChat(\$sender: String!) {
+  getResentChat(sender: \$sender) {
+    id
+    text
+    sender {
+      id
+      email
+      fullName
+    }
+    receiver {
+      id
+      fullName
+      email
+    }
+    createdAt
+  }
+}
+""";

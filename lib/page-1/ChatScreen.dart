@@ -39,12 +39,15 @@ class _ChatScreenState extends State<ChatScreen> {
         Duration(seconds: 5); // Adjust the interval as needed
 
     _timer = Timer.periodic(pollingInterval, (timer) async {
-      final currentUser = await HandleToken().getUser();
+      // final currentUser = await HandleToken().getUser();
 
-      final newMessages = await chatService.allChats(
-          sender: currentUser?.id, receiver: widget.receiver.id);
+      final newMessages =
+          await chatService.lastChats(sender: widget.receiver.id);
+
+      print(newMessages);
+
       if (newMessages.isNotEmpty && newMessages.length > _messages.length) {
-        _addMessages(newMessages);
+        _addMessages(newMessages.sublist(_messages.length));
       }
     });
   }
