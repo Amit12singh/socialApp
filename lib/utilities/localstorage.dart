@@ -9,7 +9,6 @@ class HandleToken {
 
   Future<bool> saveAccessToken(user) async {
     const storage = FlutterSecureStorage();
-    print(user['fullName']);
 
 // Write value
     final loggedinUser = UserModel(
@@ -59,8 +58,6 @@ class HandleToken {
       Map<String, dynamic> userMap = json.decode(jsonUser);
       UserModel user = UserModel.fromJson(userMap);
 
-      print('curr user ');
-      print(user.id);
 
       return user;
     }

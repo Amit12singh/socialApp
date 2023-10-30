@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:myapp/graphql/queries.dart';
@@ -30,17 +31,14 @@ class GraphQLService {
       }
 
       Map? res = result.data?["login"];
-      print('here res $res');
 
       final isSaved = await handleTokenService.saveAccessToken(res);
-      print('isSaved $isSaved');
       if (isSaved) {
         return true;
       } else {
         return false;
       }
     } catch (error) {
-      print('here $error');
       return false;
     }
   }
@@ -83,7 +81,6 @@ class GraphQLService {
 
       final res = result.data?["createUser"];
 
-      print(res);
 
       if (res?["success"] == true) {
         return BoolResponseModel(
@@ -93,7 +90,9 @@ class GraphQLService {
             message: 'User register failed!!', success: false);
       }
     } catch (error) {
-      print(error);
+
+  
+     
       return BoolResponseModel(
           message: 'Something went wrong.', success: false);
     }
@@ -101,6 +100,8 @@ class GraphQLService {
 
 
   Future<UserTimelineModel?> userProfile({required String id}) async {
+
+
 
     try {
       QueryResult result = await client.mutate(
@@ -123,7 +124,6 @@ class GraphQLService {
 
       }
     } catch (error) {
-      print('here catch $error');
       return null;
     }
   }
@@ -131,6 +131,8 @@ class GraphQLService {
   Future<List<UserModel>> getUsers({
     required String search,
   }) async {
+   
+
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -140,7 +142,7 @@ class GraphQLService {
             'data': {
               "page": null,
               "perPage": null,
-              "search": search ?? ''
+              "search": search 
             },
           },
         ),
@@ -160,7 +162,6 @@ class GraphQLService {
         return users;
       }
     } catch (error) {
-      print('service catch $error');
       return [];
     }
   }

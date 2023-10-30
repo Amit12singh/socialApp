@@ -161,7 +161,6 @@ class _PostHeader extends StatelessWidget {
   final ArticleModel post;
   final UserModel? owner;
 
-  dynamic() => print(owner);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -238,7 +237,6 @@ class _PostStatsState extends State<_PostStats> {
 
   void _isAlreadyLiked() async {
     final currentUser = await HandleToken().getUser();
-    print('curr user');
 
     if (currentUser != null &&
         widget.post.likes != null &&
