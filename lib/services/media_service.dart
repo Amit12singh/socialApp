@@ -7,7 +7,6 @@ class MediaService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
   Future<List<ProfilePicture>> uploadMultipleImages(List mediaList) async {
-    print('here media service $mediaList');
 
     try {
       QueryResult result = await client.mutate(
@@ -18,13 +17,11 @@ class MediaService {
       );
 
       if (result.hasException) {
-        print(result.exception);
         throw Exception(result.exception);
       } else {
         List dataList = result.data?['multipleUpload'];
         List<ProfilePicture> media =
             dataList.map((img) => ProfilePicture.fromMap(map: img)).toList();
-        print("here media result $media");
 
         return media;
       }

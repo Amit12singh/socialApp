@@ -6,6 +6,8 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:myapp/models/user_model.dart';
+import 'dart:async';
+
 
 class ChatScreen extends StatefulWidget {
   final ChatModel receiver;
@@ -23,14 +25,39 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageController = TextEditingController();
   final ChatService chatService = ChatService();
   final List<types.Message> _messages = [];
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     connect();
+    startMessagePolling();
+  }
+
+  void startMessagePolling() {
+    const pollingInterval =
+        Duration(seconds: 2); // Adjust the interval as needed
+
+    _timer = Timer.periodic(pollingInterval, (timer) async {
+      // final currentUser = await HandleToken().getUser();
+
+      final newMessages =
+          await chatService.lastChats(sender: widget.receiver.id);
+
+      
+
+      if (newMessages.isNotEmpty) {
+        _addMessages(newMessages);
+      }
+    });
+  }
+
+  void stopMessagePolling() {
+    _timer?.cancel();
   }
 
   void connect() async {
+    
     token = await localStorageService.getAccessToken();
     final currentUser = await HandleToken().getUser();
     final List<types.TextMessage> messages = await chatService.allChats(
@@ -38,12 +65,9 @@ class _ChatScreenState extends State<ChatScreen> {
     _addMessages(messages);
     setState(() {
       _user = currentUser;
-      // _messages = messages;
     });
 
-    print(token);
 
-    // MessageModel messageModel = MessageModel(sourceId: widget.sourceChat.id.toString(),targetId: );
     socket = IO
         .io(
         "https://apis.oldnabhaite.site/oldnabhaiteapis:8080", <String, dynamic>{
@@ -51,38 +75,30 @@ class _ChatScreenState extends State<ChatScreen> {
       "autoConnect": false,
       "query": {"token": token}
     });
-    print(socket);
     socket.connect();
     socket.emit(
       "joinRoom",
     );
     socket.onConnect((data) {
-      print("Connected");
 
       
     });
 
     socket.on('message', (msg) {
-        addReceivedMessage(msg);
-        print('response $msg');
+      addReceivedMessage(msg);
     });
 
-    print(socket.connected);
   }
 
   @override
   void dispose() {
     socket.disconnect();
     messageController.dispose();
+    stopMessagePolling();
     super.dispose();
   }
 
-  // void sendMessage(String message) {
-  //   socket.emit('messageToRoom', {
-  //     'receiverID': '1', // Replace with the actual recipient ID
-  //     'text': message,
-  //   });
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -117,12 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  // Spacer(),
-                  // Icon(
-                  //   Icons.search_rounded,
-                  //   color: Colors.white70,
-                  //   size: 40,
-                  // )
+
                 ],
               ),
             ),
@@ -147,7 +158,6 @@ class _ChatScreenState extends State<ChatScreen> {
       text: message.text,
     );
 
-    print(socket);
     socket.emit('messageToRoom', {
       'receiverID': widget.receiver.id, // Replace with the actual recipient ID
       'text': message.text,
