@@ -14,28 +14,33 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final GraphQLService userService = GraphQLService();
-
   List<UserModel> _allUsers = [];
-
   List<UserModel> _foundUsers = [];
   String enteredKeyword = '';
   @override
   initState() {
-    // at the beginning, all users are shown
     _load();
     _foundUsers = _allUsers;
     super.initState();
   }
 
-  _load() async {
+  Future<void> _load() async {
     final allUsers = await userService.getUsers(search: enteredKeyword);
-
     setState(() {
       _allUsers = allUsers;
       _foundUsers = allUsers;
     });
-    return allUsers;
   }
+
+  // _load() async {
+  //   final allUsers = await userService.getUsers(search: enteredKeyword);
+
+  //   setState(() {
+  //     _allUsers = allUsers;
+  //     _foundUsers = allUsers;
+  //   });
+  //   return allUsers;
+  // }
 
   void _runFilter(String enteredKeyword) {
     List<UserModel> results = [];
@@ -94,22 +99,6 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // const Text(
-            //   'Search For your Old Mates',
-            //   textAlign: TextAlign.left,
-            //   style: TextStyle(
-            //     color: Color.fromARGB(255, 167, 135, 135),
-            //     decoration: TextDecoration.none,
-            //     fontFamily: 'PermanentMarker-Regular',
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 20,
-            //   ),
-            // ),
-            // const Divider(
-            //   color: Color.fromARGB(40, 167, 135, 135),
-            //   height: 20,
-            //   thickness: 3,
-            // ),
             TextFormField(
               onChanged: (value) => _runFilter(value),
               decoration: InputDecoration(
@@ -201,7 +190,16 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
-      bottomNavigationBar: Bottombar(),
+      bottomNavigationBar: Bottombar(
+        onIconPressed: () {
+          final currentRoute = ModalRoute.of(context);
+          if (currentRoute != null && currentRoute.settings.name == '/search') {
+            return;
+          }
+
+          Navigator.pushNamed(context, '/search');
+        },
+      ),
     );
   }
 }

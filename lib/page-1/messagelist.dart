@@ -218,7 +218,17 @@ class _MessengerPageState extends State<MessengerPage> {
               )),
         ],
       ),
-      bottomNavigationBar: const Bottombar(),
+      bottomNavigationBar: Bottombar(
+        onIconPressed: () {
+          final currentRoute = ModalRoute.of(context);
+          if (currentRoute != null &&
+              currentRoute.settings.name == '/MessageList') {
+            return;
+          }
+
+          Navigator.pushNamed(context, '/MessageList');
+        },
+      ),
     );
   }
 }

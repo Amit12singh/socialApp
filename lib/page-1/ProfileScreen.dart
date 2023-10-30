@@ -86,14 +86,13 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     posts = await userService.userProfile(id: _user.id);
     setState(() {
-      // posts = _posts;
       _user = user;
     });
   }
 
   @override
   void dispose() {
-    _tabController?.dispose(); // Dispose of the TabController when not needed
+    _tabController?.dispose();
     super.dispose();
   }
 
@@ -102,7 +101,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
-          // Status bar color
           statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
@@ -211,12 +209,19 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ];
           },
-          body: ProfilePostScreen(
-              posts: posts?.timeline,
-              load: _loadData), // Provide your posts data
+          body: ProfilePostScreen(posts: posts?.timeline, load: _loadData),
         ),
       ),
-      bottomNavigationBar: const Bottombar(),
+      bottomNavigationBar: Bottombar(
+        onIconPressed: () {
+          final currentRoute = ModalRoute.of(context);
+          if (currentRoute != null && currentRoute.settings.name == '/search') {
+            return;
+          }
+
+          Navigator.pushNamed(context, '/search');
+        },
+      ),
     );
   }
 }
@@ -367,8 +372,6 @@ class _PostScreenState extends State<ProfilePostScreen> {
     return false;
   }
 
-
-
   onDelete(String postId) async {
     final isDeleted = await _postService.deleteArticle(postId);
     if (isDeleted) {
@@ -414,6 +417,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       color: const Color(0xFFFFFFFF),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -421,40 +425,45 @@ class _PostScreenState extends State<ProfilePostScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _PostHeader(post: post, onDelete: onDelete),
-                const SizedBox(
-                  height: 4.0,
-                ),
+                const SizedBox(height: 4.0),
                 Text(post.title),
-                post.media == null
-                    ? const SizedBox.shrink()
-                    : const SizedBox(height: 6),
+                if (post.media != null && post.media!.isNotEmpty)
+                  const SizedBox(height: 6),
               ],
             ),
           ),
-          post.media != null && post.media!.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Image.network(
-                    Uri.parse(post.media?[0].path ?? '').toString(),
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child; // Image is fully loaded, display it
-                      } else {
-                        // Show a CircularProgressIndicator while loading
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                )
-              : const SizedBox.shrink(),
+          if (post.media != null && post.media!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Image.network(
+                Uri.parse(post.media![0].path ?? '').toString(),
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  }
+                },
+              ),
+            )
+          else
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(22),
+                image: const DecorationImage(
+                  fit: BoxFit.contain,
+                  image: AssetImage('assets/page-1/images/defaultimage.jpg'),
+                ),
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: _PostStats(
@@ -472,12 +481,10 @@ class _PostHeader extends StatelessWidget {
   const _PostHeader({
     Key? key,
     required this.post,
-    // required this.onEdit,
     required this.onDelete,
   }) : super(key: key);
 
   final ArticleModel post;
-  // final Function() onEdit;
   final Function(String) onDelete;
 
   @override
@@ -552,43 +559,6 @@ class _PostHeader extends StatelessWidget {
       ],
     );
   }
-
-  // void onEdit() {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text('Editing post...'),
-  //     ),
-  //   );
-
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text('Post edited successfully'),
-  //     ),
-  //   );
-  // }
-
-  // void onDelete() {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text('Deleting post...'),
-  //       action: SnackBarAction(
-  //         label: 'Undo',
-  //         onPressed: () {
-  //           ScaffoldMessenger.of(context).showSnackBar(
-  //             SnackBar(
-  //               content: Text('Deletion undone'),
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text('Post deleted successfully'),
-  //     ),
-  //   );
-  // }
 }
 
 class _PostStats extends StatefulWidget {
@@ -599,7 +569,6 @@ class _PostStats extends StatefulWidget {
   }) : super(key: key);
 
   final ArticleModel post;
-  // ignore: prefer_typing_uninitialized_variables
   final postService;
 
   @override
@@ -624,7 +593,6 @@ class _PostStatsState extends State<_PostStats> {
     if (currentUser != null &&
         widget.post.likes != null &&
         isRendered == false) {
-      // Check if any like by the current user exists
       bool isLiked =
           widget.post.likes!.any((like) => like.user?.id == currentUser.id);
 
@@ -645,10 +613,6 @@ class _PostStatsState extends State<_PostStats> {
         _isLiked = false;
       });
     }
-
-    //  else {
-    //   _isLiked = false;S
-    // }
   }
 
   _likePost(String articleId) async {
