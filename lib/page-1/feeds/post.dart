@@ -92,6 +92,8 @@ class _PostScreenState extends State<PostScreen> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Container(
+                              width: 100,
+                              height: 100,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(22),
                                 color: Colors.grey[300],
@@ -215,7 +217,7 @@ class _PostStats extends StatefulWidget {
   }) : super(key: key);
 
   final ArticleModel post;
-  // ignore: prefer_typing_uninitialized_variables
+
   final postService;
 
   @override
