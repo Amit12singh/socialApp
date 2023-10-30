@@ -166,31 +166,17 @@ class _HomeScreenState extends State<FeedScreen> {
                 ),
               ],
             ),
-            bottomNavigationBar: Bottombar(),
-            // floatingActionButtonLocation:
-            //     FloatingActionButtonLocation.centerDocked,
-            // floatingActionButton: FloatingActionButton(
-            //   child: const Icon(Icons.add),
-            //   onPressed: () {},
-            // ),
-            // bottomNavigationBar: BottomAppBar(
-            //   shape: CircularNotchedRectangle(),
-            //   notchMargin: 4.0,
-            //   child: new Row(
-            //     mainAxisSize: MainAxisSize.max,
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: <Widget>[
-            //       IconButton(
-            //         icon: Icon(Icons.menu),
-            //         onPressed: () {},
-            //       ),
-            //       IconButton(
-            //         icon: Icon(Icons.search),
-            //         onPressed: () {},
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            bottomNavigationBar: Bottombar(
+              onIconPressed: () {
+                final currentRoute = ModalRoute.of(context);
+                if (currentRoute != null &&
+                    currentRoute.settings.name == '/FeedScreen') {
+                  return;
+                }
+
+                Navigator.pushNamed(context, '/FeedScreen');
+              },
+            ),
           );
         } else if (index == 1) {
           return MessengerPage();

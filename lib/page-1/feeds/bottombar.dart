@@ -5,7 +5,8 @@ import 'package:myapp/page-1/ProfileScreen.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 
 class Bottombar extends StatelessWidget {
-  const Bottombar({Key? key}) : super(key: key);
+  const Bottombar({Key? key, required this.onIconPressed}) : super(key: key);
+  final VoidCallback onIconPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +52,7 @@ class Bottombar extends StatelessWidget {
               ),
             ),
             label: 'Message',
+            // onPressed: onIconPressed,
           ),
           BottomNavigationBarItem(
             icon: Padding(
@@ -65,30 +67,37 @@ class Bottombar extends StatelessWidget {
           ),
         ],
         onTap: (int index) {
-          if (index == 3) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const ProfileScreen(),
-              ),
-            );
-          } else if (index == 0) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => FeedScreen(),
-              ),
-            );
-          } else if (index == 1) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => SearchPage(),
-              ),
-            );
-          } else if (index == 2) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => MessengerPage(),
-              ),
-            );
+          switch (index) {
+            case 0:
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => FeedScreen(),
+                ),
+              );
+              break;
+            case 1:
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(),
+                ),
+              );
+              break;
+            case 2:
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => MessengerPage(),
+                ),
+              );
+              break;
+            case 3:
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => ProfileScreen(),
+                ),
+              );
+              break;
+            default:
+              break;
           }
         },
       ),

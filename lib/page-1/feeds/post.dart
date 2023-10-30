@@ -94,15 +94,23 @@ class _PostScreenState extends State<PostScreen> {
                             return Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(22),
+                                color: Colors.grey[300],
+                              ),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(22),
                                 image: const DecorationImage(
                                   fit: BoxFit.contain,
                                   image: AssetImage(
                                       'assets/page-1/images/defaultimage.jpg'),
                                 ),
                               ),
-                            ); // Show loading spinner
-                          } else if (snapshot.hasError) {
-                            return const Text('Error loading image');
+                            );
                           } else {
                             return Image.network(
                               Uri.parse(post.media![0].path ?? '').toString(),
@@ -123,6 +131,15 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                   ),
                 ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(22),
+              image: const DecorationImage(
+                fit: BoxFit.contain,
+                image: AssetImage('assets/page-1/images/defaultimage.jpg'),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: _PostStats(
