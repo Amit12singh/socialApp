@@ -4,6 +4,7 @@ import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/services/chat_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:flutter/scheduler.dart';
 
 class MessengerPage extends StatefulWidget {
   const MessengerPage({Key? key});
@@ -23,8 +24,10 @@ class _MessengerPageState extends State<MessengerPage> {
 
   @override
   void initState() {
-    _load();
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _load();
+    });
   }
 
   void _load() async {

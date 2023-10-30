@@ -52,8 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         passedOutYear: passedOutYearController.text,
         phoneNumber: phoneNumberController.text,
         profession: phoneNumberController.text);
-    print('hee $response');
-    print(response.success);
+  
     if (response.success == true) {
       setState(() {
         _response = response;
@@ -692,7 +691,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             );
                           } else {
                             _create();
-                            print(_response?.success);
                           }
                         },
                         shape: RoundedRectangleBorder(

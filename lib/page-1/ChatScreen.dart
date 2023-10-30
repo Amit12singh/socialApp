@@ -36,7 +36,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void startMessagePolling() {
     const pollingInterval =
-        Duration(seconds: 5); // Adjust the interval as needed
+        Duration(seconds: 2); // Adjust the interval as needed
 
     _timer = Timer.periodic(pollingInterval, (timer) async {
       // final currentUser = await HandleToken().getUser();
@@ -44,10 +44,10 @@ class _ChatScreenState extends State<ChatScreen> {
       final newMessages =
           await chatService.lastChats(sender: widget.receiver.id);
 
-      print(newMessages);
+      
 
-      if (newMessages.isNotEmpty && newMessages.length > _messages.length) {
-        _addMessages(newMessages.sublist(_messages.length));
+      if (newMessages.isNotEmpty) {
+        _addMessages(newMessages);
       }
     });
   }
@@ -57,6 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void connect() async {
+    
     token = await localStorageService.getAccessToken();
     final currentUser = await HandleToken().getUser();
     final List<types.TextMessage> messages = await chatService.allChats(
@@ -64,12 +65,9 @@ class _ChatScreenState extends State<ChatScreen> {
     _addMessages(messages);
     setState(() {
       _user = currentUser;
-      // _messages = messages;
     });
 
-    print(token);
 
-    // MessageModel messageModel = MessageModel(sourceId: widget.sourceChat.id.toString(),targetId: );
     socket = IO
         .io(
         "https://apis.oldnabhaite.site/oldnabhaiteapis:8080", <String, dynamic>{
@@ -77,23 +75,19 @@ class _ChatScreenState extends State<ChatScreen> {
       "autoConnect": false,
       "query": {"token": token}
     });
-    print(socket);
     socket.connect();
     socket.emit(
       "joinRoom",
     );
     socket.onConnect((data) {
-      print("Connected");
 
       
     });
 
     socket.on('message', (msg) {
-        addReceivedMessage(msg);
-        print('response $msg');
+      addReceivedMessage(msg);
     });
 
-    print(socket.connected);
   }
 
   @override
@@ -104,12 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  // void sendMessage(String message) {
-  //   socket.emit('messageToRoom', {
-  //     'receiverID': '1', // Replace with the actual recipient ID
-  //     'text': message,
-  //   });
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -144,12 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  // Spacer(),
-                  // Icon(
-                  //   Icons.search_rounded,
-                  //   color: Colors.white70,
-                  //   size: 40,
-                  // )
+
                 ],
               ),
             ),
@@ -174,7 +158,6 @@ class _ChatScreenState extends State<ChatScreen> {
       text: message.text,
     );
 
-    print(socket);
     socket.emit('messageToRoom', {
       'receiverID': widget.receiver.id, // Replace with the actual recipient ID
       'text': message.text,

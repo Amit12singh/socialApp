@@ -23,7 +23,6 @@ class PostService {
       List<ProfilePicture> _responseMediaList = [];
 
       if (mediaList.isNotEmpty) {
-        print('called meadia');
 
         _multipartFileList =
             await mediaConvert.convertMediaListToMultipart(mediaList);
@@ -53,12 +52,10 @@ class PostService {
       );
 
       if (result.hasException) {
-        print('create exeption');
-        print(result);
+
         throw Exception(result.exception);
       }
 
-      print('like Result $result');
 
       return true;
     } catch (error) {
@@ -67,7 +64,6 @@ class PostService {
   }
 
   Future<bool> likePost(String articleId) async {
-    print(articleId);
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -80,15 +76,12 @@ class PostService {
       );
 
       if (result.hasException) {
-        print('exeption');
-        print(result.exception);
         throw Exception(result.exception);
       }
       // Map? res = result.data?["createArticle"];
 
       return true;
     } catch (error) {
-      print('like cattch $error');
       return false;
     }
   }
@@ -115,7 +108,6 @@ class PostService {
         throw Exception(result.exception);
       } else {
         List res = result.data?['getAllArticles']?['data'];
-        print(res);
 
         List articles =
             res.map((article) => ArticleModel.fromJson(article)).toList();
@@ -123,7 +115,6 @@ class PostService {
         return articles;
       }
     } catch (error) {
-      print('article service catch $error');
       return [];
     }
   }
@@ -143,16 +134,12 @@ class PostService {
       );
 
       if (result.hasException) {
-        print('delete article exception');
-        print(result.exception);
         throw Exception(result.exception);
       }
 
-      print('delete article result $result');
 
       return true;
     } catch (error) {
-      print('delete article catch $error');
       return false;
     }
   }

@@ -7,7 +7,6 @@ class Like {
   Like({required this.id, this.user});
 
   factory Like.fromJson(Map json) {
-    print('here like model $json');
     return Like(
       id: json['id'],
       user: UserModel.fromJson(json['user']),

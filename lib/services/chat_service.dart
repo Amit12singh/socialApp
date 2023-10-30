@@ -29,7 +29,6 @@ class ChatService {
         throw Exception(result.exception);
       } else {
         List res = result.data?['getRecentChatsForUser'];
-        print(res);
 
         List<ChatModel> recentChats = res.map((chat) {
           if (chat?["sender"]?["id"] != userId) {
@@ -54,12 +53,10 @@ class ChatService {
             );
           }
         }).toList();
-        print(recentChats);
 
         return recentChats;
       }
     } catch (error) {
-      print('article service catch $error');
       return [];
     }
 
@@ -138,7 +135,7 @@ class ChatService {
     try {
       QueryResult result = await client.query(
         QueryOptions(
-          fetchPolicy: FetchPolicy.cacheFirst,
+          fetchPolicy: FetchPolicy.networkOnly,
           document: gql(lastChatsBySender),
           variables: {
             "sender": sender,
@@ -147,14 +144,11 @@ class ChatService {
       );
 
       if (result.hasException) {
-        print('exeption');
         throw Exception(result.exception);
       } else {
         List res = result.data?['getResentChat'];
-        print(res);
 
         List<types.TextMessage> chats = res.map((chat) {
-          print(chat['id']);
 
           return types.TextMessage(
               author: types.User(id: chat['sender']?['id']),
@@ -162,12 +156,10 @@ class ChatService {
               text: chat['text']);
         }).toList();
 
-        print(chats);
 
         return chats;
       }
     } catch (error) {
-      print('chats service catch $error');
       return [];
     }
   }

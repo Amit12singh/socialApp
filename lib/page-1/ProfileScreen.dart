@@ -370,7 +370,6 @@ class _PostScreenState extends State<ProfilePostScreen> {
 
 
   onDelete(String postId) async {
-    print('id $postId');
     final isDeleted = await _postService.deleteArticle(postId);
     if (isDeleted) {
       widget.load();
@@ -621,7 +620,6 @@ class _PostStatsState extends State<_PostStats> {
 
   void _isAlreadyLiked() async {
     final currentUser = await HandleToken().getUser();
-    print('curr user');
 
     if (currentUser != null &&
         widget.post.likes != null &&
