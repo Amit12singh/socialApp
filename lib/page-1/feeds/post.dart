@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/user_model.dart';
+import 'package:myapp/page-1/createpostScreen.dart';
+import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
@@ -25,6 +27,8 @@ class _PostScreenState extends State<PostScreen> {
   late UserModel? _currentUser;
   List<ArticleModel> posts = [];
 
+  
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +49,8 @@ class _PostScreenState extends State<PostScreen> {
       posts = _posts as List<ArticleModel>;
     });
   }
+
+ 
 
 
   @override
@@ -75,11 +81,15 @@ class _PostScreenState extends State<PostScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _PostHeader(post: post, owner: _currentUser),
+
+                _PostHeader(post: post, owner: _currentUser, load: _loadData),
                 const SizedBox(
                   height: 8.0,
                 ),
-                Text(post.title),
+                SeeMoreText(
+                  text: post.title,
+                  maxLines: 4,
+                ),
                 post.media == null
                     ? const SizedBox.shrink()
                     : const SizedBox(height: 6),
@@ -153,8 +163,9 @@ class _PostScreenState extends State<PostScreen> {
               ),
             ),
           ),
+
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             child: _PostStats(
               post: post,
               postService: _postService,
@@ -167,10 +178,20 @@ class _PostScreenState extends State<PostScreen> {
 }
 
 class _PostHeader extends StatelessWidget {
-  const _PostHeader({Key? key, required this.post, required this.owner})
+  _PostHeader(
+      {Key? key, required this.post, required this.owner, required this.load})
       : super(key: key);
   final ArticleModel post;
   final UserModel? owner;
+  final Function load;
+  final PostService postService = PostService();
+
+  onDelete(String postId) async {
+    final isDeleted = await postService.deleteArticle(postId);
+    if (isDeleted) {
+      load();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -237,9 +258,41 @@ class _PostHeader extends StatelessWidget {
           ),
         ),
         post.owner?.id == owner?.id
-            ? IconButton(
-                icon: const Icon(Icons.more_horiz),
-                onPressed: () => print('more'),
+            ? PopupMenuButton<String>(
+                icon: const Icon(
+                  Icons.more_horiz,
+                  color: Colors.black,
+                ),
+                onSelected: (value) {
+                  if (value == 'edit') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CreatePostScreen(post: post),
+                      ),
+                    );
+                  } else if (value == 'delete') {
+                    onDelete(post.id ?? '');
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'edit',
+                      child: ListTile(
+                        leading: Icon(Icons.edit),
+                        title: Text('Edit'),
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'delete',
+                      // onTap: () {},
+                      child: ListTile(
+                        leading: Icon(Icons.delete),
+                        title: Text('Delete'),
+                      ),
+                    ),
+                  ];
+                },
               )
             : const SizedBox()
       ],

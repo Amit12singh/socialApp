@@ -12,6 +12,7 @@ import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/page-1/login.dart';
+import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
@@ -77,12 +78,12 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   void _loadData() async {
-    final user = widget.user ?? await localStorageService.getUser();
-    _user = user;
+    final user = await localStorageService.getUser();
+    _user = widget.user ?? user;
     receiver =
-       widget.user != null
+       widget.user != null && user?.id != _user.id
         ? ChatModel(
-            id: widget.user?.id ?? '', name: widget.user?.fullName ?? '')
+            id: _user.id ?? '', name: _user?.fullName ?? '')
         : null;
 
     posts = await userService.userProfile(id: _user.id);
@@ -464,7 +465,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
               children: [
                 _PostHeader(post: post, onDelete: onDelete),
                 const SizedBox(height: 4.0),
-                Text(post.title),
+                SeeMoreText(text: post.title),
                 if (post.media != null && post.media!.isNotEmpty)
                   const SizedBox(height: 6),
               ],
@@ -503,7 +504,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
               ),
             ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: _PostStats(
               post: post,
               postService: _postService,
@@ -536,8 +537,12 @@ class _PostHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${post.owner?.fullName ?? ''}',
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                '${post.owner?.fullName}',
+                style:
+                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              const SizedBox(
+                height: 6,
               ),
               Row(
                 children: [
@@ -669,6 +674,7 @@ class _PostStatsState extends State<_PostStats> {
               likeCount.toString(),
               style: TextStyle(
                 color: Colors.grey[600],
+                fontSize: 14
               ),
             ),
             const SizedBox(width: 4),

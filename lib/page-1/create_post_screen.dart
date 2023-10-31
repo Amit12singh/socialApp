@@ -91,7 +91,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             fontSize: 25,
           ),
         ),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black, // Change the arrow color to white
         ),
       ),
@@ -111,18 +111,18 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   fontSize: 20,
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Color.fromARGB(40, 167, 135, 135),
                 height: 20,
                 thickness: 3,
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 0.0),
+                margin: const EdgeInsets.only(bottom: 0.0),
                 width: double.infinity,
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: 10.0),
+                      margin: const EdgeInsets.only(right: 10.0),
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
@@ -147,10 +147,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
               ),
               Container(
-                  margin: EdgeInsets.only(bottom: 25.0),
+                  margin: const EdgeInsets.only(bottom: 25.0),
                   child: TextField(
                     controller: postController,
-                    decoration: InputDecoration(
+                    onChanged: (text) {
+                      if (text.endsWith(' ')) {
+                        // Insert a newline character if a space character is detected at the end
+                        postController.text = text.trim() + '\n';
+                        postController.selection = TextSelection.fromPosition(
+                            TextPosition(offset: postController.text.length));
+                      }
+                    },
+                    textInputAction: TextInputAction.newline,
+                    decoration: const InputDecoration(
                       hintText: "What’s on your mind?",
                       hintStyle: TextStyle(
                         fontFamily: 'Poppins',
@@ -160,16 +169,18 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       ),
                       border: InputBorder.none, // Remove the bottom border
                     ),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: Color(0xff000000),
                     ),
+                   
                     maxLines:
-                        null, // This allows the TextField to expand vertically as needed.
+                        null,
+                    // This allows the TextField to expand vertically as needed.
                   )),
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
               Container(
                 child: Column(
                   children: [
@@ -180,8 +191,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 30.0),
-              Divider(
+              const SizedBox(height: 30.0),
+              const Divider(
                 color: Color.fromARGB(40, 167, 135, 135),
                 height: 30,
                 thickness: 1,
@@ -265,7 +276,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Container(
                 color: const Color.fromARGB(255, 220, 166, 112),
                 margin: const EdgeInsets.only(bottom: 50.0),
