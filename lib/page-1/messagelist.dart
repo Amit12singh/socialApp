@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/models/chat_model.dart';
+import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/services/chat_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
@@ -40,7 +41,7 @@ class _MessengerPageState extends State<MessengerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           // Status bar color
           statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)

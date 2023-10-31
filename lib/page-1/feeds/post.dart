@@ -6,6 +6,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/page-1/ProfileScreen.dart';
+
 
 class PostScreen extends StatefulWidget {
   final List<ArticleModel> posts;
@@ -98,7 +100,7 @@ class _PostScreenState extends State<PostScreen> {
                                 borderRadius: BorderRadius.circular(22),
                                 color: Colors.grey[300],
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: CircularProgressIndicator(),
                               ),
                             );
@@ -165,18 +167,46 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Avatar(user: post.owner),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfileScreen(
+                  user: post.owner,
+                ),
+              ),
+            );
+          },
+          child: Avatar(user: post.owner),
+        ),
         const SizedBox(width: 8),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                Text(
-                  '${post.owner?.fullName}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: 17),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                          user: post.owner,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    '${post.owner?.fullName}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                    ),
+                  ),
                 ),
+                const SizedBox(height: 30),
+
               ]),
               Row(
                 children: [
@@ -384,15 +414,24 @@ class Avatar extends StatelessWidget {
   Widget build(BuildContext context) {
     if (user?.profilePicture != null) {
       return CircleAvatar(
+        
           backgroundImage: NetworkImage(user!.profilePicture!.path ?? ''),
           backgroundColor: Colors.transparent,
-          radius: 28);
+        radius: 28,
+      );
     } else {
       return const CircleAvatar(
           backgroundImage:
               AssetImage('assets/page-1/images/ellipse-1-bg-gnM.png'),
           backgroundColor: Colors.transparent,
           radius: 28);
+
     }
   }
 }
+
+  
+
+    
+  
+

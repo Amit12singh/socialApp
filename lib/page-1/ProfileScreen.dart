@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/chat_model.dart';
@@ -9,7 +8,6 @@ import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/messagelist.dart';
-import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/feeds/post.dart';
@@ -41,9 +39,9 @@ class _ProfileScreenState extends State<ProfileScreen>
   get selectedIndex => null;
 
   final List<Widget> pages = [
-    ProfileScreen(),
-    FeedScreen(),
-    MessengerPage(),
+    const ProfileScreen(),
+    const FeedScreen(),
+    const MessengerPage(),
   ];
 
   void _handleLogout(BuildContext context) async {
@@ -51,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     if (isCleared) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Logged out successfully',
             textAlign: TextAlign.center,
@@ -100,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
