@@ -10,11 +10,9 @@ import 'package:myapp/page-1/ProfileScreen.dart';
 
 
 class PostScreen extends StatefulWidget {
-  final List<ArticleModel> posts;
 
   const PostScreen({
     Key? key,
-    required this.posts,
   }) : super(key: key);
 
   @override
@@ -23,12 +21,15 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   final _postService = PostService();
+
   late UserModel? _currentUser;
+  List<ArticleModel> posts = [];
 
   @override
   void initState() {
     super.initState();
     _loadUser();
+    _loadData();
   }
 
   void _loadUser() async {
@@ -37,18 +38,26 @@ class _PostScreenState extends State<PostScreen> {
       _currentUser = currentUser;
     });
   }
+  void _loadData() async {
+    final List? _posts = await _postService.getArticles();
+
+    setState(() {
+      posts = _posts as List<ArticleModel>;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    if (widget.posts.isEmpty) {
+    if (posts.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     } else {
       return ListView.builder(
-        itemCount: widget.posts.length,
+        itemCount: posts.length,
         itemBuilder: (context, index) {
-          return buildPostCard(widget.posts[index]);
+          return buildPostCard(posts[index]);
         },
       );
     }
