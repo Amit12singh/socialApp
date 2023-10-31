@@ -71,28 +71,28 @@ class Bottombar extends StatelessWidget {
             case 0:
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => FeedScreen(),
+                  builder: (context) => const FeedScreen(),
                 ),
               );
               break;
             case 1:
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => SearchPage(),
+                  builder: (context) => const SearchPage(),
                 ),
               );
               break;
             case 2:
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => MessengerPage(),
+                  builder: (context) => const MessengerPage(),
                 ),
               );
               break;
             case 3:
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => ProfileScreen(),
+                  builder: (context) => const ProfileScreen(),
                 ),
               );
               break;
