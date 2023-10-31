@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   bool isExpanded = false;
   UserTimelineModel? posts;
   TabController? _tabController;
-  late ChatModel receiver;
+  ChatModel? receiver;
 
   var _user = null;
 
@@ -80,7 +80,10 @@ class _ProfileScreenState extends State<ProfileScreen>
     final user = widget.user ?? await localStorageService.getUser();
     _user = user;
     receiver =
-        ChatModel(id: widget.user?.id ?? '', name: widget.user?.fullName ?? '');
+       widget.user != null
+        ? ChatModel(
+            id: widget.user?.id ?? '', name: widget.user?.fullName ?? '')
+        : null;
 
     posts = await userService.userProfile(id: _user.id);
     setState(() {
@@ -167,7 +170,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                 backgroundColor: Colors.white,
                 collapsedHeight: 180,
                 expandedHeight: 180,
-                flexibleSpace: ProfileView(userTimeline: posts),
+                flexibleSpace:
+                    ProfileView(userTimeline: posts, receiver: receiver),
               ),
               SliverPersistentHeader(
                 delegate: MyDelegate(
@@ -179,23 +183,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ChatScreen(receiver: receiver),
+                                ChatScreen(
+                                receiver: receiver ?? {} as ChatModel),
                           ),
                         );
                       }
                     }),
-                    tabs: [
-                      const Tab(
+                    tabs: const [
+                      Tab(
                         icon: Icon(Icons.grid_on),
                         text: 'Timeline',
                       ),
-                      widget.user != null
-                          ? const Tab(
-                              icon: Icon(
-                                  Icons.messenger), // Add your new icon here
-                              text: 'Messenger',
-                            )
-                          : const SizedBox(),
+                      
                     ],
                     indicatorColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
@@ -252,8 +251,10 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 
 class ProfileView extends StatelessWidget {
   UserTimelineModel? userTimeline;
+  ChatModel? receiver;
+  
 
-  ProfileView({Key? key, this.userTimeline})
+  ProfileView({Key? key, this.userTimeline, this.receiver})
       : super(
           key: key,
         );
@@ -308,33 +309,72 @@ class ProfileView extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(left: 20),
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: userTimeline?.profile.fullName,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userTimeline?.profile.fullName ?? '',
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
-                  const TextSpan(
-                    text: '\nOld Nabhaies\n',
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 14,
-                    ),
+                ),
+                const SizedBox(height: 2), // Add a 25-pixel vertical gap
+                const Text(
+                  'Old Nabhaies',
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 15,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+            receiver != null
+                ? Align(
+                    alignment: Alignment.topCenter,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(
+                                receiver: receiver ?? {} as ChatModel),
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor:
+                            Colors.blue, // Set the background color to blue
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width:
+                                8, // Add some space between the icon and text
+                          ),
+                          Text(
+                            'Message',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : const SizedBox()
+          ],
+        ),
+      )
+    ]));
+
+   
   }
 }
 
