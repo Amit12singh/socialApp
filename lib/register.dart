@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/models/response_model.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/user_service.dart';
-
+import 'package:country_flags/country_flags.dart';
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -307,7 +307,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ],
                                   decoration: InputDecoration(
                                     hintText: 'Enter your Phone Number *',
+                                    prefixIcon: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        CountryFlag.fromCountryCode(
+                                          'IN',
+                                          height: 24,
+                                          width: 24,
+                                          // borderRadius: 8,
+                                        ), // India flag icon
+                                        SizedBox(width: 8.0),
+                                        const Text(
+                                          '+91- ', // India country code
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     hintStyle: TextStyle(
+
                                       fontFamily: 'Poppins',
                                       fontSize: 15 * ffem,
                                       fontWeight: FontWeight.w500,
@@ -617,12 +636,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   controller: passwordController,
                                   decoration: InputDecoration(
                                     hintText: 'Enter password',
+                                    suffixIcon: GestureDetector(
+                                      child: Icon(
+                                        _isPasswordVisible1
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          _isPasswordVisible1 =
+                                              !_isPasswordVisible1;
+                                        });
+                                      },
+                                    ),
                                     hintStyle: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 15 * ffem,
                                       fontWeight: FontWeight.w500,
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
+                                      
                                     ),
                                     // errorBorder: errorBorder,
                                     // focusedErrorBorder: errorBorder,
@@ -640,22 +673,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               SizedBox(width: 0.5 * fem),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _isPasswordVisible1 = !_isPasswordVisible1;
-                                  });
-                                },
-                                child: Icon(
-                                  _isPasswordVisible1
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  size: 22 * fem,
-                                  color: _isPasswordVisible1
-                                      ? Colors.blue
-                                      : Colors.grey,
-                                ),
-                              ),
+                              
                             ],
                           ),
                         ),
@@ -685,13 +703,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Expanded(
                                 child: TextFormField(
                                   controller: confirmPasswordController,
+                                  
                                   decoration: InputDecoration(
                                     hintText: 'Enter Confirm password',
+                                    suffixIcon: GestureDetector(
+                                      child: Icon(
+                                        _isPasswordVisible2
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          _isPasswordVisible2 =
+                                              !_isPasswordVisible2;
+                                        });
+                                      },
+                                    ),
                                     hintStyle: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 15 * ffem,
                                       fontWeight: FontWeight.w500,
                                       height: 1.5 * ffem,
+                                      
                                       color: const Color(0xffdadbd8),
                                     ),
                                     // errorBorder: errorBorder,
@@ -710,22 +743,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               SizedBox(width: 0.5 * fem),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _isPasswordVisible2 = !_isPasswordVisible2;
-                                  });
-                                },
-                                child: Icon(
-                                  _isPasswordVisible2
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  size: 22 * fem,
-                                  color: _isPasswordVisible2
-                                      ? Colors.blue
-                                      : Colors.grey,
-                                ),
-                              ),
+                              
                             ],
                           ),
                         ),
