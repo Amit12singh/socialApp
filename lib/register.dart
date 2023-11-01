@@ -356,7 +356,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           SizedBox(height: 15 * fem),
                          
                           Container(
-                            height: 600,
+                            height: 70,
                             child: datePicker(
                                 onSelectionChanged: () {},
                                 dateController: passedOutYearController),

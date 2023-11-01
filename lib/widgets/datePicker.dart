@@ -18,22 +18,39 @@ class datePicker extends StatefulWidget {
 }
 
 class _datePickerState extends State<datePicker> {
-  final DateRangePickerController _controller = DateRangePickerController();
+  Future<void> _selectYear(BuildContext context) async {
+    int selectedYear = DateTime.now().year;
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime(selectedYear),
+      firstDate: DateTime(1970), // Specify the starting year
+      lastDate: DateTime(selectedYear), // Specify the ending year
+      initialDatePickerMode: DatePickerMode.year,
+      useRootNavigator: false,
+      helpText: 'Select passed out year',
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light(), // Use the light theme for the date picker
+          child: child!,
+        );
+      },
+    );
 
-  void selectionChanged(DateRangePickerSelectionChangedArgs args) {
-    SchedulerBinding.instance.addPostFrameCallback((duration) {
+    if (selectedDate != null) {
+      selectedYear = selectedDate.year;
       setState(() {
         widget.dateController.text =
-            DateFormat('yyyy').format(args.value).toString();
+            DateFormat('yyyy').format(selectedDate).toString();
       });
-    });
+    }
   }
+  
 
   @override
   void initState() {
     super.initState();
     widget.dateController.text =
-        DateFormat('').format(DateTime.now()).toString();
+        DateFormat('yyyy').format(DateTime.now()).toString();
   }
 
   @override
@@ -43,71 +60,42 @@ class _datePickerState extends State<datePicker> {
     double ffem = fem * 0.97;
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 8.33 * fem),
-            padding: EdgeInsets.fromLTRB(
-              12.5 * fem,
-              6.5 * fem,
-              6.5 * fem,
-              12.5 * fem,
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xfff9f9f9),
-              borderRadius: BorderRadius.circular(20 * fem),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 16.5, horizontal: 12.5),
+            child: GestureDetector(
+              onTap: () {
+                _selectYear(context);
+              },
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.date_range,
                     size: 20 * fem,
                   ),
                   SizedBox(width: 10.5 * fem),
-                  Expanded(
-                    child: TextFormField(
-                      controller: widget.dateController,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      ],
-                      decoration: InputDecoration(
-                        hintText: 'Year Passed Out *',
-                        hintStyle: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 15 * ffem,
-                          fontWeight: FontWeight.w500,
-                          height: 1.5 * ffem,
-                          color: const Color(0xffdadbd8),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Enter passed out year.';
-                        }
-                        return null; // Return null to indicate no validation error.
-                      },
+                  Text(
+                    widget.dateController.text, // Display selected date here
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 15 * ffem,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5 * ffem,
+                      color: Color.fromARGB(255, 3, 3, 3),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-          Card(
-            margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-            child: SfDateRangePicker(
-                view: DateRangePickerView.decade,
-                controller: _controller,
-                onSelectionChanged: selectionChanged,
-                allowViewNavigation: false,
-                showActionButtons: true,
-                initialDisplayDate: DateTime.now(),
-                onSubmit: (val) {
-                  widget.onSelectionChanged(val);
-                }),
           )
+       
         ],
       ),
     );
   }
 }
+
+
