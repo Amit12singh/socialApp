@@ -21,9 +21,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passedOutYearController = TextEditingController();
   TextEditingController professionController = TextEditingController();
   TextEditingController currentCityController = TextEditingController();
-  OutlineInputBorder errorBorder = const OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.red),
-  );
+  // OutlineInputBorder errorBorder = const OutlineInputBorder(
+  //   borderSide: BorderSide(color: Colors.red),
+  // );
 
   final GraphQLService _graphQLService = GraphQLService();
   String? _selectedHouse;
@@ -36,6 +36,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String emailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
     RegExp regex = RegExp(emailPattern);
     return regex.hasMatch(email);
+  
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedHouse = 'Beas';
   }
 
   _create() async {
@@ -52,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         houseNumber: houseNumberController.text,
         passedOutYear: passedOutYearController.text,
         phoneNumber: phoneNumberController.text,
-        profession: phoneNumberController.text);
+        profession: professionController.text);
   
     if (response.success == true) {
       setState(() {
@@ -204,6 +211,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       color: const Color(0xffdadbd8),
                                     ),
                                   ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter your name.';
+                                    }
+                                    return null; // Return null to indicate no validation error.
+                                  },
                                 ),
                               ),
                             ],
@@ -235,6 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Expanded(
                                 child: TextFormField(
                                   controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     hintText: 'Enter your email address *',
                                     hintStyle: TextStyle(
@@ -247,9 +261,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Email is required';
+                                      return 'Enter your email.';
                                     } else if (!isEmailValid(value)) {
-                                      return 'Enter a valid email';
+                                      return 'Invalid email address.';
                                     }
                                     return null;
                                   },
@@ -299,9 +313,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       fontWeight: FontWeight.w500,
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
+                 
+
                                     ),
                                   ),
                                   keyboardType: TextInputType.number,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter your phone number.';
+                                    } else if (value.length != 10) {
+                                      return 'Phone number must be 10 digits long.';
+                                    }
+                                    return null; // Return null to indicate no validation error.
+                                  },
                                 ),
                               ),
                             ],
@@ -347,6 +371,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       color: const Color(0xffdadbd8),
                                     ),
                                   ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter passed out year.';
+                                    }
+                                    return null; // Return null to indicate no validation error.
+                                  },
                                 ),
                               ),
                             ],
@@ -381,6 +411,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   icon: Icon(Icons.arrow_drop_down),
                                   iconSize: 24,
                                   elevation: 16,
+                                  
                                   onChanged: (String? newValue) {
                                     setState(() {
                                       _selectedHouse = newValue;
@@ -404,6 +435,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       color: const Color(0xffdadbd8),
                                     ),
                                   ),
+                                 
                                 ),
                               ),
                             ],
@@ -434,6 +466,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               SizedBox(width: 10.5 * fem),
                               Expanded(
                                 child: TextFormField(
+                                  keyboardType: TextInputType.number,
                                   controller: houseNumberController,
                                   decoration: InputDecoration(
                                     hintText: 'Your House Number',
@@ -444,7 +477,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
                                     ),
+                                   
                                   ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Your house number.';
+                                    }
+                                    return null; // Return null to indicate no validation error.
+                                  },
                                 ),
                               ),
                             ],
@@ -486,7 +526,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       color: const Color(0xffdadbd8),
                                     ),
                                   ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter current resident city.';
+                                    }
+                                    return null; // Return null to indicate no validation error.
+                                  },
                                 ),
+
                               ),
                             ],
                           ),
@@ -508,6 +555,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Row(
+                         
                             children: [
                               Icon(
                                 Icons.work_history,
@@ -527,6 +575,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       color: const Color(0xffdadbd8),
                                     ),
                                   ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Tell us about your profession.';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _email = value!;
+                                  },
                                 ),
                               ),
                             ],
@@ -567,8 +624,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
                                     ),
-                                    errorBorder: errorBorder,
-                                    focusedErrorBorder: errorBorder,
+                                    // errorBorder: errorBorder,
+                                    // focusedErrorBorder: errorBorder,
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -637,8 +694,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
                                     ),
-                                    errorBorder: errorBorder,
-                                    focusedErrorBorder: errorBorder,
+                                    // errorBorder: errorBorder,
+                                    // focusedErrorBorder: errorBorder,
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -679,7 +736,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           String password = passwordController.text;
                           String confirmPassword =
                               confirmPasswordController.text;
-                          String email = emailController.text;
 
                           if (password != confirmPassword) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -693,21 +749,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             );
                           }
-                          if (!isEmailValid(email)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.red,
-                                content: Text(
-                                  'Please enter a valid email address',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            );
-                          } else {
+                         
+                          else {
+                            if (_formKey.currentState!.validate()) {
                             _create();
+                            }
                           }
                         },
                         shape: RoundedRectangleBorder(
