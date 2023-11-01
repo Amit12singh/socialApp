@@ -47,7 +47,6 @@ dependencies:
   intl: ^0.18.1
   flutter_launcher_icons: ^0.13.1
   country_flags: ^2.1.1
-  syncfusion_flutter_datepicker: ^23.1.43
  
 
 dev_dependencies:

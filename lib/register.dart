@@ -4,7 +4,6 @@ import 'package:myapp/models/response_model.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:country_flags/country_flags.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:myapp/widgets/datePicker.dart';
 class RegisterScreen extends StatefulWidget {
   @override
