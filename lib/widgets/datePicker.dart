@@ -18,31 +18,38 @@ class datePicker extends StatefulWidget {
 }
 
 class _datePickerState extends State<datePicker> {
-  Future<void> _selectYear(BuildContext context) async {
-    int selectedYear = DateTime.now().year;
-    DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime(selectedYear),
-      firstDate: DateTime(1970), // Specify the starting year
-      lastDate: DateTime(selectedYear), // Specify the ending year
-      initialDatePickerMode: DatePickerMode.year,
-      useRootNavigator: false,
-      helpText: 'Select passed out year',
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light(), // Use the light theme for the date picker
-          child: child!,
-        );
-      },
-    );
 
-    if (selectedDate != null) {
-      selectedYear = selectedDate.year;
-      setState(() {
-        widget.dateController.text =
-            DateFormat('yyyy').format(selectedDate).toString();
-      });
-    }
+
+  DateTime _selectedYear = DateTime.now();
+  _selectYear(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: ((context) {
+          return AlertDialog(
+            title: const Text('Select Year'),
+            content: SizedBox(
+              height: 300,
+              width: 300,
+              child: YearPicker(
+                selectedDate: _selectedYear,
+                firstDate: DateTime(1970), // Specify the starting year
+                lastDate: DateTime.now(), // Specify the ending year
+                onChanged: (DateTime val) {
+                  print(val.year);
+                  setState(() {
+                    _selectedYear = val;
+                    widget.dateController.text = val.year.toString();
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          );
+        }));
+    
+
+   
+    
   }
   
 
