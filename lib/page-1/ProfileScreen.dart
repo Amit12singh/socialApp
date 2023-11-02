@@ -684,10 +684,10 @@ class _PostStatsState extends State<_PostStats> {
                 shape: BoxShape.circle,
               ),
               child: likeCount > 0
-                  ? const Icon(
-                      Icons.favorite,
+                  ? Icon(
+                      Icons.thumb_up_sharp,
+                      color: _isLiked ? Colors.blue : Colors.grey[600],
                       size: 15,
-                      color: Colors.red,
                     )
                   : const SizedBox(),
             ),
@@ -695,14 +695,15 @@ class _PostStatsState extends State<_PostStats> {
         ),
         const Divider(),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+
           children: [
             _PostButton(
               icon: Icon(
-                _isLiked ? Icons.favorite : MdiIcons.heartOutline,
-                color: _isLiked ? Colors.red : Colors.grey[600],
+                Icons.thumb_up_sharp,
+                color: _isLiked ? Colors.blue : Colors.grey[600],
                 size: 20,
               ),
-              label: 'Like',
               onTap: () {
                 setState(() {
                   if (_isLiked) {
@@ -715,6 +716,9 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
+            const SizedBox(
+              width: 8,
+            )
           ],
         ),
       ],
@@ -725,36 +729,31 @@ class _PostStatsState extends State<_PostStats> {
 class _PostButton extends StatelessWidget {
   final Key? key;
   final Icon icon;
-  final String label;
   final Function() onTap;
 
   _PostButton({
     this.key,
     required this.icon,
-    required this.label,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        color: Colors.white,
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            height: 25,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                icon,
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(label),
-              ],
-            ),
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          height: 25,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              const SizedBox(
+                width: 4,
+              ),
+            ],
           ),
         ),
       ),
