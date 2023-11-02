@@ -354,11 +354,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           SizedBox(height: 15 * fem),
                          
-                          Container(
+                          SizedBox(
                             height: 70,
                             child: datePicker(
-                                onSelectionChanged: () {},
-                                dateController: passedOutYearController),
+                                dateController: passedOutYearController,
+                                hintText: "Select passed out year"),
                           ),
                           
                           

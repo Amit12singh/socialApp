@@ -4,9 +4,16 @@ import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 
-class Bottombar extends StatelessWidget {
-  const Bottombar({Key? key, required this.onIconPressed}) : super(key: key);
+class Bottombar extends StatefulWidget {
+  Bottombar({Key? key, required this.onIconPressed}) : super(key: key);
   final VoidCallback onIconPressed;
+
+  @override
+  State<Bottombar> createState() => _BottombarState();
+}
+
+class _BottombarState extends State<Bottombar> {
+  int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +34,7 @@ class Bottombar extends StatelessWidget {
                 'assets/icon/home.png',
                 width: 24,
                 height: 24,
+                color: currentPage == 0 ? Colors.black : Colors.white,
               ),
             ),
             label: 'Home',
@@ -38,6 +46,8 @@ class Bottombar extends StatelessWidget {
                 'assets/icon/search.png',
                 width: 24,
                 height: 24,
+                color: currentPage == 1 ? Colors.black : Colors.grey,
+
               ),
             ),
             label: 'Search',
@@ -69,6 +79,9 @@ class Bottombar extends StatelessWidget {
         onTap: (int index) {
           switch (index) {
             case 0:
+              setState(() {
+                currentPage = 0;
+              });
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const FeedScreen(),
@@ -76,6 +89,11 @@ class Bottombar extends StatelessWidget {
               );
               break;
             case 1:
+            
+              setState(() {
+                currentPage = 1;
+              });
+              print(currentPage);
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const SearchPage(),
@@ -83,6 +101,10 @@ class Bottombar extends StatelessWidget {
               );
               break;
             case 2:
+              setState(() {
+                currentPage = 2;
+              });
+
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const MessengerPage(),
@@ -90,6 +112,10 @@ class Bottombar extends StatelessWidget {
               );
               break;
             case 3:
+              setState(() {
+                currentPage = 3;
+              });
+
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const ProfileScreen(),

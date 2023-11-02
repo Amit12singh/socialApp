@@ -5,20 +5,26 @@ import 'package:intl/intl.dart';
 class datePicker extends StatefulWidget {
   const datePicker(
       {super.key,
-      required this.onSelectionChanged,
-      required this.dateController});
+      required this.dateController, required this.hintText});
 
-  final dynamic onSelectionChanged;
   final dateController;
+  final hintText;
 
   @override
   State<datePicker> createState() => _datePickerState();
 }
 
 class _datePickerState extends State<datePicker> {
+  String ShowText = '';
 
 
   DateTime _selectedYear = DateTime.now();
+
+// @override
+// void initState (){
+//   super.initState();
+// }
+
   _selectYear(BuildContext context) async {
     showDialog(
         context: context,
@@ -33,9 +39,9 @@ class _datePickerState extends State<datePicker> {
                 firstDate: DateTime(1970), // Specify the starting year
                 lastDate: DateTime.now(), // Specify the ending year
                 onChanged: (DateTime val) {
-                  print(val.year);
                   setState(() {
                     _selectedYear = val;
+                    ShowText = val.year.toString();
                     widget.dateController.text = val.year.toString();
                   });
                   Navigator.pop(context);
@@ -54,8 +60,10 @@ class _datePickerState extends State<datePicker> {
   @override
   void initState() {
     super.initState();
-    widget.dateController.text =
-        DateFormat('yyyy').format(DateTime.now()).toString();
+    ShowText = widget.hintText;
+
+    // widget.dateController.text =
+    //     DateFormat('yyyy').format(DateTime.now()).toString();
   }
 
   @override
@@ -64,40 +72,44 @@ class _datePickerState extends State<datePicker> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.5, horizontal: 12.5),
-            child: GestureDetector(
-              onTap: () {
-                _selectYear(context);
-              },
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.date_range,
-                    size: 20 * fem,
-                  ),
-                  SizedBox(width: 10.5 * fem),
-                  Text(
-                    widget.dateController.text, // Display selected date here
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 15 * ffem,
-                      fontWeight: FontWeight.w500,
-                      height: 1.5 * ffem,
-                      color: Color.fromARGB(255, 3, 3, 3),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.33 * fem),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.5, horizontal: 12.5),
+              child: GestureDetector(
+                onTap: () {
+                  _selectYear(context);
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Icon(
+                      Icons.date_range,
+                      size: 20 * fem,
                     ),
-                  ),
-                ],
+                    SizedBox(width: 20.5 * fem),
+                    Text(
+                      ShowText, // Display selected date here
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 15 * ffem,
+                        fontWeight: FontWeight.w500,
+                        height: 1.5 * ffem,
+                        color: Color.fromARGB(255, 3, 3, 3),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          )
-       
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

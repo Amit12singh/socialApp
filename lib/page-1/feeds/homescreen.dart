@@ -64,7 +64,7 @@ class _HomeScreenState extends State<FeedScreen> {
               ),
               titleSpacing: 3,
               title: const Text(
-                'PPSONA',
+                'PPS ONA',
                 style: TextStyle(
                   color: Color.fromARGB(255, 167, 135, 135),
                   decoration: TextDecoration.none,
@@ -73,22 +73,22 @@ class _HomeScreenState extends State<FeedScreen> {
                   fontSize: 25,
                 ),
               ),
-              // actions: [
-              //   IconButton(
-              //     icon: const Icon(
-              //       Icons.search,
-              //       size: 25,
-              //       color: Colors.black,
-              //     ),
-              //     onPressed: () {
-              //       Navigator.of(context).push(
-              //         MaterialPageRoute(
-              //           builder: (context) => SearchPage(),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ],
+              actions: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.notifications_active,
+                    size: 25,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (){},
+                    //   ),
+                    // );
+                  },
+                ),
+              ],
             ),
             body: Column(
               children: [
@@ -162,8 +162,11 @@ class _HomeScreenState extends State<FeedScreen> {
             ),
           );
         } else if (index == 1) {
+          currentPage = 1;
           return const MessengerPage();
         } else if (index == 2) {
+          currentPage = 2;
+
           return const ProfileScreen();
         }
       },
