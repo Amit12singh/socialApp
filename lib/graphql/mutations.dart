@@ -150,3 +150,9 @@ mutation Mutation(\$data: MessageInput!) {
   }
 }
 """;
+
+const VERIFY_EMAIL = """
+mutation Mutation(\$otp: String!) {
+  confirmEmail(otp: \$otp)
+}
+""";

@@ -3,6 +3,7 @@ import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/forgetPassword.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
+import 'package:myapp/page-1/verificationEmail.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -48,8 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0xff643600),
+        decoration: const BoxDecoration(
+          color: Color(0xff643600),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -131,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Email is required';
-                                    } else if (!_isValidEmail(value)) {
+                                    } else if (_isValidEmail(value) == false) {
                                       return 'Enter a valid email';
                                     }
                                     return null;
@@ -240,18 +241,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontSize: 12 * ffem,
                                     fontWeight: FontWeight.w500,
                                     height: 1.5 * ffem,
-                                    color: Color.fromARGB(255, 83, 65, 76),
+                                    color:
+                                        const Color.fromARGB(255, 83, 65, 76),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => ForgetPassword(),
+                                  builder: (context) => const ForgetPassword(),
                                 ),
                               );
                             },
@@ -285,7 +287,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             if (isLogedin) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text(
                                     'Login successful.',
                                     textAlign: TextAlign.center,
@@ -304,7 +306,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text(
                                     'Login failed. Please check your credentials.',
                                     textAlign: TextAlign.center,
@@ -382,7 +384,30 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: const Color(0xff643600),
                           ),
                         ),
-                      )
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => emailVerificationPage(),
+                            ),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: Text(
+                          'Verify Account',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 12 * ffem,
+                            fontWeight: FontWeight.w500,
+                            height: 1.5 * ffem,
+                            color: const Color(0xff643600),
+                          ),
+                        ),
+)
+
                     ],
                   ),
                 ),
@@ -419,7 +444,7 @@ class _TickableContainerState extends State<TickableContainer> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(2 * fem),
           border: Border.all(
-            color: Color.fromARGB(255, 94, 80, 80),
+            color: const Color.fromARGB(255, 94, 80, 80),
           ),
           color: isTicked
               ? Colors.brown
