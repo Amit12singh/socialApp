@@ -47,7 +47,6 @@ class _BottombarState extends State<Bottombar> {
                 width: 24,
                 height: 24,
                 color: currentPage == 1 ? Colors.black : Colors.grey,
-
               ),
             ),
             label: 'Search',
@@ -89,7 +88,6 @@ class _BottombarState extends State<Bottombar> {
               );
               break;
             case 1:
-            
               setState(() {
                 currentPage = 1;
               });

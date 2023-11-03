@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myapp/models/article_model.dart';
@@ -178,6 +176,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ],
               ),
+              const SizedBox(height: 30.0),
+              if (isPosting)
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
               const SizedBox(height: 30.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
