@@ -154,7 +154,7 @@ class _FeedScreenState extends State<FeedScreen> {
           unselectedItemColor: Colors.grey,
           type: BottomNavigationBarType.fixed,
           iconSize: 30,
-          selectedItemColor: Color.fromARGB(255, 167, 135, 135),
+        selectedItemColor: const Color.fromARGB(255, 167, 135, 135),
           currentIndex: currentPage,
           onTap: (index) {
             setState(() {
@@ -186,12 +186,12 @@ class _FeedScreenState extends State<FeedScreen> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) =>
-                  CreatePostScreen(), // Replace CreateScreen with your actual screen
+                  const CreatePostScreen(), // Replace CreateScreen with your actual screen
             ),
           );
         },
-        child: Icon(Icons.add),
-        backgroundColor: Color.fromARGB(255, 167, 135, 135),
+        child: const Icon(Icons.add),
+        backgroundColor: const Color.fromARGB(255, 167, 135, 135),
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
