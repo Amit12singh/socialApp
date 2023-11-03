@@ -40,42 +40,6 @@ class _MessengerPageState extends State<MessengerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          // Status bar color
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        ),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Container(
-            width: 60,
-            height: 60,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: Image.asset(
-              'assets/page-1/images/ellipse-1-bg.png',
-              width: 45,
-              height: 45,
-            ),
-          ),
-          onPressed: () {},
-        ),
-        titleSpacing: 3,
-        title: const Text(
-          'PPSONA',
-          style: TextStyle(
-            color: Color.fromARGB(255, 167, 135, 135),
-            decoration: TextDecoration.none,
-            fontFamily: 'PermanentMarker-Regular',
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-      ),
       body: Column(
         children: [
           SizedBox(
@@ -219,17 +183,7 @@ class _MessengerPageState extends State<MessengerPage> {
               )),
         ],
       ),
-      bottomNavigationBar: Bottombar(
-        onIconPressed: () {
-          final currentRoute = ModalRoute.of(context);
-          if (currentRoute != null &&
-              currentRoute.settings.name == '/MessageList') {
-            return;
-          }
-
-          Navigator.pushNamed(context, '/MessageList');
-        },
-      ),
+     
     );
   }
 }
