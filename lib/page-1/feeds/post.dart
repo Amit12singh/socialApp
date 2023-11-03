@@ -10,9 +10,7 @@ import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
 
-
 class PostScreen extends StatefulWidget {
-
   const PostScreen({
     Key? key,
   }) : super(key: key);
@@ -27,8 +25,6 @@ class _PostScreenState extends State<PostScreen> {
   late UserModel? _currentUser;
   List<ArticleModel> posts = [];
 
-  
-
   @override
   void initState() {
     super.initState();
@@ -42,6 +38,7 @@ class _PostScreenState extends State<PostScreen> {
       _currentUser = currentUser;
     });
   }
+
   void _loadData() async {
     final List? _posts = await _postService.getArticles();
 
@@ -49,9 +46,6 @@ class _PostScreenState extends State<PostScreen> {
       posts = _posts as List<ArticleModel>;
     });
   }
-
- 
-
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +75,6 @@ class _PostScreenState extends State<PostScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-
                 _PostHeader(post: post, owner: _currentUser, load: _loadData),
                 const SizedBox(
                   height: 8.0,
@@ -163,7 +156,6 @@ class _PostScreenState extends State<PostScreen> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             child: _PostStats(
@@ -236,7 +228,6 @@ class _PostHeader extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-
               ]),
               Row(
                 children: [
@@ -396,7 +387,7 @@ class _PostStatsState extends State<_PostStats> {
         ),
         const Divider(),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _PostButton(
               icon: Icon(
@@ -404,7 +395,6 @@ class _PostStatsState extends State<_PostStats> {
                 color: _isLiked ? Colors.blue : Colors.grey[600],
                 size: 20,
               ),
-              
               onTap: () {
                 setState(() {
                   if (_isLiked) {
@@ -417,7 +407,14 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
-
+            _PostButton(
+              icon: Icon(
+                Icons.comment_bank_sharp,
+                color: _isLiked ? Colors.blue : Colors.grey[600],
+                size: 20,
+              ),
+              onTap: () {},
+            ),
             const SizedBox(
               width: 8,
             )
@@ -476,9 +473,8 @@ class Avatar extends StatelessWidget {
   Widget build(BuildContext context) {
     if (user?.profilePicture != null) {
       return CircleAvatar(
-        
-          backgroundImage: NetworkImage(user!.profilePicture!.path ?? ''),
-          backgroundColor: Colors.transparent,
+        backgroundImage: NetworkImage(user!.profilePicture!.path ?? ''),
+        backgroundColor: Colors.transparent,
         radius: 28,
       );
     } else {
@@ -487,13 +483,6 @@ class Avatar extends StatelessWidget {
               AssetImage('assets/page-1/images/ellipse-1-bg-gnM.png'),
           backgroundColor: Colors.transparent,
           radius: 28);
-
     }
   }
 }
-
-  
-
-    
-  
-
