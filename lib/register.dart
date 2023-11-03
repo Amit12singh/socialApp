@@ -68,18 +68,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _response = response;
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.green,
-          content: Text(
-            'Register Success.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     backgroundColor: Colors.green,
+      //     content: Text(
+      //       'Register Success.',
+      //       textAlign: TextAlign.center,
+      //       style: TextStyle(
+      //         color: Colors.black,
+      //       ),
+      //     ),
+      //   ),
+      // );
 
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -219,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         if (value!.isEmpty) {
                                           return 'Enter your name.';
                                         }
-                                        return null; // Return null to indicate no validation error.
+                                        return null;
                                       },
                                     ),
                                   ),

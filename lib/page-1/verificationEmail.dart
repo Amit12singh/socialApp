@@ -23,6 +23,19 @@ class emailVerificationPage extends StatelessWidget {
     final verified = await userService.vefifyEmail(otp: otp);
 
     if (verified) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(
+            'Register Success.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
+      );
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginScreen()));
     }

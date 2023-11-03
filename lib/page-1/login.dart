@@ -388,29 +388,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => emailVerificationPage(),
-                            ),
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Text(
-                          'Verify Account',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12 * ffem,
-                            fontWeight: FontWeight.w500,
-                            height: 1.5 * ffem,
-                            color: const Color(0xff643600),
-                          ),
-                        ),
-)
-
                     ],
                   ),
                 ),

@@ -378,7 +378,9 @@ class _PostStatsState extends State<_PostStats> {
               child: likeCount > 0
                   ? Icon(
                       Icons.thumb_up_sharp,
-                      color: _isLiked ? Colors.blue : Colors.grey[600],
+                      color: _isLiked
+                          ? Color.fromARGB(255, 58, 34, 8)
+                          : Colors.grey[600],
                       size: 15,
                     )
                   : const SizedBox(),
@@ -387,12 +389,14 @@ class _PostStatsState extends State<_PostStats> {
         ),
         const Divider(),
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _PostButton(
               icon: Icon(
                 Icons.thumb_up_sharp,
-                color: _isLiked ? Colors.blue : Colors.grey[600],
+                color: _isLiked
+                    ? Color.fromARGB(255, 69, 37, 11)
+                    : Colors.grey[600],
                 size: 20,
               ),
               onTap: () {
@@ -407,16 +411,19 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
+            const Spacer(),
             _PostButton(
               icon: Icon(
                 Icons.comment_bank_sharp,
-                color: _isLiked ? Colors.blue : Colors.grey[600],
+                color: _isLiked
+                    ? Color.fromARGB(255, 96, 69, 12)
+                    : Colors.grey[600],
                 size: 20,
               ),
               onTap: () {},
             ),
             const SizedBox(
-              width: 8,
+              width: 16,
             )
           ],
         ),
