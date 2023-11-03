@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter',
       debugShowCheckedModeBanner: false,
       scrollBehavior: MyCustomScrollBehavior(),
+      
       theme: ThemeData(
         errorColor: Colors.red,
       ),

@@ -101,65 +101,6 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        ),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Container(
-            width: 60,
-            height: 60,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: Image.asset(
-              'assets/page-1/images/ellipse-1-bg.png',
-              width: 45,
-              height: 45,
-            ),
-          ),
-          onPressed: () {},
-        ),
-        titleSpacing: 3,
-        title: const Text(
-          'PPSONA',
-          style: TextStyle(
-            color: const Color(0xFFA78787),
-            decoration: TextDecoration.none,
-            fontFamily: 'PermanentMarker-Regular',
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
-        actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            onSelected: (value) {
-              if (value == 'log_out') {
-                _handleLogout(context);
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: 'log_out',
-                  child: ListTile(
-                    leading: Icon(Icons.exit_to_app),
-                    title: Text('Log Out'),
-                  ),
-                ),
-              ];
-            },
-          ),
-        ],
-      ),
       body: DefaultTabController(
         initialIndex: 1,
         length: 2,
@@ -210,16 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           body: ProfilePostScreen(posts: posts?.timeline, load: _loadData),
         ),
       ),
-      bottomNavigationBar: Bottombar(
-        onIconPressed: () {
-          final currentRoute = ModalRoute.of(context);
-          if (currentRoute != null && currentRoute.settings.name == '/search') {
-            return;
-          }
-
-          Navigator.pushNamed(context, '/search');
-        },
-      ),
+     
     );
   }
 }
