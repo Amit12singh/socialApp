@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/page-1/feeds/homescreen.dart';
-import 'package:myapp/page-1/feeds/post.dart';
-import 'dart:ui';
 import 'package:myapp/page-1/login.dart';
-import 'package:myapp/register.dart';
-import 'package:myapp/utilities/localstorage.dart';
+
 
 class Onboarding extends StatefulWidget {
   @override
@@ -12,6 +8,15 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
+
+  
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 380;

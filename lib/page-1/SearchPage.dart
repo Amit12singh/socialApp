@@ -105,7 +105,7 @@ class _SearchPageState extends State<SearchPage> {
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 hintText: "Search For your Old Mates",
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: const Icon(
                   Icons.search,
                   color: Color.fromARGB(255, 244, 209, 54),
@@ -125,9 +125,9 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
+              child: Text(
                 'Recent friends',
                 style: TextStyle(
                   color: Color.fromARGB(255, 167, 135, 135),
@@ -157,14 +157,14 @@ class _SearchPageState extends State<SearchPage> {
                           );
                         },
                         child: Card(
-                          color: Color.fromARGB(0, 167, 135, 135),
+                          color: const Color.fromARGB(0, 167, 135, 135),
                           elevation: 0,
                           margin: const EdgeInsets.symmetric(vertical: 1),
                           child: ListTile(
                             leading: Avatar(user: _foundUsers[index]),
                             title: Text(
                               _foundUsers[index].fullName,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Color.fromARGB(255, 167, 135, 135),
                                   fontFamily: 'Poppins',
                                   fontSize: 16),
@@ -174,7 +174,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     )
                   : const Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         'No results found. Please try with a different search.',
                         style: TextStyle(

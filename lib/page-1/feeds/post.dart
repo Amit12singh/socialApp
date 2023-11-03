@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/user_model.dart';
+import 'package:myapp/page-1/createpostScreen.dart';
+import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/page-1/ProfileScreen.dart';
+
 
 class PostScreen extends StatefulWidget {
-  final List<ArticleModel> posts;
 
   const PostScreen({
     Key? key,
-    required this.posts,
   }) : super(key: key);
 
   @override
@@ -21,12 +23,17 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   final _postService = PostService();
+
   late UserModel? _currentUser;
+  List<ArticleModel> posts = [];
+
+  
 
   @override
   void initState() {
     super.initState();
     _loadUser();
+    _loadData();
   }
 
   void _loadUser() async {
@@ -35,18 +42,28 @@ class _PostScreenState extends State<PostScreen> {
       _currentUser = currentUser;
     });
   }
+  void _loadData() async {
+    final List? _posts = await _postService.getArticles();
+
+    setState(() {
+      posts = _posts as List<ArticleModel>;
+    });
+  }
+
+ 
+
 
   @override
   Widget build(BuildContext context) {
-    if (widget.posts.isEmpty) {
+    if (posts.isEmpty) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     } else {
       return ListView.builder(
-        itemCount: widget.posts.length,
+        itemCount: posts.length,
         itemBuilder: (context, index) {
-          return buildPostCard(widget.posts[index]);
+          return buildPostCard(posts[index]);
         },
       );
     }
@@ -64,11 +81,15 @@ class _PostScreenState extends State<PostScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _PostHeader(post: post, owner: _currentUser),
+
+                _PostHeader(post: post, owner: _currentUser, load: _loadData),
                 const SizedBox(
                   height: 8.0,
                 ),
-                Text(post.title),
+                SeeMoreText(
+                  text: post.title,
+                  maxLines: 4,
+                ),
                 post.media == null
                     ? const SizedBox.shrink()
                     : const SizedBox(height: 6),
@@ -98,7 +119,7 @@ class _PostScreenState extends State<PostScreen> {
                                 borderRadius: BorderRadius.circular(22),
                                 color: Colors.grey[300],
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: CircularProgressIndicator(),
                               ),
                             );
@@ -142,8 +163,9 @@ class _PostScreenState extends State<PostScreen> {
               ),
             ),
           ),
+
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             child: _PostStats(
               post: post,
               postService: _postService,
@@ -156,27 +178,65 @@ class _PostScreenState extends State<PostScreen> {
 }
 
 class _PostHeader extends StatelessWidget {
-  const _PostHeader({Key? key, required this.post, required this.owner})
+  _PostHeader(
+      {Key? key, required this.post, required this.owner, required this.load})
       : super(key: key);
   final ArticleModel post;
   final UserModel? owner;
+  final Function load;
+  final PostService postService = PostService();
+
+  onDelete(String postId) async {
+    final isDeleted = await postService.deleteArticle(postId);
+    if (isDeleted) {
+      load();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Avatar(user: post.owner),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfileScreen(
+                  user: post.owner,
+                ),
+              ),
+            );
+          },
+          child: Avatar(user: post.owner),
+        ),
         const SizedBox(width: 8),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                Text(
-                  '${post.owner?.fullName}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: 17),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                          user: post.owner,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    '${post.owner?.fullName}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                    ),
+                  ),
                 ),
+                const SizedBox(height: 30),
+
               ]),
               Row(
                 children: [
@@ -198,9 +258,41 @@ class _PostHeader extends StatelessWidget {
           ),
         ),
         post.owner?.id == owner?.id
-            ? IconButton(
-                icon: const Icon(Icons.more_horiz),
-                onPressed: () => print('more'),
+            ? PopupMenuButton<String>(
+                icon: const Icon(
+                  Icons.more_horiz,
+                  color: Colors.black,
+                ),
+                onSelected: (value) {
+                  if (value == 'edit') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CreatePostScreen(post: post),
+                      ),
+                    );
+                  } else if (value == 'delete') {
+                    onDelete(post.id ?? '');
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'edit',
+                      child: ListTile(
+                        leading: Icon(Icons.edit),
+                        title: Text('Edit'),
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'delete',
+                      // onTap: () {},
+                      child: ListTile(
+                        leading: Icon(Icons.delete),
+                        title: Text('Delete'),
+                      ),
+                    ),
+                  ];
+                },
               )
             : const SizedBox()
       ],
@@ -293,10 +385,10 @@ class _PostStatsState extends State<_PostStats> {
                 shape: BoxShape.circle,
               ),
               child: likeCount > 0
-                  ? const Icon(
-                      Icons.favorite,
+                  ? Icon(
+                      Icons.thumb_up_sharp,
+                      color: _isLiked ? Colors.blue : Colors.grey[600],
                       size: 15,
-                      color: Colors.red,
                     )
                   : const SizedBox(),
             ),
@@ -304,14 +396,15 @@ class _PostStatsState extends State<_PostStats> {
         ),
         const Divider(),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             _PostButton(
               icon: Icon(
-                _isLiked ? Icons.favorite : MdiIcons.heartOutline,
-                color: _isLiked ? Colors.red : Colors.grey[600],
+                Icons.thumb_up_sharp,
+                color: _isLiked ? Colors.blue : Colors.grey[600],
                 size: 20,
               ),
-              label: 'Like',
+              
               onTap: () {
                 setState(() {
                   if (_isLiked) {
@@ -324,6 +417,10 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
+
+            const SizedBox(
+              width: 8,
+            )
           ],
         ),
       ],
@@ -334,36 +431,31 @@ class _PostStatsState extends State<_PostStats> {
 class _PostButton extends StatelessWidget {
   final Key? key;
   final Icon icon;
-  final String label;
   final Function() onTap;
 
   _PostButton({
     this.key,
     required this.icon,
-    required this.label,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        color: Colors.white,
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            height: 25,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                icon,
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(label),
-              ],
-            ),
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          height: 25,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              const SizedBox(
+                width: 4,
+              ),
+            ],
           ),
         ),
       ),
@@ -384,15 +476,24 @@ class Avatar extends StatelessWidget {
   Widget build(BuildContext context) {
     if (user?.profilePicture != null) {
       return CircleAvatar(
+        
           backgroundImage: NetworkImage(user!.profilePicture!.path ?? ''),
           backgroundColor: Colors.transparent,
-          radius: 28);
+        radius: 28,
+      );
     } else {
       return const CircleAvatar(
           backgroundImage:
               AssetImage('assets/page-1/images/ellipse-1-bg-gnM.png'),
           backgroundColor: Colors.transparent,
           radius: 28);
+
     }
   }
 }
+
+  
+
+    
+  
+

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/chat_model.dart';
@@ -9,11 +8,11 @@ import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/messagelist.dart';
-import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/page-1/login.dart';
+import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
@@ -34,16 +33,16 @@ class _ProfileScreenState extends State<ProfileScreen>
   bool isExpanded = false;
   UserTimelineModel? posts;
   TabController? _tabController;
-  late ChatModel receiver;
+  ChatModel? receiver;
 
   var _user = null;
 
   get selectedIndex => null;
 
   final List<Widget> pages = [
-    ProfileScreen(),
-    FeedScreen(),
-    MessengerPage(),
+    const ProfileScreen(),
+    const FeedScreen(),
+    const MessengerPage(),
   ];
 
   void _handleLogout(BuildContext context) async {
@@ -51,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     if (isCleared) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Logged out successfully',
             textAlign: TextAlign.center,
@@ -79,10 +78,13 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   void _loadData() async {
-    final user = widget.user ?? await localStorageService.getUser();
-    _user = user;
+    final user = await localStorageService.getUser();
+    _user = widget.user ?? user;
     receiver =
-        ChatModel(id: widget.user?.id ?? '', name: widget.user?.fullName ?? '');
+       widget.user != null && user?.id != _user.id
+        ? ChatModel(
+            id: _user.id ?? '', name: _user?.fullName ?? '')
+        : null;
 
     posts = await userService.userProfile(id: _user.id);
     setState(() {
@@ -100,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
@@ -169,7 +171,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                 backgroundColor: Colors.white,
                 collapsedHeight: 180,
                 expandedHeight: 180,
-                flexibleSpace: ProfileView(userTimeline: posts),
+                flexibleSpace:
+                    ProfileView(userTimeline: posts, receiver: receiver),
               ),
               SliverPersistentHeader(
                 delegate: MyDelegate(
@@ -181,23 +184,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ChatScreen(receiver: receiver),
+                                ChatScreen(
+                                receiver: receiver ?? {} as ChatModel),
                           ),
                         );
                       }
                     }),
-                    tabs: [
-                      const Tab(
+                    tabs: const [
+                      Tab(
                         icon: Icon(Icons.grid_on),
                         text: 'Timeline',
                       ),
-                      widget.user != null
-                          ? const Tab(
-                              icon: Icon(
-                                  Icons.messenger), // Add your new icon here
-                              text: 'Messenger',
-                            )
-                          : const SizedBox(),
+                      
                     ],
                     indicatorColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
@@ -254,8 +252,10 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 
 class ProfileView extends StatelessWidget {
   UserTimelineModel? userTimeline;
+  ChatModel? receiver;
+  
 
-  ProfileView({Key? key, this.userTimeline})
+  ProfileView({Key? key, this.userTimeline, this.receiver})
       : super(
           key: key,
         );
@@ -310,33 +310,72 @@ class ProfileView extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(left: 20),
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: userTimeline?.profile.fullName,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userTimeline?.profile.fullName ?? '',
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
-                  const TextSpan(
-                    text: '\nOld Nabhaies\n',
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 14,
-                    ),
+                ),
+                const SizedBox(height: 2), // Add a 25-pixel vertical gap
+                const Text(
+                  'Old Nabhaies',
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 15,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+            receiver != null
+                ? Align(
+                    alignment: Alignment.topCenter,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(
+                                receiver: receiver ?? {} as ChatModel),
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor:
+                            Colors.blue, // Set the background color to blue
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width:
+                                8, // Add some space between the icon and text
+                          ),
+                          Text(
+                            'Message',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : const SizedBox()
+          ],
+        ),
+      )
+    ]));
+
+   
   }
 }
 
@@ -426,7 +465,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
               children: [
                 _PostHeader(post: post, onDelete: onDelete),
                 const SizedBox(height: 4.0),
-                Text(post.title),
+                SeeMoreText(text: post.title),
                 if (post.media != null && post.media!.isNotEmpty)
                   const SizedBox(height: 6),
               ],
@@ -465,7 +504,7 @@ class _PostScreenState extends State<ProfilePostScreen> {
               ),
             ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: _PostStats(
               post: post,
               postService: _postService,
@@ -498,8 +537,12 @@ class _PostHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${post.owner?.fullName ?? ''}',
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                '${post.owner?.fullName}',
+                style:
+                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              const SizedBox(
+                height: 6,
               ),
               Row(
                 children: [
@@ -631,6 +674,7 @@ class _PostStatsState extends State<_PostStats> {
               likeCount.toString(),
               style: TextStyle(
                 color: Colors.grey[600],
+                fontSize: 14
               ),
             ),
             const SizedBox(width: 4),
@@ -640,10 +684,10 @@ class _PostStatsState extends State<_PostStats> {
                 shape: BoxShape.circle,
               ),
               child: likeCount > 0
-                  ? const Icon(
-                      Icons.favorite,
+                  ? Icon(
+                      Icons.thumb_up_sharp,
+                      color: _isLiked ? Colors.blue : Colors.grey[600],
                       size: 15,
-                      color: Colors.red,
                     )
                   : const SizedBox(),
             ),
@@ -651,14 +695,15 @@ class _PostStatsState extends State<_PostStats> {
         ),
         const Divider(),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+
           children: [
             _PostButton(
               icon: Icon(
-                _isLiked ? Icons.favorite : MdiIcons.heartOutline,
-                color: _isLiked ? Colors.red : Colors.grey[600],
+                Icons.thumb_up_sharp,
+                color: _isLiked ? Colors.blue : Colors.grey[600],
                 size: 20,
               ),
-              label: 'Like',
               onTap: () {
                 setState(() {
                   if (_isLiked) {
@@ -671,6 +716,9 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
+            const SizedBox(
+              width: 8,
+            )
           ],
         ),
       ],
@@ -681,36 +729,31 @@ class _PostStatsState extends State<_PostStats> {
 class _PostButton extends StatelessWidget {
   final Key? key;
   final Icon icon;
-  final String label;
   final Function() onTap;
 
   _PostButton({
     this.key,
     required this.icon,
-    required this.label,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        color: Colors.white,
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            height: 25,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                icon,
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(label),
-              ],
-            ),
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          height: 25,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              const SizedBox(
+                width: 4,
+              ),
+            ],
           ),
         ),
       ),

@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
+
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:myapp/graphql/queries.dart';
-import 'package:myapp/models/pagination_model.dart';
 import 'package:myapp/models/response_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/models/user_profile_model.dart';
@@ -14,7 +13,8 @@ class GraphQLService {
   static HandleToken handleTokenService = HandleToken();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<bool> login({required String email, required String password}) async {
+  Future<bool> login(
+      {required String email, required String password, context}) async {
 
     try {
       QueryResult result = await client.mutate(
@@ -30,6 +30,7 @@ class GraphQLService {
         throw Exception(result.exception);
       }
 
+
       Map? res = result.data?["login"];
 
       final isSaved = await handleTokenService.saveAccessToken(res);
@@ -39,6 +40,17 @@ class GraphQLService {
         return false;
       }
     } catch (error) {
+      //    showDialog(
+      //   context: context,
+      //   barrierDismissible: false, // Prevent dismissing by tapping outside
+      //   builder: (context) {
+      //     return Text(
+      //       error.,
+      //     );
+      //   },
+      // );
+      print(error);
+
       return false;
     }
   }
@@ -152,7 +164,8 @@ class GraphQLService {
 
       if (result.hasException) {
 
-        throw Exception(result.exception);
+        throw Exception(
+            {"message": result?.exception?.graphqlErrors[0].message});
       } else {
         List res = result.data?['getAllUser']?['data'];
 
@@ -163,6 +176,32 @@ class GraphQLService {
       }
     } catch (error) {
       return [];
+    }
+  }
+
+
+  Future<bool> vefifyEmail({required String otp}) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          document: gql(VERIFY_EMAIL),
+          variables: {
+            "otp": otp,
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(
+            {"message": result?.exception?.graphqlErrors[0].message});
+      }
+      final bool data = result.data?['confirmEmail'];
+      print(data);
+      return data;
+    } catch (error) {
+      print(error);
+      return false;
     }
   }
 

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/models/article_model.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
-import 'package:myapp/page-1/SearchPage.dart';
 import 'package:myapp/page-1/create_post_screen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';
-import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -18,30 +15,16 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<FeedScreen> {
-  final PostService postService = PostService();
   final PageController _pageController = PageController(initialPage: 0);
   final HandleToken useService = HandleToken();
   bool isExpanded = false;
-  List<ArticleModel>? posts;
 
   var _user = null;
   int currentPage = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
+ 
 
-  void _loadData() async {
-    final user = await useService.getUser();
-    final List _posts = await postService.getArticles();
-
-    setState(() {
-      _user = user;
-      posts = _posts.cast<ArticleModel>();
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +40,7 @@ class _HomeScreenState extends State<FeedScreen> {
         if (index == 0) {
           return Scaffold(
             appBar: AppBar(
-              systemOverlayStyle: SystemUiOverlayStyle(
+              systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarColor: Colors.white,
                 statusBarIconBrightness: Brightness.dark,
                 statusBarBrightness: Brightness.light,
@@ -81,7 +64,7 @@ class _HomeScreenState extends State<FeedScreen> {
               ),
               titleSpacing: 3,
               title: const Text(
-                'PPSONA',
+                'PPS ONA',
                 style: TextStyle(
                   color: Color.fromARGB(255, 167, 135, 135),
                   decoration: TextDecoration.none,
@@ -90,22 +73,22 @@ class _HomeScreenState extends State<FeedScreen> {
                   fontSize: 25,
                 ),
               ),
-              // actions: [
-              //   IconButton(
-              //     icon: const Icon(
-              //       Icons.search,
-              //       size: 25,
-              //       color: Colors.black,
-              //     ),
-              //     onPressed: () {
-              //       Navigator.of(context).push(
-              //         MaterialPageRoute(
-              //           builder: (context) => SearchPage(),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ],
+              actions: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.notifications_active,
+                    size: 25,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (){},
+                    //   ),
+                    // );
+                  },
+                ),
+              ],
             ),
             body: Column(
               children: [
@@ -161,8 +144,8 @@ class _HomeScreenState extends State<FeedScreen> {
                 //   color: Colors.grey,
                 //   thickness: 0,
                 // ),
-                Expanded(
-                  child: PostScreen(posts: posts ?? []),
+                const Expanded(
+                  child: PostScreen(),
                 ),
               ],
             ),
@@ -179,9 +162,12 @@ class _HomeScreenState extends State<FeedScreen> {
             ),
           );
         } else if (index == 1) {
-          return MessengerPage();
+          currentPage = 1;
+          return const MessengerPage();
         } else if (index == 2) {
-          return ProfileScreen();
+          currentPage = 2;
+
+          return const ProfileScreen();
         }
       },
     );

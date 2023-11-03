@@ -63,4 +63,13 @@ class HandleToken {
     }
     return null;
   }
+
+  Future<bool> showOnboarding() async {
+    final isFirstTime = await storage.read(key: 'isFirstTime');
+    if (isFirstTime == 'false') {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

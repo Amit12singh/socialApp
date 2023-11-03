@@ -92,7 +92,7 @@ class PostService {
     try {
       QueryResult result = await client.query(
         QueryOptions(
-          fetchPolicy: FetchPolicy.cacheFirst,
+          fetchPolicy: FetchPolicy.networkOnly,
           document: gql(GET_ALL_POSTS),
           variables: {
             'data': {
@@ -184,12 +184,9 @@ class PostService {
       );
 
       if (result.hasException) {
-        print('create exeption');
-        print(result);
         throw Exception(result.exception);
       }
 
-      print('like Result $result');
 
       return true;
     } catch (error) {
