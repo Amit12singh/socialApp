@@ -17,7 +17,6 @@ mutation Mutation(\$data: RegisterInput!) {
   createUser(data: \$data) {
     data {
       createdAt
-      currentCity
       email
       fullName
       house

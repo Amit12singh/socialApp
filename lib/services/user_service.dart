@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:myapp/graphql/queries.dart';
@@ -13,7 +14,7 @@ class GraphQLService {
   static HandleToken handleTokenService = HandleToken();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<bool> login(
+  Future<BoolResponseModel> login(
       {required String email, required String password, context}) async {
 
     try {
@@ -27,7 +28,21 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
-        throw Exception(result.exception);
+        BoolResponseModel response = BoolResponseModel(
+            message: result?.exception?.graphqlErrors[0].message ??
+                'Something went wrong.',
+            success: false,
+            isError: true);
+        return response;
+
+        // showDialog(
+        //   context: context,
+        //   barrierDismissible: false, // Prevent dismissing by tapping outside
+        //   builder: (context) {
+        //     return Text(result?.exception?.graphqlErrors[0].message ?? '');
+        //   },
+        // );
+        // throw Exception(result.exception);
       }
 
 
@@ -35,23 +50,18 @@ class GraphQLService {
 
       final isSaved = await handleTokenService.saveAccessToken(res);
       if (isSaved) {
-        return true;
+        return BoolResponseModel(
+            message: 'Successfully logged in.', success: true, isError: false);
+
       } else {
-        return false;
+        return BoolResponseModel(
+            message: 'Something went wrong.', success: false, isError: true);
+
       }
     } catch (error) {
-      //    showDialog(
-      //   context: context,
-      //   barrierDismissible: false, // Prevent dismissing by tapping outside
-      //   builder: (context) {
-      //     return Text(
-      //       error.,
-      //     );
-      //   },
-      // );
-      print(error);
+      return BoolResponseModel(
+          message: 'Something went wrong.', success: false, isError: true);
 
-      return false;
     }
   }
 
@@ -88,7 +98,12 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
-        throw Exception(result.exception);
+        BoolResponseModel response = BoolResponseModel(
+            message: result?.exception?.graphqlErrors[0].message ??
+                'Something went wrong.',
+            success: false,
+            isError: true);
+        return response;
       }
 
       final res = result.data?["createUser"];
@@ -106,7 +121,7 @@ class GraphQLService {
   
      
       return BoolResponseModel(
-          message: 'Something went wrong.', success: false);
+          message: 'Something went wrong.', success: false, isError: true);
     }
   }
 

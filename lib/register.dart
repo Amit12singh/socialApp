@@ -89,10 +89,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (response.success == false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           backgroundColor: Colors.red,
           content: Text(
-            'Register fail. Try again.',
+            response.message,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,

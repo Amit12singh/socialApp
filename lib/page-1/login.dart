@@ -282,16 +282,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             _loading = true;
 
                             final isLogedin = await _graphQLService.login(
-                                email: _email, password: _password);
+                                email: _email,
+                                password: _password,
+                                context: context);
                             _loading = false;
 
-                            if (isLogedin) {
+                            if (isLogedin.success) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                   content: Text(
-                                    'Login successful.',
+                                    isLogedin.message,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.black,
                                     ),
                                   ),
@@ -304,13 +306,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   builder: (context) => const FeedScreen(),
                                 ),
                               );
-                            } else {
+                            }
+                            if (isLogedin.isError) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                   content: Text(
-                                    'Login failed. Please check your credentials.',
+                                    isLogedin.message,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.black,
                                     ),
                                   ),
