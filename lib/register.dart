@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/models/response_model.dart';
 import 'package:myapp/page-1/login.dart';
+import 'package:myapp/page-1/verificationEmail.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:myapp/widgets/datePicker.dart';
+
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -37,7 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String emailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
     RegExp regex = RegExp(emailPattern);
     return regex.hasMatch(email);
-  
   }
 
   @override
@@ -61,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         passedOutYear: passedOutYearController.text,
         phoneNumber: phoneNumberController.text,
         profession: professionController.text);
-  
+
     if (response.success == true) {
       setState(() {
         _response = response;
@@ -82,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+          builder: (context) => emailVerificationPage(),
         ),
       );
     }
@@ -147,7 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     borderRadius: BorderRadius.circular(33 * fem),
                   ),
                   child: SingleChildScrollView(
-                    
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -353,15 +353,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 15 * fem),
-                         
                           SizedBox(
                             height: 70,
                             child: datePicker(
                                 dateController: passedOutYearController,
                                 hintText: "Select passed out year"),
                           ),
-                          
-                          
                           SizedBox(height: 15 * fem),
                           Container(
                             margin: EdgeInsets.only(bottom: 8.33 * fem),

@@ -13,7 +13,7 @@ class emailVerificationPage extends StatelessWidget {
   void _verifyEmail(context, otp) async {
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent dismissing by tapping outside
+      barrierDismissible: false,
       builder: (context) {
         return Center(
           child: CircularProgressIndicator(),
