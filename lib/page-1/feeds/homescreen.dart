@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/page-1/create_post_screen.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
@@ -141,7 +142,13 @@ class _FeedScreenState extends State<FeedScreen> {
             MessengerPage(), // Messenger page
             ProfileScreen(), // Profile page
           ],
+
+          
+
         ),
+
+        
+    
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
           unselectedItemColor: Colors.grey,
@@ -173,7 +180,23 @@ class _FeedScreenState extends State<FeedScreen> {
               label: 'Profile',
             ),
           ],
-        ));
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  CreatePostScreen(), // Replace CreateScreen with your actual screen
+            ),
+          );
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromARGB(255, 167, 135, 135),
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+    );
+        
   }
 }
 
