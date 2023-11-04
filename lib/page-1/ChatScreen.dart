@@ -8,7 +8,6 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:myapp/models/user_model.dart';
 import 'dart:async';
 
-
 class ChatScreen extends StatefulWidget {
   final ChatModel receiver;
   const ChatScreen({Key? key, required this.receiver}) : super(key: key);
@@ -35,16 +34,11 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void startMessagePolling() {
-    const pollingInterval =
-        Duration(seconds: 2); // Adjust the interval as needed
+    const pollingInterval = Duration(seconds: 2);
 
     _timer = Timer.periodic(pollingInterval, (timer) async {
-      // final currentUser = await HandleToken().getUser();
-
       final newMessages =
           await chatService.lastChats(sender: widget.receiver.id);
-
-      
 
       if (newMessages.isNotEmpty) {
         _addMessages(newMessages);
@@ -57,7 +51,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void connect() async {
-    
     token = await localStorageService.getAccessToken();
     final currentUser = await HandleToken().getUser();
     final List<types.TextMessage> messages = await chatService.allChats(
@@ -67,9 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
       _user = currentUser;
     });
 
-
-    socket = IO
-        .io(
+    socket = IO.io(
         "https://apis.oldnabhaite.site/oldnabhaiteapis:8080", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
@@ -79,15 +70,11 @@ class _ChatScreenState extends State<ChatScreen> {
     socket.emit(
       "joinRoom",
     );
-    socket.onConnect((data) {
-
-      
-    });
+    socket.onConnect((data) {});
 
     socket.on('message', (msg) {
       addReceivedMessage(msg);
     });
-
   }
 
   @override
@@ -97,8 +84,6 @@ class _ChatScreenState extends State<ChatScreen> {
     stopMessagePolling();
     super.dispose();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +118,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Colors.white,
                     ),
                   ),
-
                 ],
               ),
             ),

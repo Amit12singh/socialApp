@@ -4,6 +4,7 @@ import 'package:myapp/models/article_model.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/page-1/feeds/post_imgaes_view.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CreatePostScreen extends StatefulWidget {
   CreatePostScreen({Key? key, this.post}) : super(key: key);
@@ -58,8 +59,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       );
 
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const FeedScreen(),
+        PageTransition(
+          type: PageTransitionType.scale,
+          alignment: Alignment.bottomCenter,
+          child: const FeedScreen(),
         ),
       );
     }
@@ -230,8 +233,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        // Handle Video click
-                        // Add your action here
                         _captuteImage();
                       },
                       child: Column(

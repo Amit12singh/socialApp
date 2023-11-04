@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/page-1/feeds/post_imgaes_view.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({Key? key}) : super(key: key);
@@ -14,10 +15,9 @@ class CreatePostScreen extends StatefulWidget {
 class _CreatePostScreenState extends State<CreatePostScreen> {
   TextEditingController postController = TextEditingController();
   PostService postService = PostService();
-  List _mediaFileList = []; // Change to XFile
-  // late List _capturedMedia = []; // Change to XFile
+  List _mediaFileList = [];
+
   final ImagePicker _picker = ImagePicker();
-  //final _isPostCreated = false;
 
   @override
   void initState() {
@@ -30,9 +30,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
     if (_isPostCreated) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>
-              const FeedScreen(), // Replace RegisterScreen with your actual register screen widget
+        PageTransition(
+          type: PageTransitionType.scale,
+          alignment: Alignment.bottomCenter,
+          child: const FeedScreen(),
         ),
       );
     }
@@ -79,7 +80,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
           ),
           onPressed: () {},
-        ), // Change the background color to black
+        ),
         titleSpacing: 3,
         title: const Text(
           'PPSONA',
@@ -152,7 +153,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     controller: postController,
                     onChanged: (text) {
                       if (text.endsWith(' ')) {
-                        // Insert a newline character if a space character is detected at the end
                         postController.text = text.trim() + '\n';
                         postController.selection = TextSelection.fromPosition(
                             TextPosition(offset: postController.text.length));
@@ -167,7 +167,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         fontWeight: FontWeight.w400,
                         color: Color(0xffbebebe),
                       ),
-                      border: InputBorder.none, // Remove the bottom border
+                      border: InputBorder.none,
                     ),
                     style: const TextStyle(
                       fontFamily: 'Poppins',
@@ -175,10 +175,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       fontWeight: FontWeight.w400,
                       color: Color(0xff000000),
                     ),
-                   
-                    maxLines:
-                        null,
-                    // This allows the TextField to expand vertically as needed.
+                    maxLines: null,
                   )),
               const SizedBox(height: 30.0),
               Container(
@@ -245,8 +242,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        // Handle Video click
-                        // Add your action here
                         _captuteImage();
                       },
                       child: Column(
@@ -293,9 +288,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                           'POST',
                           style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 16, // Customize the text size
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black, // Customize the text color
+                            color: Colors.black,
                           ),
                         ),
                       ),

@@ -23,7 +23,6 @@ class PostService {
       List<ProfilePicture> _responseMediaList = [];
 
       if (mediaList.isNotEmpty) {
-
         _multipartFileList =
             await mediaConvert.convertMediaListToMultipart(mediaList);
 
@@ -43,7 +42,6 @@ class PostService {
                   "type": media.type,
                   "mimeType": media.mimeType,
                   "name": media.name,
-                  // You may need to implement this
                 };
               }).toList(),
             },
@@ -52,10 +50,8 @@ class PostService {
       );
 
       if (result.hasException) {
-
         throw Exception(result.exception);
       }
-
 
       return true;
     } catch (error) {
@@ -119,7 +115,6 @@ class PostService {
     }
   }
 
-
   Future<bool> deleteArticle(String articleId) async {
     try {
       QueryResult result = await client.mutate(
@@ -137,14 +132,11 @@ class PostService {
         throw Exception(result.exception);
       }
 
-
       return true;
     } catch (error) {
       return false;
     }
   }
-
-
 
   Future<bool> updatePost(String title, List mediaList,
       List<String> deletedMedia, String id) async {
@@ -187,12 +179,9 @@ class PostService {
         throw Exception(result.exception);
       }
 
-
       return true;
     } catch (error) {
       return false;
     }
   }
-
-
 }

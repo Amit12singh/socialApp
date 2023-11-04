@@ -4,8 +4,7 @@ import 'package:intl/intl.dart';
 
 class datePicker extends StatefulWidget {
   const datePicker(
-      {super.key,
-      required this.dateController, required this.hintText});
+      {super.key, required this.dateController, required this.hintText});
 
   final dateController;
   final hintText;
@@ -17,13 +16,7 @@ class datePicker extends StatefulWidget {
 class _datePickerState extends State<datePicker> {
   String ShowText = '';
 
-
   DateTime _selectedYear = DateTime.now();
-
-// @override
-// void initState (){
-//   super.initState();
-// }
 
   _selectYear(BuildContext context) async {
     showDialog(
@@ -36,8 +29,8 @@ class _datePickerState extends State<datePicker> {
               width: 300,
               child: YearPicker(
                 selectedDate: _selectedYear,
-                firstDate: DateTime(1970), // Specify the starting year
-                lastDate: DateTime.now(), // Specify the ending year
+                firstDate: DateTime(1970),
+                lastDate: DateTime.now(),
                 onChanged: (DateTime val) {
                   setState(() {
                     _selectedYear = val;
@@ -50,12 +43,7 @@ class _datePickerState extends State<datePicker> {
             ),
           );
         }));
-    
-
-   
-    
   }
-  
 
   @override
   void initState() {
@@ -78,7 +66,6 @@ class _datePickerState extends State<datePicker> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              
               padding:
                   const EdgeInsets.symmetric(vertical: 16.5, horizontal: 12.5),
               child: GestureDetector(
@@ -114,5 +101,3 @@ class _datePickerState extends State<datePicker> {
     );
   }
 }
-
-
