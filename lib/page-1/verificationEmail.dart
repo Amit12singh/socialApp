@@ -6,6 +6,7 @@ import 'package:myapp/page-1/login.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:page_transition/page_transition.dart';
 
 class emailVerificationPage extends StatelessWidget {
   GraphQLService userService = GraphQLService();
@@ -26,6 +27,8 @@ class emailVerificationPage extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+
           content: Text(
             'Register Success.',
             textAlign: TextAlign.center,
@@ -36,8 +39,13 @@ class emailVerificationPage extends StatelessWidget {
         ),
       );
 
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      Navigator.of(context).pushReplacement(
+        PageTransition(
+          type: PageTransitionType.scale,
+          alignment: Alignment.bottomCenter,
+          child: LoginScreen(),
+        ),
+      );
     }
   }
 
@@ -132,10 +140,13 @@ class emailVerificationPage extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
+                        Navigator.of(context).pushReplacement(
+                          PageTransition(
+                            type: PageTransitionType.scale,
+                            alignment: Alignment.bottomCenter,
+                            child: LoginScreen(),
+                          ),
+                        );
                       },
                       child: Text(
                         'Login',

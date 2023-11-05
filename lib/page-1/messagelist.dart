@@ -6,6 +6,7 @@ import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/services/chat_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MessengerPage extends StatefulWidget {
   const MessengerPage({Key? key});
@@ -18,9 +19,7 @@ class _MessengerPageState extends State<MessengerPage> {
   final HandleToken localStorageService = HandleToken();
   final ChatService _chatService = ChatService();
 
-  List chatItems = [
-    // Add more chat items as needed
-  ];
+  List chatItems = [];
 
   @override
   void initState() {
@@ -60,55 +59,8 @@ class _MessengerPageState extends State<MessengerPage> {
             height: 20,
             thickness: 3,
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 15.0, right: 15),
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     children: [
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           const Text(
-          //             'Messages',
-          //             style: TextStyle(
-          //                 fontWeight: FontWeight.bold,
-          //                 fontFamily: 'Quicksand',
-          //                 fontSize: 30,
-          //                 color: Colors.white),
-          //           ),
-          //           IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.search,
-          //               color: Colors.white,
-          //               size: 36,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //       const SizedBox(
-          //         height: 5,
-          //       ),
-          //       const Text(
-          //         'R E C E N T',
-          //         style: TextStyle(
-          //           color: Colors.white,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-
           Container(
-              //   height: 645.6,
               width: double.infinity,
-              // decoration: const BoxDecoration(
-              //   color: Color.fromARGB(255, 229, 230, 232),
-              //   borderRadius: BorderRadius.only(
-              //     topLeft: Radius.circular(50),
-              //     topRight: Radius.circular(50),
-              //   ),
-              // ),
               child: ListView.builder(
                 itemCount: chatItems.length,
                 shrinkWrap: true,
@@ -120,9 +72,10 @@ class _MessengerPageState extends State<MessengerPage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ChatScreen(receiver: chatItems[index]),
+                        PageTransition(
+                          type: PageTransitionType.scale,
+                          alignment: Alignment.bottomCenter,
+                          child: ChatScreen(receiver: chatItems[index]),
                         ),
                       );
                     },
@@ -183,7 +136,6 @@ class _MessengerPageState extends State<MessengerPage> {
               )),
         ],
       ),
-     
     );
   }
 }

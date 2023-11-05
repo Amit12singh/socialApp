@@ -1,5 +1,3 @@
-
-import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:myapp/graphql/queries.dart';
@@ -14,9 +12,21 @@ class GraphQLService {
   static HandleToken handleTokenService = HandleToken();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
+
+  Future<bool> forgotPasswordFunc(String email) async {
+    print(email);
+
+    BoolResponseModel response = await this.forgotPassword(email: email);
+    print(response);
+    if (response.success) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<BoolResponseModel> login(
       {required String email, required String password, context}) async {
-
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -34,17 +44,7 @@ class GraphQLService {
             success: false,
             isError: true);
         return response;
-
-        // showDialog(
-        //   context: context,
-        //   barrierDismissible: false, // Prevent dismissing by tapping outside
-        //   builder: (context) {
-        //     return Text(result?.exception?.graphqlErrors[0].message ?? '');
-        //   },
-        // );
-        // throw Exception(result.exception);
       }
-
 
       Map? res = result.data?["login"];
 
@@ -52,22 +52,19 @@ class GraphQLService {
       if (isSaved) {
         return BoolResponseModel(
             message: 'Successfully logged in.', success: true, isError: false);
-
       } else {
         return BoolResponseModel(
             message: 'Something went wrong.', success: false, isError: true);
-
       }
     } catch (error) {
       return BoolResponseModel(
           message: 'Something went wrong.', success: false, isError: true);
-
     }
   }
 
-  Future<BoolResponseModel> registerUser(
-      {required String fullName,
-      required String email,
+  Future<BoolResponseModel> registerUser({
+    required String fullName,
+    required String email,
     required String password,
     required String passedOutYear,
     required String house,
@@ -92,7 +89,6 @@ class GraphQLService {
               "phoneNumber": phoneNumber,
               "profession": profession,
               "yearPassedOut": passedOutYear
-
             },
           },
         ),
@@ -108,7 +104,6 @@ class GraphQLService {
 
       final res = result.data?["createUser"];
 
-
       if (res?["success"] == true) {
         return BoolResponseModel(
             message: 'User registered SuccessFully!!', success: true);
@@ -117,19 +112,12 @@ class GraphQLService {
             message: 'User register failed!!', success: false);
       }
     } catch (error) {
-
-  
-     
       return BoolResponseModel(
           message: 'Something went wrong.', success: false, isError: true);
     }
   }
 
-
   Future<UserTimelineModel?> userProfile({required String id}) async {
-
-
-
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -148,7 +136,6 @@ class GraphQLService {
         return profile;
       } else {
         return null;
-
       }
     } catch (error) {
       return null;
@@ -158,27 +145,18 @@ class GraphQLService {
   Future<List<UserModel>> getUsers({
     required String search,
   }) async {
-   
-
     try {
       QueryResult result = await client.query(
         QueryOptions(
           fetchPolicy: FetchPolicy.cacheFirst,
           document: gql(GET_ALL_USERS),
           variables: {
-            'data': {
-              "page": null,
-              "perPage": null,
-              "search": search 
-            },
+            'data': {"page": null, "perPage": null, "search": search},
           },
         ),
       );
 
-
-
       if (result.hasException) {
-
         throw Exception(
             {"message": result?.exception?.graphqlErrors[0].message});
       } else {
@@ -193,7 +171,6 @@ class GraphQLService {
       return [];
     }
   }
-
 
   Future<bool> vefifyEmail({required String otp}) async {
     try {
@@ -211,7 +188,7 @@ class GraphQLService {
         throw Exception(
             {"message": result?.exception?.graphqlErrors[0].message});
       }
-      final bool data = result.data?['confirmEmail'];
+      final data = result.data?['confirmEmail'];
       print(data);
       return data;
     } catch (error) {
@@ -220,5 +197,81 @@ class GraphQLService {
     }
   }
 
+  Future<BoolResponseModel> forgotPassword({required String email}) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+            fetchPolicy: FetchPolicy.cacheAndNetwork,
+            document: gql(FORGOT_PASSWORD),
+            variables: {
+              "data": {"email": email}
+            }),
+      );
+      print(result);
+      if (result.hasException) {
+        BoolResponseModel response = BoolResponseModel(
+            message: result?.exception?.graphqlErrors[0].message ??
+                'Something went wrong.',
+            success: false,
+            isError: true);
+        return response;
+      }
+
+      final res = result.data?["forgetPassword"];
+
+      if (res == true) {
+        return BoolResponseModel(
+            message: 'Reset token sent to $email',
+            success: true,
+            isError: false);
+      } else {
+        return BoolResponseModel(
+            message: "Something went wrong.Try again a few moment later",
+            success: false,
+            isError: true);
+      }
+    } catch (error) {
+      return BoolResponseModel(
+          message: "Something went wrong.Try again a few moment later",
+          success: false,
+          isError: true);
+    }
+  }
+
+  Future<BoolResponseModel> resetPass(
+      {required String password, required otp}) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          document: gql(RESET_PASS),
+          variables: {"newPassword": password, "resetToken": otp},
+        ),
+      );
+
+      if (result.hasException) {
+        return BoolResponseModel(
+            message: result?.exception?.graphqlErrors[0].message ??
+                'Something went wrong.',
+            success: false,
+            isError: true);
+      }
+
+      final response = result.data?['resetPassword'];
+      if (response) {
+        return BoolResponseModel(
+          message: "Password updated successfully",
+          success: true,
+          isError: false);
+      } else {
+        return BoolResponseModel(
+            message: 'Something went wrong.', success: false, isError: true);
+      }
+     
+    } catch (error) {
+      return BoolResponseModel(
+          message: 'Something went wrong.', success: false, isError: true);
+    }
+  }
 
 }

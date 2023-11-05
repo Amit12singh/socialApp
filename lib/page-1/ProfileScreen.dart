@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/models/user_model.dart';
@@ -8,7 +7,6 @@ import 'package:myapp/models/user_profile_model.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/messagelist.dart';
-import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/page-1/login.dart';
@@ -16,6 +14,7 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserModel? user;
@@ -59,11 +58,16 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
           ),
           backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+
         ),
       );
 
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => LoginScreen()),
+        PageTransition(
+            type: PageTransitionType.scale,
+            alignment: Alignment.bottomCenter,
+            child: LoginScreen()),
         (Route<dynamic> route) => false,
       );
     }
@@ -80,10 +84,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   void _loadData() async {
     final user = await localStorageService.getUser();
     _user = widget.user ?? user;
-    receiver =
-       widget.user != null && user?.id != _user.id
-        ? ChatModel(
-            id: _user.id ?? '', name: _user?.fullName ?? '')
+    receiver = widget.user != null && user?.id != _user.id
+        ? ChatModel(id: _user.id ?? '', name: _user?.fullName ?? '')
         : null;
 
     posts = await userService.userProfile(id: _user.id);
@@ -123,9 +125,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                       if (value == 1 && receiver != null) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ChatScreen(
+                          PageTransition(
+                            type: PageTransitionType.scale,
+                            alignment: Alignment.bottomCenter,
+                            child: ChatScreen(
                                 receiver: receiver ?? {} as ChatModel),
                           ),
                         );
@@ -136,7 +139,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                         icon: Icon(Icons.grid_on),
                         text: 'Timeline',
                       ),
-                      
                     ],
                     indicatorColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
@@ -151,7 +153,6 @@ class _ProfileScreenState extends State<ProfileScreen>
           body: ProfilePostScreen(posts: posts?.timeline, load: _loadData),
         ),
       ),
-     
     );
   }
 }
@@ -185,7 +186,6 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 class ProfileView extends StatelessWidget {
   UserTimelineModel? userTimeline;
   ChatModel? receiver;
-  
 
   ProfileView({Key? key, this.userTimeline, this.receiver})
       : super(
@@ -195,53 +195,51 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+        margin: const EdgeInsets.symmetric(vertical: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+                height: 80,
+                width: 80,
+                child: Avatar(user: userTimeline?.profile)),
+            Column(
               children: [
-                Container(
-                    height: 80,
-                    width: 80,
-                    child: Avatar(user: userTimeline?.profile)),
-                Column(
-                  children: [
-                    Text(
-                      userTimeline?.totalPosts.toString() ?? '0',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    const Text('Posts'),
-                  ],
+                Text(
+                  userTimeline?.totalPosts.toString() ?? '0',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      userTimeline?.totalLikes.toString() ?? '0',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    const Text('Likes'),
-                  ],
+                const SizedBox(
+                  height: 4,
                 ),
+                const Text('Posts'),
               ],
             ),
-          ),
+            Column(
+              children: [
+                Text(
+                  userTimeline?.totalLikes.toString() ?? '0',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                const Text('Likes'),
+              ],
+            ),
+          ],
+        ),
+      ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
@@ -276,8 +274,10 @@ class ProfileView extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatScreen(
+                          PageTransition(
+                            type: PageTransitionType.scale,
+                            alignment: Alignment.bottomCenter,
+                            child: ChatScreen(
                                 receiver: receiver ?? {} as ChatModel),
                           ),
                         );
@@ -306,8 +306,6 @@ class ProfileView extends StatelessWidget {
         ),
       )
     ]));
-
-   
   }
 }
 
@@ -503,8 +501,10 @@ class _PostHeader extends StatelessWidget {
           onSelected: (value) {
             if (value == 'edit') {
               Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CreatePostScreen(post: post),
+                PageTransition(
+                  type: PageTransitionType.scale,
+                  alignment: Alignment.bottomCenter,
+                  child: CreatePostScreen(post: post),
                 ),
               );
             } else if (value == 'delete') {
@@ -522,7 +522,6 @@ class _PostHeader extends StatelessWidget {
               ),
               const PopupMenuItem<String>(
                 value: 'delete',
-                // onTap: () {},
                 child: ListTile(
                   leading: Icon(Icons.delete),
                   title: Text('Delete'),
@@ -604,10 +603,7 @@ class _PostStatsState extends State<_PostStats> {
           children: [
             Text(
               likeCount.toString(),
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 14
-              ),
+              style: TextStyle(color: Colors.grey[600], fontSize: 14),
             ),
             const SizedBox(width: 4),
             Container(
@@ -628,7 +624,6 @@ class _PostStatsState extends State<_PostStats> {
         const Divider(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
-
           children: [
             _PostButton(
               icon: Icon(

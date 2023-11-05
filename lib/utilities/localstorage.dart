@@ -26,9 +26,7 @@ class HandleToken {
   }
 
   Future<String?> getAccessToken() async {
-   
     return await storage.read(key: 'accessToken');
-    
   }
 
   Future<bool> clearAccessToken() async {
@@ -57,7 +55,6 @@ class HandleToken {
     if (jsonUser != null) {
       Map<String, dynamic> userMap = json.decode(jsonUser);
       UserModel user = UserModel.fromJson(userMap);
-
 
       return user;
     }
