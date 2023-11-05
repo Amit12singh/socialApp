@@ -612,9 +612,9 @@ class _PostStatsState extends State<_PostStats> {
                 shape: BoxShape.circle,
               ),
               child: likeCount > 0
-                  ? Icon(
+                  ? const Icon(
                       Icons.thumb_up_sharp,
-                      color: _isLiked ? Colors.blue : Colors.grey[600],
+                      color: Color.fromARGB(255, 167, 135, 135),
                       size: 15,
                     )
                   : const SizedBox(),
@@ -628,7 +628,9 @@ class _PostStatsState extends State<_PostStats> {
             _PostButton(
               icon: Icon(
                 Icons.thumb_up_sharp,
-                color: _isLiked ? Colors.blue : Colors.grey[600],
+                color: _isLiked
+                    ? const Color.fromARGB(255, 167, 135, 135)
+                    : Colors.grey[600],
                 size: 20,
               ),
               onTap: () {

@@ -249,7 +249,6 @@ class GraphQLService {
         ),
       );
 
-print(result);
       if (result.hasException) {
         return BoolResponseModel(
             message: result?.exception?.graphqlErrors[0].message ??
