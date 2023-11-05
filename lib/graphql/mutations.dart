@@ -155,3 +155,20 @@ mutation Mutation(\$otp: String!) {
   confirmEmail(otp: \$otp)
 }
 """;
+
+
+const FORGOT_PASSWORD = """
+mutation Mutation(\$data: forgetPasswordInput!) {
+  forgetPassword(data: \$data)
+}
+""";
+
+const RESET_PASS = """
+mutation ResetPassword(\$newPassword: String!, \$resetToken: String!) {
+  resetPassword(newPassword: \$newPassword, resetToken: \$resetToken) {
+    message
+    status
+    success
+  }
+}
+""";

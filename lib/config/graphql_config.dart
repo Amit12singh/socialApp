@@ -10,7 +10,7 @@ class GraphQLConfig {
   }
 
   final HttpLink _httpLink = HttpLink(
-    "https://apis.oldnabhaite.site/oldnabhaiteapis",
+    "http://192.168.101.7:8000",
   );
 
   AuthLink _authLink() {

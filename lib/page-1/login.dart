@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/response_model.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/forgetPassword.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:myapp/widgets/emailInputPage.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -22,6 +24,19 @@ class _LoginScreenState extends State<LoginScreen> {
     final RegExp emailRegExp =
         RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return emailRegExp.hasMatch(email);
+  }
+
+  Future<bool> forgotPassword(String email) async {
+    print(email);
+
+    BoolResponseModel response =
+        await _graphQLService.forgotPassword(email: email);
+    print(response);
+    if (response.success) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   String _email = "";
@@ -239,11 +254,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Spacer(),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
+                              Navigator.of(context).push(
                                 PageTransition(
                                   type: PageTransitionType.scale,
                                   alignment: Alignment.bottomCenter,
-                                  child: ForgetPassword(),
+                                  child: emailInputPage(
+                                      title: "Forgot password",
+                                      onTap: forgotPassword),
                                 ),
                               );
                             },
@@ -251,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               padding: EdgeInsets.zero,
                             ),
                             child: Text(
-                              'Forget Your Password?',
+                              'Forgot Password?',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 12 * ffem,
@@ -313,8 +330,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   backgroundColor: Colors.red,
                                   elevation: 14,
                                   behavior: SnackBarBehavior.floating,
-
-
                                 ),
                               );
                             }
