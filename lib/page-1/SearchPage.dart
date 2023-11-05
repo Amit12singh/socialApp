@@ -4,6 +4,7 @@ import 'package:myapp/page-1/ProfileScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/post.dart';
 import 'package:myapp/services/user_service.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -32,16 +33,6 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  // _load() async {
-  //   final allUsers = await userService.getUsers(search: enteredKeyword);
-
-  //   setState(() {
-  //     _allUsers = allUsers;
-  //     _foundUsers = allUsers;
-  //   });
-  //   return allUsers;
-  // }
-
   void _runFilter(String enteredKeyword) {
     List<UserModel> results = [];
     if (enteredKeyword.isEmpty) {
@@ -64,37 +55,6 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.white,
-      //   leading: IconButton(
-      //     icon: Container(
-      //       width: 60,
-      //       height: 60,
-      //       decoration: const BoxDecoration(
-      //         shape: BoxShape.circle,
-      //       ),
-      //       child: Image.asset(
-      //         'assets/page-1/images/ellipse-1-bg.png',
-      //         width: 45,
-      //         height: 45,
-      //       ),
-      //     ),
-      //     onPressed: () {},
-      //   ),
-      //   titleSpacing: 3,
-      //   title: const Text(
-      //     'PPSONA',
-      //     style: TextStyle(
-      //       color: Color.fromARGB(255, 167, 135, 135),
-      //       decoration: TextDecoration.none,
-      //       fontFamily: 'PermanentMarker-Regular',
-      //       fontWeight: FontWeight.bold,
-      //       fontSize: 25,
-      //     ),
-      //   ),
-      // ),
-      //
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -150,8 +110,10 @@ class _SearchPageState extends State<SearchPage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => ProfileScreen(
+                            PageTransition(
+                              type: PageTransitionType.scale,
+                              alignment: Alignment.bottomCenter,
+                              child: ProfileScreen(
                                 user: _foundUsers[index],
                               ),
                             ),
@@ -191,16 +153,6 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
-      // bottomNavigationBar: Bottombar(
-      //   onIconPressed: () {
-      //     final currentRoute = ModalRoute.of(context);
-      //     if (currentRoute != null && currentRoute.settings.name == '/search') {
-      //       return;
-      //     }
-
-      //     Navigator.pushNamed(context, '/search');
-      //   },
-      // ),
     );
   }
 }

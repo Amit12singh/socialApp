@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:myapp/page-1/onboarding.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -21,23 +21,33 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 3), () async {
       if (await localStorageService.showOnboarding()) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => Onboarding()),
+          PageTransition(
+            type: PageTransitionType.scale,
+            alignment: Alignment.bottomCenter,
+            child: Onboarding(),
+          ),
         );
         _load();
       } else {
         if (await localStorageService.isUserLoggedIn()) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const FeedScreen()));
+            PageTransition(
+              type: PageTransitionType.scale,
+              alignment: Alignment.bottomCenter,
+              child: FeedScreen(),
+            ),
+          );
         } else {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginScreen()));
+            PageTransition(
+              type: PageTransitionType.scale,
+              alignment: Alignment.bottomCenter,
+              child: LoginScreen(),
+            ),
+          );
         }
-       
-       
       }
     });
-
-  
   }
 
   void _load() async {

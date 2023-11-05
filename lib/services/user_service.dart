@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/config/graphql_config.dart';
@@ -16,7 +15,6 @@ class GraphQLService {
 
   Future<BoolResponseModel> login(
       {required String email, required String password, context}) async {
-
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -34,17 +32,7 @@ class GraphQLService {
             success: false,
             isError: true);
         return response;
-
-        // showDialog(
-        //   context: context,
-        //   barrierDismissible: false, // Prevent dismissing by tapping outside
-        //   builder: (context) {
-        //     return Text(result?.exception?.graphqlErrors[0].message ?? '');
-        //   },
-        // );
-        // throw Exception(result.exception);
       }
-
 
       Map? res = result.data?["login"];
 
@@ -52,22 +40,19 @@ class GraphQLService {
       if (isSaved) {
         return BoolResponseModel(
             message: 'Successfully logged in.', success: true, isError: false);
-
       } else {
         return BoolResponseModel(
             message: 'Something went wrong.', success: false, isError: true);
-
       }
     } catch (error) {
       return BoolResponseModel(
           message: 'Something went wrong.', success: false, isError: true);
-
     }
   }
 
-  Future<BoolResponseModel> registerUser(
-      {required String fullName,
-      required String email,
+  Future<BoolResponseModel> registerUser({
+    required String fullName,
+    required String email,
     required String password,
     required String passedOutYear,
     required String house,
@@ -92,7 +77,6 @@ class GraphQLService {
               "phoneNumber": phoneNumber,
               "profession": profession,
               "yearPassedOut": passedOutYear
-
             },
           },
         ),
@@ -108,7 +92,6 @@ class GraphQLService {
 
       final res = result.data?["createUser"];
 
-
       if (res?["success"] == true) {
         return BoolResponseModel(
             message: 'User registered SuccessFully!!', success: true);
@@ -117,19 +100,12 @@ class GraphQLService {
             message: 'User register failed!!', success: false);
       }
     } catch (error) {
-
-  
-     
       return BoolResponseModel(
           message: 'Something went wrong.', success: false, isError: true);
     }
   }
 
-
   Future<UserTimelineModel?> userProfile({required String id}) async {
-
-
-
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -148,7 +124,6 @@ class GraphQLService {
         return profile;
       } else {
         return null;
-
       }
     } catch (error) {
       return null;
@@ -158,27 +133,18 @@ class GraphQLService {
   Future<List<UserModel>> getUsers({
     required String search,
   }) async {
-   
-
     try {
       QueryResult result = await client.query(
         QueryOptions(
           fetchPolicy: FetchPolicy.cacheFirst,
           document: gql(GET_ALL_USERS),
           variables: {
-            'data': {
-              "page": null,
-              "perPage": null,
-              "search": search 
-            },
+            'data': {"page": null, "perPage": null, "search": search},
           },
         ),
       );
 
-
-
       if (result.hasException) {
-
         throw Exception(
             {"message": result?.exception?.graphqlErrors[0].message});
       } else {
@@ -193,7 +159,6 @@ class GraphQLService {
       return [];
     }
   }
-
 
   Future<bool> vefifyEmail({required String otp}) async {
     try {
@@ -219,6 +184,4 @@ class GraphQLService {
       return false;
     }
   }
-
-
 }

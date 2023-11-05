@@ -3,6 +3,7 @@ import 'package:myapp/page-1/SearchPage.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Bottombar extends StatefulWidget {
   Bottombar({Key? key, required this.onIconPressed}) : super(key: key);
@@ -47,7 +48,6 @@ class _BottombarState extends State<Bottombar> {
                 width: 24,
                 height: 24,
                 color: currentPage == 1 ? Colors.black : Colors.grey,
-
               ),
             ),
             label: 'Search',
@@ -62,7 +62,6 @@ class _BottombarState extends State<Bottombar> {
               ),
             ),
             label: 'Message',
-            // onPressed: onIconPressed,
           ),
           BottomNavigationBarItem(
             icon: Padding(
@@ -83,20 +82,23 @@ class _BottombarState extends State<Bottombar> {
                 currentPage = 0;
               });
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const FeedScreen(),
+                PageTransition(
+                  type: PageTransitionType.scale,
+                  alignment: Alignment.bottomCenter,
+                  child: const FeedScreen(),
                 ),
               );
               break;
             case 1:
-            
               setState(() {
                 currentPage = 1;
               });
               print(currentPage);
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const SearchPage(),
+                PageTransition(
+                  type: PageTransitionType.scale,
+                  alignment: Alignment.bottomCenter,
+                  child: const SearchPage(),
                 ),
               );
               break;
@@ -106,8 +108,10 @@ class _BottombarState extends State<Bottombar> {
               });
 
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const MessengerPage(),
+                PageTransition(
+                  type: PageTransitionType.scale,
+                  alignment: Alignment.bottomCenter,
+                  child: const MessengerPage(),
                 ),
               );
               break;
@@ -117,8 +121,10 @@ class _BottombarState extends State<Bottombar> {
               });
 
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const ProfileScreen(),
+                PageTransition(
+                  type: PageTransitionType.scale,
+                  alignment: Alignment.bottomCenter,
+                  child: const ProfileScreen(),
                 ),
               );
               break;

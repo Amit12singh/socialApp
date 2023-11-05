@@ -6,6 +6,7 @@ import 'package:myapp/page-1/verificationEmail.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:myapp/widgets/datePicker.dart';
+import 'package:page_transition/page_transition.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -68,22 +69,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _response = response;
         isLoading = false;
       });
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     backgroundColor: Colors.green,
-      //     content: Text(
-      //       'Register Success.',
-      //       textAlign: TextAlign.center,
-      //       style: TextStyle(
-      //         color: Colors.black,
-      //       ),
-      //     ),
-      //   ),
-      // );
 
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => emailVerificationPage(),
+        PageTransition(
+          type: PageTransitionType.scale,
+          alignment: Alignment.bottomCenter,
+          child: emailVerificationPage(),
         ),
       );
     }
@@ -109,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 375;
+    double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
 
@@ -125,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 70 * fem),
+                SizedBox(height: 30 * fem),
                 Text(
                   'Register Account',
                   style: TextStyle(
@@ -774,8 +765,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
+                                PageTransition(
+                                  type: PageTransitionType.scale,
+                                  alignment: Alignment.bottomCenter,
+                                  child: LoginScreen(),
                                 ),
                               );
                             },

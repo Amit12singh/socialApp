@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/login.dart';
-
+import 'package:page_transition/page_transition.dart';
 
 class Onboarding extends StatefulWidget {
   @override
@@ -8,14 +8,24 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
+  bool _loading = false;
 
-  
-  @override
-  void initState() {
-    super.initState();
+  void navigateToLoginScreen() async {
+    setState(() {
+      _loading = true;
+    });
+
+    await Future.delayed(Duration(seconds: 2));
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) {
+        setState(() {
+          _loading = false;
+        });
+        return LoginScreen();
+      }),
+    );
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +41,7 @@ class _OnboardingState extends State<Onboarding> {
         height: double.infinity,
         padding: EdgeInsets.zero,
         margin: EdgeInsets.zero,
-        decoration: BoxDecoration(
-            // image: DecorationImage(
-            //   image: AssetImage('assets/your_decorative_line.png'),
-            //   fit: BoxFit.cover,
-            // ),
-            ),
+        decoration: BoxDecoration(),
         child: Stack(
           children: [
             Positioned(
@@ -45,7 +50,11 @@ class _OnboardingState extends State<Onboarding> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    PageTransition(
+                      type: PageTransitionType.scale,
+                      alignment: Alignment.bottomCenter,
+                      child: LoginScreen(),
+                    ),
                   );
                 },
                 style: TextButton.styleFrom(
@@ -87,7 +96,11 @@ class _OnboardingState extends State<Onboarding> {
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      PageTransition(
+                        type: PageTransitionType.scale,
+                        alignment: Alignment.bottomCenter,
+                        child: LoginScreen(),
+                      ),
                     );
                   },
                   child: Text(
@@ -104,7 +117,6 @@ class _OnboardingState extends State<Onboarding> {
                 ),
               ),
             ),
-
             Positioned(
               left: 39.5 * fem,
               top: 150 * fem,
@@ -155,67 +167,17 @@ class _OnboardingState extends State<Onboarding> {
                 ),
               ),
             ),
-            // Positioned(
-            //   left: 53.5 * fem,
-            //   top: 741 * fem,
-            //   child: Align(
-            //     child: SizedBox(
-            //       width: 174 * fem,
-            //       height: 26 * fem,
-            //       child: Text(
-            //         'Dont have an account? ',
-            //         textAlign: TextAlign.center,
-            //         style: TextStyle(
-            //           fontFamily: 'Poppins',
-            //           fontSize: 14 * ffem,
-            //           fontWeight: FontWeight.w500,
-            //           height: 1.8571428571 * ffem / fem,
-            //           letterSpacing: 0.28 * fem,
-            //           color: const Color(0xccffffff),
-            //           decoration: TextDecoration.none,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   left: 210.75 * fem,
-            //   top: 741 * fem,
-            //   child: Align(
-            //     child: SizedBox(
-            //       width: 94 * fem,
-            //       height: 26 * fem,
-            //       child: TextButton(
-            //         onPressed: () {
-            //           Navigator.pushReplacement(
-            //             context,
-            //             MaterialPageRoute(
-            //               builder: (context) => RegisterScreen(),
-            //             ),
-            //           );
-            //         },
-            //         style: TextButton.styleFrom(
-            //           padding: EdgeInsets.zero,
-            //         ),
-            //         child: Text(
-            //           'Register now',
-            //           textAlign: TextAlign.center,
-            //           style: TextStyle(
-            //             fontFamily: 'Poppins',
-            //             fontSize: 14 * ffem,
-            //             fontWeight: FontWeight.w500,
-            //             height: 1.8571428571 * ffem / fem,
-            //             letterSpacing: 0.28 * fem,
-            //             color: const Color(0xccffffff),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            if (_loading)
+              Center(
+                child: CircularProgressIndicator(),
+              ),
           ],
         ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: navigateToLoginScreen,
+      //   child: Icon(Icons.login),
+      // ),
     );
   }
 }

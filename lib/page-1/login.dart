@@ -3,7 +3,7 @@ import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/forgetPassword.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
-import 'package:myapp/page-1/verificationEmail.dart';
+import 'package:page_transition/page_transition.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -17,17 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _loggedIn = false;
   bool _loading = false;
-
-  // void _load() async {
-  //   _loading = true;
-  //   bool isLoggedIn =
-  //       await _graphQLService.login(email: _email, password: _password);
-
-  //   if (_loggedIn) {
-  //     _loading = false;
-  //   }
-  //   setState(() => _loggedIn = isLoggedIn);
-  // }
 
   bool _isValidEmail(String email) {
     final RegExp emailRegExp =
@@ -189,8 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onSaved: (value) {
                                     _password = value!;
                                   },
-                                  obscureText:
-                                      !_isPasswordVisible, // Toggle password visibility
+                                  obscureText: !_isPasswordVisible,
                                 ),
                               ),
                               SizedBox(width: 0.5 * fem),
@@ -207,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   size: 25 * fem,
                                   color: _isPasswordVisible
                                       ? Colors.blue
-                                      : Colors.grey, // Customize the color
+                                      : Colors.grey,
                                 ),
                               ),
                             ],
@@ -252,8 +240,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) => const ForgetPassword(),
+                                PageTransition(
+                                  type: PageTransitionType.scale,
+                                  alignment: Alignment.bottomCenter,
+                                  child: ForgetPassword(),
                                 ),
                               );
                             },
@@ -297,13 +287,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  backgroundColor: Colors
-                                      .green, // Set background color to green
+                                  backgroundColor: Colors.green,
                                 ),
                               );
                               Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) => const FeedScreen(),
+                                PageTransition(
+                                  type: PageTransitionType.scale,
+                                  alignment: Alignment.bottomCenter,
+                                  child: FeedScreen(),
                                 ),
                               );
                             }
@@ -369,8 +360,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => RegisterScreen(),
+                            PageTransition(
+                              type: PageTransitionType.scale,
+                              alignment: Alignment.bottomCenter,
+                              child: RegisterScreen(),
                             ),
                           );
                         },
@@ -426,9 +419,7 @@ class _TickableContainerState extends State<TickableContainer> {
           border: Border.all(
             color: const Color.fromARGB(255, 94, 80, 80),
           ),
-          color: isTicked
-              ? Colors.brown
-              : Colors.transparent, // Add a color for the ticked state
+          color: isTicked ? Colors.brown : Colors.transparent,
         ),
       ),
     );

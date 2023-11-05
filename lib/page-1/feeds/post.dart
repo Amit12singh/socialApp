@@ -9,6 +9,7 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({
@@ -193,8 +194,10 @@ class _PostHeader extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => ProfileScreen(
+              PageTransition(
+                type: PageTransitionType.scale,
+                alignment: Alignment.bottomCenter,
+                child: ProfileScreen(
                   user: post.owner,
                 ),
               ),
@@ -212,8 +215,10 @@ class _PostHeader extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfileScreen(
+                      PageTransition(
+                        type: PageTransitionType.scale,
+                        alignment: Alignment.bottomCenter,
+                        child: ProfileScreen(
                           user: post.owner,
                         ),
                       ),
@@ -257,8 +262,10 @@ class _PostHeader extends StatelessWidget {
                 onSelected: (value) {
                   if (value == 'edit') {
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CreatePostScreen(post: post),
+                      PageTransition(
+                        type: PageTransitionType.scale,
+                        alignment: Alignment.bottomCenter,
+                        child: CreatePostScreen(post: post),
                       ),
                     );
                   } else if (value == 'delete') {
@@ -276,7 +283,6 @@ class _PostHeader extends StatelessWidget {
                     ),
                     const PopupMenuItem<String>(
                       value: 'delete',
-                      // onTap: () {},
                       child: ListTile(
                         leading: Icon(Icons.delete),
                         title: Text('Delete'),
@@ -324,7 +330,6 @@ class _PostStatsState extends State<_PostStats> {
     if (currentUser != null &&
         widget.post.likes != null &&
         isRendered == false) {
-      // Check if any like by the current user exists
       bool isLiked =
           widget.post.likes!.any((like) => like.user?.id == currentUser.id);
 
@@ -345,10 +350,6 @@ class _PostStatsState extends State<_PostStats> {
         _isLiked = false;
       });
     }
-
-    //  else {
-    //   _isLiked = false;S
-    // }
   }
 
   _likePost(String articleId) async {
