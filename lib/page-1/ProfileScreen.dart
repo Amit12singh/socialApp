@@ -58,6 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
           ),
           backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+
         ),
       );
 

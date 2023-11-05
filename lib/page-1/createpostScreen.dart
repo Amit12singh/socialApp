@@ -55,6 +55,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           ),
           duration: Duration(seconds: 2),
           backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+
         ),
       );
 

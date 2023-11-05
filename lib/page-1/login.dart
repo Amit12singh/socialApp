@@ -288,6 +288,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   backgroundColor: Colors.green,
+                                  elevation: 14,
+                                  behavior: SnackBarBehavior.floating,
                                 ),
                               );
                               Navigator.of(context).pushReplacement(
@@ -309,6 +311,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   backgroundColor: Colors.red,
+                                  elevation: 14,
+                                  behavior: SnackBarBehavior.floating,
+
+
                                 ),
                               );
                             }

@@ -83,6 +83,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+
           content: Text(
             response.message,
             textAlign: TextAlign.center,
@@ -701,6 +703,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     backgroundColor: Colors.red,
+                                    behavior: SnackBarBehavior.floating,
+
                                     content: Text(
                                       'Passwords do not match, Please enter correct Password',
                                       textAlign: TextAlign.center,

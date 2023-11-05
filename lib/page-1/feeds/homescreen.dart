@@ -32,12 +32,16 @@ class _FeedScreenState extends State<FeedScreen> {
         const SnackBar(
           content: Text(
             'Logged out successfully',
+            
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
             ),
           ),
           backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          elevation: 10,
+
         ),
       );
 
@@ -184,6 +188,7 @@ class _FeedScreenState extends State<FeedScreen> {
         },
         child: const Icon(Icons.add),
         backgroundColor: const Color.fromARGB(255, 167, 135, 135),
+        elevation: 6,
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,

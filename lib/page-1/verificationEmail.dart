@@ -27,6 +27,8 @@ class emailVerificationPage extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+
           content: Text(
             'Register Success.',
             textAlign: TextAlign.center,
