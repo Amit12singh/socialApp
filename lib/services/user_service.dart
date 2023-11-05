@@ -249,6 +249,7 @@ class GraphQLService {
         ),
       );
 
+print(result);
       if (result.hasException) {
         return BoolResponseModel(
             message: result?.exception?.graphqlErrors[0].message ??
@@ -258,7 +259,7 @@ class GraphQLService {
       }
 
       final response = result.data?['resetPassword'];
-      if (response) {
+      if (response?['success']) {
         return BoolResponseModel(
           message: "Password updated successfully",
           success: true,

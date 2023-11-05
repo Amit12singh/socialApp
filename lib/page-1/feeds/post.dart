@@ -377,11 +377,9 @@ class _PostStatsState extends State<_PostStats> {
                 shape: BoxShape.circle,
               ),
               child: likeCount > 0
-                  ? Icon(
+                  ? const Icon(
                       Icons.thumb_up_sharp,
-                      color: _isLiked
-                          ? Color.fromARGB(255, 58, 34, 8)
-                          : Colors.grey[600],
+                      color: Color.fromARGB(255, 167, 135, 135),
                       size: 15,
                     )
                   : const SizedBox(),
@@ -396,9 +394,9 @@ class _PostStatsState extends State<_PostStats> {
               icon: Icon(
                 Icons.thumb_up_sharp,
                 color: _isLiked
-                    ? Color.fromARGB(255, 69, 37, 11)
+                    ? Color.fromARGB(255, 167, 135, 135)
                     : Colors.grey[600],
-                size: 20,
+                size: 25,
               ),
               onTap: () {
                 setState(() {
@@ -415,11 +413,8 @@ class _PostStatsState extends State<_PostStats> {
             const Spacer(),
             _PostButton(
               icon: Icon(
-                Icons.comment_bank_sharp,
-                color: _isLiked
-                    ? Color.fromARGB(255, 96, 69, 12)
-                    : Colors.grey[600],
-                size: 20,
+                Icons.insert_comment_outlined,
+                  color: Colors.grey[600], size: 25
               ),
               onTap: () {},
             ),
