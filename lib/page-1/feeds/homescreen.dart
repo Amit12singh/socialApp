@@ -170,7 +170,9 @@ class _FeedScreenState extends State<FeedScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.search_rounded),
               label: 'Search',
-            ),
+
+          ),
+        
             BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'Messages',
