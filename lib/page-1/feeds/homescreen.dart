@@ -65,7 +65,7 @@ class _FeedScreenState extends State<FeedScreen> {
           statusBarBrightness: Brightness.light,
         ),
         elevation: 1,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white70,
         leading: IconButton(
           icon: Container(
             width: 60,
@@ -98,7 +98,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   icon: const Icon(
                     Icons.notifications_active,
                     size: 25,
-                    color: Color.fromARGB(255, 173, 170, 170),
+                    color: Color.fromARGB(255, 167, 135, 135),
                   ),
                   onPressed: () {},
                 ),

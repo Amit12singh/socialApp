@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       scrollBehavior: MyCustomScrollBehavior(),
       theme: ThemeData(
         errorColor: Colors.red,
+          primaryColor: Color.fromARGB(255, 167, 135, 135)
       ),
       home: Scaffold(
         body: SingleChildScrollView(

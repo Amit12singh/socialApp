@@ -258,7 +258,7 @@ class GraphQLService {
       }
 
       final response = result.data?['resetPassword'];
-      if (response) {
+      if (response?['success']) {
         return BoolResponseModel(
           message: "Password updated successfully",
           success: true,
