@@ -185,16 +185,27 @@ mutation Mutation(\$type: mediaType!, \$file: Upload!) {
 """;
 
 const UPLOAD_PROFILE_IMAGE = """
-mutation UpdateUser(\$data: UserUpdateInput!) {
+mutation Mutation(\$data: UserUpdateInput!) {
   updateUser(data: \$data) {
     data {
+      currentCity
+      deletedAt
+      email
+      fullName
+      house
+      houseNumber
+      id
+      phoneNumber
+      profession
       profileImage {
+        id
         mimeType
         name
         path
         type
-        id
       }
+      role
+      yearPassedOut
     }
     message
     status

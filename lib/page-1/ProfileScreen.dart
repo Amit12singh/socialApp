@@ -73,6 +73,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
   }
 
+
+
   @override
   void initState() {
     super.initState();
@@ -93,6 +95,9 @@ class _ProfileScreenState extends State<ProfileScreen>
       _user = user;
     });
   }
+
+
+  
 
   @override
   void dispose() {
@@ -186,6 +191,7 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 class ProfileView extends StatelessWidget {
   UserTimelineModel? userTimeline;
   ChatModel? receiver;
+  GraphQLService userService = GraphQLService();
 
   ProfileView({Key? key, this.userTimeline, this.receiver})
       : super(
@@ -204,7 +210,10 @@ class ProfileView extends StatelessWidget {
             height: 120,
             width: 130,
             // child: Avatar(user: userTimeline?.profile)),
-            child: profileAvatar(),
+            child: profileAvatar(
+                isCurrentUser: receiver != null ? false : true,
+                imageUrl: userTimeline?.profile.profilePicture?.path ??
+                    'assets/page-1/images/ellipse-1-bg-gnM.png'),
           ),
           Column(
             children: [
@@ -257,7 +266,7 @@ class ProfileView extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(height: 2), // Add a 25-pixel vertical gap
+                const SizedBox(height: 2), 
                 const Text(
                   'Old Nabhaies',
                   style: TextStyle(

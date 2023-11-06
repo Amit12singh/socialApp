@@ -1,3 +1,5 @@
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:myapp/graphql/mutations.dart';
@@ -30,7 +32,7 @@ class MediaService {
     }
   }
 
-  Future<ProfilePicture> uploadSingleImage(Map media, type) async {
+  Future<ProfilePicture> uploadSingleImage(MultipartFile media, type) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -38,11 +40,13 @@ class MediaService {
             document: gql(SINGLE_FILE_UPLOAD),
             variables: {"file": media, "type": type}),
       );
+      
+
 
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
-        Map<String, String> data = result.data?['singleUpload'];
+        final data = result.data?['singleUpload'];
         ProfilePicture media = ProfilePicture.fromMap(map: data);
 
         return media;
