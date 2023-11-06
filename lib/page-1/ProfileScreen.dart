@@ -15,6 +15,7 @@ import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:myapp/widgets/avatarWithbutton.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserModel? user;
@@ -59,7 +60,6 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
-
         ),
       );
 
@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               SliverAppBar(
                 backgroundColor: Colors.white,
                 collapsedHeight: 180,
-                expandedHeight: 180,
+                expandedHeight: 250,
                 flexibleSpace:
                     ProfileView(userTimeline: posts, receiver: receiver),
               ),
@@ -196,49 +196,49 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-        margin: const EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-                height: 80,
-                width: 80,
-                child: Avatar(user: userTimeline?.profile)),
-            Column(
-              children: [
-                Text(
-                  userTimeline?.totalPosts.toString() ?? '0',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            color: Colors.white,
+            height: 120,
+            width: 130,
+            // child: Avatar(user: userTimeline?.profile)),
+            child: profileAvatar(),
+          ),
+          Column(
+            children: [
+              Text(
+                userTimeline?.totalPosts.toString() ?? '0',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(
-                  height: 4,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              const Text('Posts'),
+            ],
+          ),
+          Column(
+            children: [
+              Text(
+                userTimeline?.totalLikes.toString() ?? '0',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-                const Text('Posts'),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  userTimeline?.totalLikes.toString() ?? '0',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                const Text('Likes'),
-              ],
-            ),
-          ],
-        ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              const Text('Likes'),
+            ],
+          ),
+        ],
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

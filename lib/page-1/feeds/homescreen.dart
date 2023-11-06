@@ -65,7 +65,7 @@ class _FeedScreenState extends State<FeedScreen> {
           statusBarBrightness: Brightness.light,
         ),
         elevation: 1,
-        backgroundColor: Colors.white70,
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Container(
             width: 60,
