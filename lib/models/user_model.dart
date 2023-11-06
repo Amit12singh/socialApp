@@ -102,25 +102,7 @@ class UserModel {
     this.profession,
   });
 
-  // String get imageUrl => null;
 
-  // static fromMap({map}) {
-  //   return UserModel(
-  //     id: map['id'],
-  //     email: map['email'],
-  //     fullName: map['fullName'],
-  //     profilePicture: map['profileImage'],
-  //     createdAt: DateTime.fromMillisecondsSinceEpoch(
-  //       int.parse(map['createdAt']),
-  //     ),
-  //     deletedAt: DateTime.fromMillisecondsSinceEpoch(
-  //       int.parse(map['createdAt']),
-  //     ),
-  //     updatedAt: DateTime.fromMillisecondsSinceEpoch(
-  //       int.parse(map['createdAt']),
-  //     ),
-  //   );
-  // }
 
   Map<String, dynamic> toJson() {
     return {

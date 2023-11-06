@@ -1,7 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:myapp/widgets/ImageViewer.dart';
 
-class profileAvatar extends StatelessWidget {
+class profileAvatar extends StatefulWidget {
+  @override
+  State<profileAvatar> createState() => _profileAvatarState();
+}
+
+class _profileAvatarState extends State<profileAvatar> {
+  XFile? _image;
+
+  final ImagePicker _picker = ImagePicker();
+  Future<void> selectImage() async {
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        _image = image;
+      });
+      chaneProfile();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void chaneProfile() {
+    if (_image != null) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              ImageViewer(imagePath: _image!.path, file: true)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +67,9 @@ class profileAvatar extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  selectImage();
+                                },
                                 child: const Row(
                                   children: [
                                     Icon(
@@ -60,6 +95,7 @@ class profileAvatar extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ImageViewer(
+                                            file: false,
                                             imagePath:
                                                 'assets/page-1/images/ellipse-1-bg-gnM.png',
                                           )));

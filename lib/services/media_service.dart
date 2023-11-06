@@ -29,4 +29,26 @@ class MediaService {
       return [];
     }
   }
+
+  Future<ProfilePicture> uploadSingleImage(Map media, type) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+            fetchPolicy: FetchPolicy.noCache,
+            document: gql(SINGLE_FILE_UPLOAD),
+            variables: {"file": media, "type": type}),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        Map<String, String> data = result.data?['singleUpload'];
+        ProfilePicture media = ProfilePicture.fromMap(map: data);
+
+        return media;
+      }
+    } catch (err) {
+      return {} as ProfilePicture;
+    }
+  }
 }

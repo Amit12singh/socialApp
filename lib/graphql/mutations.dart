@@ -172,3 +172,33 @@ mutation ResetPassword(\$newPassword: String!, \$resetToken: String!) {
   }
 }
 """;
+
+
+const SINGLE_FILE_UPLOAD = """ 
+mutation Mutation(\$type: mediaType!, \$file: Upload!) {
+  singleUpload(type: \$type, file: \$file) {
+    mimeType
+    name
+    type
+  }
+}
+""";
+
+const UPLOAD_PROFILE_IMAGE = """
+mutation UpdateUser(\$data: UserUpdateInput!) {
+  updateUser(data: \$data) {
+    data {
+      profileImage {
+        mimeType
+        name
+        path
+        type
+        id
+      }
+    }
+    message
+    status
+    success
+  }
+}
+""";
