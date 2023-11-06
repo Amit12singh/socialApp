@@ -15,6 +15,7 @@ import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:myapp/widgets/avatarWithbutton.dart';
 
 class ProfileScreen extends StatefulWidget {
   final UserModel? user;
@@ -59,7 +60,6 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
-
         ),
       );
 
@@ -72,6 +72,8 @@ class _ProfileScreenState extends State<ProfileScreen>
       );
     }
   }
+
+
 
   @override
   void initState() {
@@ -94,6 +96,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     });
   }
 
+
+  
+
   @override
   void dispose() {
     _tabController?.dispose();
@@ -113,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               SliverAppBar(
                 backgroundColor: Colors.white,
                 collapsedHeight: 180,
-                expandedHeight: 180,
+                expandedHeight: 250,
                 flexibleSpace:
                     ProfileView(userTimeline: posts, receiver: receiver),
               ),
@@ -186,6 +191,7 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 class ProfileView extends StatelessWidget {
   UserTimelineModel? userTimeline;
   ChatModel? receiver;
+  GraphQLService userService = GraphQLService();
 
   ProfileView({Key? key, this.userTimeline, this.receiver})
       : super(
@@ -196,49 +202,52 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-        margin: const EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-                height: 80,
-                width: 80,
-                child: Avatar(user: userTimeline?.profile)),
-            Column(
-              children: [
-                Text(
-                  userTimeline?.totalPosts.toString() ?? '0',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            color: Colors.white,
+            height: 120,
+            width: 130,
+            // child: Avatar(user: userTimeline?.profile)),
+            child: profileAvatar(
+                isCurrentUser: receiver != null ? false : true,
+                imageUrl: userTimeline?.profile.profilePicture?.path ??
+                    'assets/page-1/images/ellipse-1-bg-gnM.png'),
+          ),
+          Column(
+            children: [
+              Text(
+                userTimeline?.totalPosts.toString() ?? '0',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(
-                  height: 4,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              const Text('Posts'),
+            ],
+          ),
+          Column(
+            children: [
+              Text(
+                userTimeline?.totalLikes.toString() ?? '0',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-                const Text('Posts'),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  userTimeline?.totalLikes.toString() ?? '0',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                const Text('Likes'),
-              ],
-            ),
-          ],
-        ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              const Text('Likes'),
+            ],
+          ),
+        ],
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -257,7 +266,7 @@ class ProfileView extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(height: 2), // Add a 25-pixel vertical gap
+                const SizedBox(height: 2), 
                 const Text(
                   'Old Nabhaies',
                   style: TextStyle(
