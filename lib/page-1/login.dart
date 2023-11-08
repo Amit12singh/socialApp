@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/response_model.dart';
+import 'package:myapp/page-1/Batch_Mates.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/page-1/forgetPassword.dart';
 import 'package:myapp/register.dart';
@@ -313,7 +314,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 PageTransition(
                                   type: PageTransitionType.scale,
                                   alignment: Alignment.bottomCenter,
-                                  child: FeedScreen(),
+                                  child: BatchMatePage(),
                                 ),
                               );
                             }

@@ -500,7 +500,7 @@ class _PostHeader extends StatelessWidget {
         PopupMenuButton<String>(
           icon: const Icon(
             Icons.more_horiz,
-            color: Colors.black,
+            color: Color.fromARGB(255, 167, 135, 135),
           ),
           onSelected: (value) {
             if (value == 'edit') {
