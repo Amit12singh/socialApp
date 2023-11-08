@@ -1,16 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/user_model.dart';
 
 import 'package:myapp/page-1/feeds/homescreen.dart';
+import 'package:myapp/services/user_service.dart';
 import 'package:page_transition/page_transition.dart';
 
-class BatchMatePage extends StatelessWidget {
+class BatchMatePage extends StatefulWidget {
   const BatchMatePage({Key? key}) : super(key: key);
+
+  @override
+  State<BatchMatePage> createState() => _BatchMatePageState();
+}
+
+class _BatchMatePageState extends State<BatchMatePage> {
+  final GraphQLService userService = GraphQLService();
+
+  List<UserModel> _allUsers = [];
+
+  String enteredKeyword = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final allUsers = await userService.getUsers(search: enteredKeyword);
+    setState(() {
+      _allUsers = allUsers;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
-      body: listView(),
+      body: listView(_allUsers),
       bottomNavigationBar: bottom(context),
     );
   }
@@ -27,18 +53,18 @@ class BatchMatePage extends StatelessWidget {
     );
   }
 
-  Widget listView() {
+  Widget listView(allUser) {
     return GridView.builder(
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-      itemCount: 21,
+      itemCount: allUser.length,
       itemBuilder: (context, index) {
-        return ListViewItem(index);
+        return ListViewItem(index, allUser);
       },
     );
   }
 
-  Widget ListViewItem(int index) {
+  Widget ListViewItem(int index, List<UserModel> allUser) {
     return Column(
       children: [
         Padding(
@@ -65,25 +91,33 @@ class BatchMatePage extends StatelessWidget {
                 child: Container(
                   width: 65,
                   height: 65,
-                  decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: AssetImage(
-                              'assets/page-1/images/rectangle-688.png'))),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                    shape: BoxShape.circle,
+                    image: allUser[index].profilePicture != null
+                        ? DecorationImage(
+                            image: NetworkImage(
+                                allUser[index].profilePicture?.path ?? ''),
+                          )
+                        : const DecorationImage(
+                            image: AssetImage(
+                              'assets/page-1/images/ellipse-1-bg-Ztm.png',
+                            ),
+                          ),
+                  ),
                 ),
               ),
             ),
           ),
         ),
         const SizedBox(height: 4),
-        const Text(
-          'Hari Shyam',
+        Text(
+          allUser[index].fullName,
           style: TextStyle(
             color: Colors.black,
             fontSize: 14,
@@ -110,9 +144,9 @@ class BatchMatePage extends StatelessWidget {
       ),
       child: Container(
         width: 500,
-        height: 65,
+        height: 55,
         decoration: BoxDecoration(
-          color: const Color(0xff643600),
+          color: Color.fromARGB(255, 167, 135, 135),
           borderRadius: BorderRadius.circular(16),
         ),
         child: const Row(

@@ -87,11 +87,19 @@ class _MessengerPageState extends State<MessengerPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundImage:
-                                    NetworkImage(chatItem.avatarImage ?? ''),
-                              ),
+                              chatItem.avatarImage != null
+                                  ? CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 30,
+                                      backgroundImage: NetworkImage(
+                                          chatItem.avatarImage ?? ''),
+                                    )
+                                  : const CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 30,
+                                      backgroundImage: AssetImage(
+                                          'assets/page-1/images/ellipse-1-bg-Ztm.png'),
+                                    ),
                             ],
                           ),
                           const SizedBox(width: 10),
