@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/page-1/Notification_page.dart';
 import 'package:myapp/page-1/create_post_screen.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/messagelist.dart';
@@ -32,7 +33,6 @@ class _FeedScreenState extends State<FeedScreen> {
         const SnackBar(
           content: Text(
             'Logged out successfully',
-            
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
@@ -41,7 +41,6 @@ class _FeedScreenState extends State<FeedScreen> {
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           elevation: 10,
-
         ),
       );
 
@@ -100,7 +99,15 @@ class _FeedScreenState extends State<FeedScreen> {
                     size: 25,
                     color: Color.fromARGB(255, 167, 135, 135),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      PageTransition(
+                        type: PageTransitionType.scale,
+                        alignment: Alignment.bottomCenter,
+                        child: const NotificationPage(),
+                      ),
+                    );
+                  },
                 ),
               ]
             : currentPage == 3
@@ -196,7 +203,6 @@ class _FeedScreenState extends State<FeedScreen> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       // resizeToAvoidBottomInset: false, // fluter 2.x
-
     );
   }
 }
