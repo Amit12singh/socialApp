@@ -22,8 +22,6 @@ class GraphQLConfig {
     return link;
   }
 
-
-
   GraphQLClient clientToQuery() {
     final link = _authLink().concat(_httpLink);
     return GraphQLClient(
@@ -31,5 +29,4 @@ class GraphQLConfig {
       link: link,
     );
   }
-  
 }
