@@ -41,8 +41,9 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   void _loadData() async {
-    final List? _posts = await _postService.getArticles();
-
+    final List<ArticleModel> _posts = await _postService.getArticles();
+    print('post screen');
+    print(_posts);
     setState(() {
       posts = _posts as List<ArticleModel>;
     });
@@ -412,10 +413,8 @@ class _PostStatsState extends State<_PostStats> {
             ),
             const Spacer(),
             _PostButton(
-              icon: Icon(
-                Icons.insert_comment_outlined,
-                  color: Colors.grey[600], size: 25
-              ),
+              icon: Icon(Icons.insert_comment_outlined,
+                  color: Colors.grey[600], size: 25),
               onTap: () {},
             ),
             const SizedBox(

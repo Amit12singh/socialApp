@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/models/chat_model.dart';
-import 'package:myapp/page-1/feeds/post.dart';
+import 'package:myapp/page-1/feeds/postScreen.dart';
 import 'package:myapp/services/chat_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:page_transition/page_transition.dart';

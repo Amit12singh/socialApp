@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/page-1/About_us.dart';
 import 'package:myapp/page-1/Notification_page.dart';
 import 'package:myapp/page-1/create_post_screen.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
-import 'package:myapp/page-1/feeds/post.dart';
+import 'package:myapp/page-1/feeds/postScreen.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/SearchPage.dart';
@@ -108,6 +109,29 @@ class _FeedScreenState extends State<FeedScreen> {
                       ),
                     );
                   },
+                ),
+                PopupMenuButton<String>(
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: Colors.black,
+                  ),
+                  onSelected: (value) {
+                    if (value == 'about') {
+                      Navigator.of(context).push(
+                        PageTransition(
+                          type: PageTransitionType.scale,
+                          alignment: Alignment.bottomCenter,
+                          child: About_us(),
+                        ),
+                      );
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem<String>(
+                      value: 'about',
+                      child: Text('About Us'),
+                    ),
+                  ],
                 ),
               ]
             : currentPage == 3

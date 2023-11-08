@@ -6,14 +6,25 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
+      appBar: appBar(context),
       body: listView(),
     );
   }
 
-  PreferredSizeWidget appBar() {
+  PreferredSizeWidget appBar(BuildContext context) {
     return AppBar(
-      title: Text('Notification'),
+      backgroundColor: Color.fromARGB(255, 167, 135, 135),
+      title: Text(
+        'Notification',
+        style: TextStyle(color: Colors.black),
+      ),
+      centerTitle: true,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios_new),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
     );
   }
 

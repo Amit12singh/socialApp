@@ -8,7 +8,7 @@ import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
-import 'package:myapp/page-1/feeds/post.dart';
+import 'package:myapp/page-1/feeds/postScreen.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
@@ -73,8 +73,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
   }
 
-
-
   @override
   void initState() {
     super.initState();
@@ -95,9 +93,6 @@ class _ProfileScreenState extends State<ProfileScreen>
       _user = user;
     });
   }
-
-
-  
 
   @override
   void dispose() {
@@ -266,7 +261,7 @@ class ProfileView extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(height: 2), 
+                const SizedBox(height: 2),
                 const Text(
                   'Old Nabhaies',
                   style: TextStyle(
