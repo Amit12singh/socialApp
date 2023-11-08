@@ -65,7 +65,7 @@ class _FeedScreenState extends State<FeedScreen> {
           statusBarBrightness: Brightness.light,
         ),
         elevation: 1,
-        backgroundColor: Colors.white70,
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Container(
             width: 60,
@@ -176,22 +176,27 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            PageTransition(
-              type: PageTransitionType.scale,
-              alignment: Alignment.bottomCenter,
-              child: const CreatePostScreen(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-        backgroundColor: const Color.fromARGB(255, 167, 135, 135),
-        elevation: 6,
+      floatingActionButton: Visibility(
+        visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              PageTransition(
+                type: PageTransitionType.scale,
+                alignment: Alignment.bottomCenter,
+                child: const CreatePostScreen(),
+              ),
+            );
+          },
+          backgroundColor: const Color.fromARGB(255, 167, 135, 135),
+          elevation: 6,
+          child: const Icon(Icons.add),
+        ),
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
+      // resizeToAvoidBottomInset: false, // fluter 2.x
+
     );
   }
 }

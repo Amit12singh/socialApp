@@ -1,9 +1,11 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:myapp/config/graphql_config.dart';
 import 'package:myapp/graphql/queries.dart';
 import 'package:myapp/models/response_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/models/user_profile_model.dart';
+import 'package:myapp/services/media_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/graphql/mutations.dart';
 
@@ -273,5 +275,68 @@ class GraphQLService {
           message: 'Something went wrong.', success: false, isError: true);
     }
   }
+
+  Future<BoolResponseModel> uploadProfile({required XFile image, id}) async {
+    final ProfilePicture mediaConvert = new ProfilePicture();
+    final MediaService mediaService = MediaService();
+
+    late ProfilePicture _responseMedia;
+    final media = await mediaConvert.convertToMultipart(image);
+    print(media);
+
+    try {
+      if (media != null) {
+        _responseMedia =
+            await mediaService.uploadSingleImage(media, "PROFILE_IMAGE");
+
+        print('here media');
+        print(_responseMedia);
+      }
+
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          document: gql(UPLOAD_PROFILE_IMAGE),
+          variables: {
+            "data": {
+              "id": id,
+              "profileImage": {
+                "name": _responseMedia.name,
+                "mimeType": _responseMedia.mimeType,
+                "type": _responseMedia.type
+              }
+            }
+          },
+        ),
+      );
+
+      print(result);
+
+      if (result.hasException) {
+        return BoolResponseModel(
+            message: result?.exception?.graphqlErrors[0].message ??
+                'Something went wrong.',
+            success: false,
+            isError: true);
+      }
+
+      final response = result.data?['updateUser'];
+      if (response?['success']) {
+        return BoolResponseModel(
+            message: "Profile updated successfully",
+            success: true,
+            isError: false);
+      } else {
+        return BoolResponseModel(
+            message: 'Something went wrong.', success: false, isError: true);
+      }
+    } catch (error) {
+      return BoolResponseModel(
+          message: 'Something went wrong.', success: false, isError: true);
+    }
+  }
+
+
+
 
 }
