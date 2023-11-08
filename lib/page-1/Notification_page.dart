@@ -13,7 +13,7 @@ class NotificationPage extends StatelessWidget {
 
   PreferredSizeWidget appBar() {
     return AppBar(
-      title: Text('Notification Screen'),
+      title: Text('Notification'),
     );
   }
 
