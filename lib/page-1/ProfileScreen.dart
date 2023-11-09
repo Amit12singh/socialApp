@@ -113,8 +113,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
-                collapsedHeight: 180,
-                expandedHeight: 250,
+                collapsedHeight: 215,
+                expandedHeight: 200,
                 flexibleSpace:
                     ProfileView(userTimeline: posts, receiver: receiver),
               ),
@@ -272,9 +272,19 @@ class ProfileView extends StatelessWidget {
                 ),
               ],
             ),
-            receiver != null
-                ? Align(
-                    alignment: Alignment.topCenter,
+           
+          ],
+        ),
+      ),
+      const SizedBox(
+        height: 5,
+      ),
+      receiver != null
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: [
+                  Expanded(
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -288,28 +298,21 @@ class ProfileView extends StatelessWidget {
                         );
                       },
                       style: TextButton.styleFrom(
+                        
                         backgroundColor: const Color(
                             0xFF0077b5), // Set the background color to blue
                       ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            width:
-                                8, // Add some space between the icon and text
-                          ),
-                          Text(
-                            'Message',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
+                      child: const Text(
+                        'Message',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  )
-                : const SizedBox()
-          ],
-        ),
-      )
+                  ),
+                ],
+              ),
+            )
+          : const SizedBox(),
+     
     ]));
   }
 }
