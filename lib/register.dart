@@ -349,7 +349,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             height: 70,
                             child: datePicker(
                                 dateController: passedOutYearController,
-                                hintText: "Select passed out year"),
+                                hintText: "ICSE"),
                           ),
                           SizedBox(height: 15 * fem),
                           Container(

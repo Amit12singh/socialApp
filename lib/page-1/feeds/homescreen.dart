@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/page-1/About_us.dart';
 import 'package:myapp/page-1/Notification_page.dart';
-import 'package:myapp/page-1/create_post_screen.dart';
+import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
@@ -215,7 +215,7 @@ class _FeedScreenState extends State<FeedScreen> {
               PageTransition(
                 type: PageTransitionType.scale,
                 alignment: Alignment.bottomCenter,
-                child: const CreatePostScreen(),
+                child: CreatePostScreen(),
               ),
             );
           },
