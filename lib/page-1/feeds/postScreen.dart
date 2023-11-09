@@ -367,9 +367,13 @@ class _PostStatsState extends State<_PostStats> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 10),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            Row(
+              children: [
+                Text(
               likeCount.toString(),
               style: TextStyle(
                 color: Colors.grey[600],
@@ -381,14 +385,19 @@ class _PostStatsState extends State<_PostStats> {
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
-              child: likeCount > 0
-                  ? const Icon(
+                    child: const Icon(
                       Icons.thumb_up_sharp,
                       color: Color.fromARGB(255, 167, 135, 135),
                       size: 15,
                     )
-                  : const SizedBox(),
+                  
             ),
+              ],
+            ),
+            widget.post.comments!.isNotEmpty
+                ? Text(
+                    widget.post.comments!.length.toString() + ' comments' ?? '')
+                : const Text("Be the first comment")
           ],
         ),
         const Divider(),
