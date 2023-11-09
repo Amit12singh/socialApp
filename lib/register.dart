@@ -6,6 +6,7 @@ import 'package:myapp/page-1/verificationEmail.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:myapp/widgets/datePicker.dart';
+import 'package:myapp/widgets/processingRequest.dart';
 import 'package:page_transition/page_transition.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -77,6 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     if (response.success == false) {
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
@@ -710,6 +712,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 );
                               } else {
                                 if (_formKey.currentState!.validate()) {
+                                  showProcessingDialog(context);
                                   _create();
                                 }
                               }
