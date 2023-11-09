@@ -14,6 +14,7 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
 
@@ -627,7 +628,7 @@ class _PostStatsState extends State<_PostStats> {
         ),
         const Divider(),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _PostButton(
               icon: Icon(
@@ -635,7 +636,7 @@ class _PostStatsState extends State<_PostStats> {
                 color: _isLiked
                     ? const Color.fromARGB(255, 167, 135, 135)
                     : Colors.grey[600],
-                size: 20,
+                size: 25,
               ),
               onTap: () {
                 setState(() {
@@ -649,9 +650,28 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
+            Spacer(),
             const SizedBox(
               width: 8,
-            )
+            ),
+            _PostButton(
+              icon: Icon(
+                Icons.insert_comment_outlined,
+                size: 25,
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  PageTransition(
+                    type: PageTransitionType.scale,
+                    alignment: Alignment.bottomCenter,
+                    child: CommentPage(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(
+              width: 8,
+            ),
           ],
         ),
       ],
