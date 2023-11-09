@@ -212,7 +212,7 @@ class PostService {
       }
 
       final response = result.data?['addComment'];
-      if (response?['success']) {
+      if (response != null) {
         return BoolResponseModel(
             message: "Profile updated successfully",
             success: true,
