@@ -230,7 +230,7 @@ class ProfileView extends StatelessWidget {
           Column(
             children: [
               Text(
-                userTimeline?.totalLikes.toString() ?? '0',
+                userTimeline?.totalLikes.toString() ?? 'No likes yet.',
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black,

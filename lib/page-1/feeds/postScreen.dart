@@ -1,9 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations
-
 import 'package:flutter/material.dart';
-
 import 'package:myapp/models/article_model.dart';
-
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/seeMoreText.dart';
@@ -374,7 +371,7 @@ class _PostStatsState extends State<_PostStats> {
             Row(
               children: [
                 Text(
-              likeCount.toString(),
+                  likeCount > 0 ? likeCount.toString() : 'No likes yet.',
               style: TextStyle(
                 color: Colors.grey[600],
               ),
