@@ -3,11 +3,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:myapp/models/response_model.dart';
 import 'package:myapp/page-1/Batch_Mates.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
-import 'package:myapp/page-1/forgetPassword.dart';
+// import 'package:myapp/page-1/forgetPassword.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/emailInputPage.dart';
+import 'package:myapp/widgets/processingRequest.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,7 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final storage = FlutterSecureStorage();
   bool rememberMe = false;
 
-  bool _loggedIn = false;
   bool _loading = false;
   void _load() async {
     await storage.write(key: 'isFirstloggedIn', value: "false");
@@ -33,11 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<bool> forgotPassword(String email) async {
-    print(email);
 
     BoolResponseModel response =
         await _graphQLService.forgotPassword(email: email);
-    print(response);
     if (response.success) {
       return true;
     } else {
@@ -48,9 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() async {
     final isLogedin = await _graphQLService.login(
         email: _email, password: _password, context: context);
-    _loading = false;
-
+   
     if (isLogedin.success) {
+      _loading = false;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -85,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _load();
     }
     if (isLogedin.isError) {
+      // Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -346,10 +345,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 30 * fem),
                       MaterialButton(
                         onPressed: () async {
+                          
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
                             _loading = true;
+                            if (_loading) {
+                              showProcessingDialog(context);
+                            }
+
                             login();
                           }
                         },
@@ -366,6 +370,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                             
                               Text(
                                 _loading ? "Logging...." : 'Login',
                                 style: TextStyle(

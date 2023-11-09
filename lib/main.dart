@@ -20,6 +20,8 @@ class MyApp extends StatelessWidget {
           child: SplashScreen(),
         ),
       ),
+     
     );
+
   }
 }

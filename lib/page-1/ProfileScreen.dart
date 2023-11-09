@@ -288,7 +288,8 @@ class ProfileView extends StatelessWidget {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor:
-                            Colors.blue, // Set the background color to blue
+                           const Color(
+                            0xFF0077b5), // Set the background color to blue
                       ),
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
