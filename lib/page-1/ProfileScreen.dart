@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/models/user_model.dart';
@@ -14,7 +15,6 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
-import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
 
@@ -113,8 +113,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
-                collapsedHeight: 180,
-                expandedHeight: 250,
+                collapsedHeight: 215,
+                expandedHeight: 200,
                 flexibleSpace:
                     ProfileView(userTimeline: posts, receiver: receiver),
               ),
@@ -272,9 +272,19 @@ class ProfileView extends StatelessWidget {
                 ),
               ],
             ),
-            receiver != null
-                ? Align(
-                    alignment: Alignment.topCenter,
+           
+          ],
+        ),
+      ),
+      const SizedBox(
+        height: 5,
+      ),
+      receiver != null
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: [
+                  Expanded(
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -288,29 +298,21 @@ class ProfileView extends StatelessWidget {
                         );
                       },
                       style: TextButton.styleFrom(
-                        backgroundColor:
-                           const Color(
+                        
+                        backgroundColor: const Color(
                             0xFF0077b5), // Set the background color to blue
                       ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            width:
-                                8, // Add some space between the icon and text
-                          ),
-                          Text(
-                            'Message',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
+                      child: const Text(
+                        'Message',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  )
-                : const SizedBox()
-          ],
-        ),
-      )
+                  ),
+                ],
+              ),
+            )
+          : const SizedBox(),
+     
     ]));
   }
 }
@@ -510,7 +512,10 @@ class _PostHeader extends StatelessWidget {
                 PageTransition(
                   type: PageTransitionType.scale,
                   alignment: Alignment.bottomCenter,
-                  child: CreatePostScreen(post: post),
+                  child: CreatePostScreen(
+                    post: post,
+                    user: post.owner,
+                  ),
                 ),
               );
             } else if (value == 'delete') {
@@ -661,13 +666,7 @@ class _PostStatsState extends State<_PostStats> {
                 size: 25,
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  PageTransition(
-                    type: PageTransitionType.scale,
-                    alignment: Alignment.bottomCenter,
-                    child: CommentPage(),
-                  ),
-                );
+                // showCommentModal(context);
               },
             ),
             const SizedBox(

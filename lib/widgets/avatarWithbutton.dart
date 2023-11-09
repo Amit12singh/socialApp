@@ -81,13 +81,13 @@ String imagePath = '';
                   : isNetworkImage()
                       ? CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          radius: 55.0,
+                          radius: 50.0,
                           backgroundImage: NetworkImage(
                               widget.imageUrl), // Add your image path here
                         )
                       : CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: 55.0,
+                          radius: 50.0,
                 backgroundImage: AssetImage(
                               widget.imageUrl), // Add your image path here
               ),
