@@ -25,9 +25,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passedOutYearController = TextEditingController();
   TextEditingController professionController = TextEditingController();
   TextEditingController currentCityController = TextEditingController();
-  // OutlineInputBorder errorBorder = const OutlineInputBorder(
-  //   borderSide: BorderSide(color: Colors.red),
-  // );
 
   final GraphQLService _graphQLService = GraphQLService();
   String? _selectedHouse;
@@ -84,7 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         SnackBar(
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
-
           content: Text(
             response.message,
             textAlign: TextAlign.center,
@@ -302,6 +298,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         FilteringTextInputFormatter.allow(
                                             RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       decoration: InputDecoration(
                                         hintText: 'Enter your Phone Number *',
                                         prefixIcon: Row(
@@ -337,7 +334,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         } else if (value.length != 10) {
                                           return 'Phone number must be 10 digits long.';
                                         }
-                                        return null; // Return null to indicate no validation error.
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -704,7 +701,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SnackBar(
                                     backgroundColor: Colors.red,
                                     behavior: SnackBarBehavior.floating,
-
                                     content: Text(
                                       'Passwords do not match, Please enter correct Password',
                                       textAlign: TextAlign.center,
@@ -768,12 +764,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                PageTransition(
-                                  type: PageTransitionType.scale,
-                                  alignment: Alignment.bottomCenter,
-                                  child: LoginScreen(),
-                                ),
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                '/login',
+                                (route) => false,
                               );
                             },
                             style: TextButton.styleFrom(

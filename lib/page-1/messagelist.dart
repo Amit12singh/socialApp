@@ -103,38 +103,45 @@ class _MessengerPageState extends State<MessengerPage> {
                             ],
                           ),
                           const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    chatItem.name,
-                                    style: const TextStyle(
-                                      color: Color.fromARGB(255, 18, 16, 16),
-                                      fontFamily: 'Quicksand',
-                                      fontSize: 17,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        chatItem.name,
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 18, 16, 16),
+                                          fontFamily: 'Quicksand',
+                                          fontSize: 17,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 100,
-                                  ),
-                                  Text(
-                                    chatItem.time ?? '',
-                                    style: const TextStyle(
-                                      color: Color.fromARGB(179, 17, 16, 16),
+                                    const SizedBox(
+                                      width: 100,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                chatItem.text ?? '',
-                                style: const TextStyle(
-                                  color: Color.fromARGB(179, 18, 17, 17),
+                                    Text(
+                                      chatItem.time ?? '',
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(179, 17, 16, 16),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 5),
+                                Text(
+                                  chatItem.text ?? '',
+                                  style: const TextStyle(
+                                    color: Color.fromARGB(179, 18, 17, 17),
+                                  ),
+                                ),
+                              ],
+                            ),
                           )
                         ],
                       ),

@@ -39,8 +39,3 @@ void showProcessingDialog(BuildContext context) {
     builder: (context) => SizedBox(width: 100, child: ProcessingDialog()),
   );
 }
-
-
-// void closeDialog(BuildContext context) {
-//   Navigator.pop(context);
-// }

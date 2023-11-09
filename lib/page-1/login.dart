@@ -3,7 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:myapp/models/response_model.dart';
 import 'package:myapp/page-1/Batch_Mates.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
-// import 'package:myapp/page-1/forgetPassword.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:page_transition/page_transition.dart';
@@ -33,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<bool> forgotPassword(String email) async {
-
     BoolResponseModel response =
         await _graphQLService.forgotPassword(email: email);
     if (response.success) {
@@ -46,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() async {
     final isLogedin = await _graphQLService.login(
         email: _email, password: _password, context: context);
-   
+
     if (isLogedin.success) {
       _loading = false;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -345,7 +343,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 30 * fem),
                       MaterialButton(
                         onPressed: () async {
-                          
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
@@ -370,7 +367,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                             
                               Text(
                                 _loading ? "Logging...." : 'Login',
                                 style: TextStyle(
