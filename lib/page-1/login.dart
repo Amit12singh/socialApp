@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _load();
     }
     if (isLogedin.isError) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

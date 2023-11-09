@@ -5,6 +5,7 @@ import 'package:myapp/graphql/mutations.dart';
 import 'package:myapp/graphql/queries.dart';
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/pagination_model.dart';
+import 'package:myapp/models/response_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/media_service.dart';
 
@@ -98,7 +99,6 @@ class PostService {
         },
       ));
 
-      print('result');
 
       if (result.hasException) {
         print(result.exception);
@@ -188,4 +188,43 @@ class PostService {
       return false;
     }
   }
+
+
+
+  Future<BoolResponseModel> addComment(String articleId, String comment,
+      List<String> deletedMedia, String id) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+            fetchPolicy: FetchPolicy.cacheAndNetwork,
+            document: gql(UPDATE_ARTICLE),
+            variables: {
+              "data": {"articleId": articleId, "comment": comment}
+            }),
+      );
+
+      if (result.hasException) {
+        return BoolResponseModel(
+            message: result?.exception?.graphqlErrors[0].message ??
+                'Something went wrong.',
+            success: false,
+            isError: true);
+      }
+
+      final response = result.data?['addComment'];
+      if (response?['success']) {
+        return BoolResponseModel(
+            message: "Profile updated successfully",
+            success: true,
+            isError: false);
+      } else {
+        return BoolResponseModel(
+            message: 'Something went wrong.', success: false, isError: true);
+      }
+    } catch (error) {
+      return BoolResponseModel(
+          message: 'Something went wrong.', success: false, isError: true);
+    }
+  }
+
 }

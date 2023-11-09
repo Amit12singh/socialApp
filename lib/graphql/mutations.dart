@@ -213,3 +213,22 @@ mutation Mutation(\$data: UserUpdateInput!) {
   }
 }
 """;
+
+const ADD_COMMENT = """
+mutation Mutation(\$data: CommentInput!) {
+  addComment(data: \$data) {
+    id
+    user {
+      fullName
+      id
+      email
+    }
+    comment
+    article {
+      id
+      title
+    }
+  }
+}
+
+""";
