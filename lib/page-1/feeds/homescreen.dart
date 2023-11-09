@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/About_us.dart';
 import 'package:myapp/page-1/Notification_page.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
@@ -25,6 +26,21 @@ class _FeedScreenState extends State<FeedScreen> {
   final GraphQLService userService = GraphQLService();
   bool isExpanded = false;
   int currentPage = 0;
+  late UserModel user;
+
+  @override
+  void initState() {
+    super.initState();
+    _setUser();
+  }
+
+  void _setUser() async {
+    final UserModel? _user = await localStorageService.getUser();
+
+    setState(() {
+      user = _user!;
+    });
+  }
 
   void _handleLogout(BuildContext context) async {
     bool isCleared = await localStorageService.clearAccessToken();
@@ -168,70 +184,70 @@ class _FeedScreenState extends State<FeedScreen> {
             currentPage = page;
           });
         },
-        children: const <Widget>[
-          PostScreen(),
-          SearchPage(),
-          MessengerPage(),
-          ProfileScreen(),
+        children: <Widget>[
+          const PostScreen(),
+          const SearchPage(),
+          CreatePostScreen(user: user),
+          const MessengerPage(),
+          const ProfileScreen(),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 5.0,
-        elevation: 5.0,
-        child: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          unselectedItemColor: Colors.grey,
-          type: BottomNavigationBarType.fixed,
-          iconSize: 30,
-          selectedItemColor: const Color.fromARGB(255, 167, 135, 135),
-          currentIndex: currentPage,
-          onTap: (index) {
-            setState(() {
-              currentPage = index;
-            });
-            _pageController.jumpToPage(index);
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search_rounded),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.message),
-              label: 'Messages',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        iconSize: 22,
+        selectedItemColor: const Color.fromARGB(255, 167, 135, 135),
+        currentIndex: currentPage,
+        onTap: (index) {
+          setState(() {
+            currentPage = index;
+          });
+          _pageController.jumpToPage(index);
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search_rounded),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Create',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            label: 'Messages',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
-      floatingActionButton: Visibility(
-        visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              PageTransition(
-                type: PageTransitionType.scale,
-                alignment: Alignment.bottomCenter,
-                child: CreatePostScreen(),
-              ),
-            );
-          },
-          backgroundColor: const Color.fromARGB(255, 167, 135, 135),
-          elevation: 6,
-          child: const Icon(Icons.add),
-        ),
-      ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
-      // resizeToAvoidBottomInset: false, // fluter 2.x
+      // floatingActionButton: Visibility(
+      //   visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+      //   child: FloatingActionButton(
+      //     onPressed: () {
+      //       Navigator.of(context).push(
+      //         PageTransition(
+      //           type: PageTransitionType.scale,
+      //           alignment: Alignment.bottomCenter,
+      //           child: CreatePostScreen(),
+      //         ),
+      //       );
+      //     },
+      //     backgroundColor: const Color.fromARGB(255, 167, 135, 135),
+      //     elevation: 6,
+      //     child: const Icon(Icons.add),
+      //   ),
+      // ),
+      // floatingActionButtonLocation:
+      //     FloatingActionButtonLocation.miniCenterDocked,
+      //  resizeToAvoidBottomInset: false, // fluter 2.x
     );
   }
 }

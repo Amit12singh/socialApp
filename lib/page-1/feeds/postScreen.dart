@@ -10,8 +10,6 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
-import 'package:myapp/widgets/commentPage.dart';
-
 import 'package:page_transition/page_transition.dart';
 
 class PostScreen extends StatefulWidget {
@@ -269,7 +267,10 @@ class _PostHeader extends StatelessWidget {
                       PageTransition(
                         type: PageTransitionType.scale,
                         alignment: Alignment.bottomCenter,
-                        child: CreatePostScreen(post: post),
+                        child: CreatePostScreen(
+                          post: post,
+                          user: post.owner,
+                        ),
                       ),
                     );
                   } else if (value == 'delete') {

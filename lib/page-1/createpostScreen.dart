@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myapp/models/article_model.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/page-1/feeds/post_imgaes_view.dart';
+import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/widgets/processingRequest.dart';
 import 'package:page_transition/page_transition.dart';
 
 class CreatePostScreen extends StatefulWidget {
-  CreatePostScreen({Key? key, this.post}) : super(key: key);
+  CreatePostScreen({Key? key, this.post, this.user}) : super(key: key);
 
   ArticleModel? post;
+  UserModel? user;
 
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
@@ -21,18 +25,29 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   PostService postService = PostService();
   List<XFile> _mediaFileList = [];
   final ImagePicker _picker = ImagePicker();
+  // final HandleToken localStorageService = HandleToken();
   bool isPosting = false;
   bool isUpdate = false;
+  // late UserModel user;
+
 
   @override
   void initState() {
     super.initState();
+    // _setUser();
     if (widget.post != null) {
       isUpdate = true;
       postController.text = widget.post!.title;
     }
   }
 
+  // void _setUser() async {
+  //   final UserModel? _user = await localStorageService.getUser();
+
+  //   setState(() {
+  //     user = _user!;
+  //   });
+  // }
   void _createPost() async {
     if (isPosting) return;
     setState(() {
@@ -102,23 +117,32 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white, // Change the background color to black
-        titleSpacing: 3,
-        title: const Text(
-          'PPSONA',
-          style: TextStyle(
-            color: const Color(0xFFA78787),
-            decoration: TextDecoration.none,
-            fontFamily: 'PermanentMarker-Regular',
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
+      appBar: widget.post != null
+          ? AppBar(
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: Color.fromARGB(255, 167, 135, 135),
+                statusBarIconBrightness: Brightness.dark,
+                statusBarBrightness: Brightness.light,
+              ),
+              elevation: 1,
+              backgroundColor: Colors.white,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: const Color(0xff643600),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
         ),
-        iconTheme: const IconThemeData(
-          color: Colors.black, // Change the arrow color to white
-        ),
-      ),
+              centerTitle: true,
+              title: const Text(
+                'Edit post',
+                style: const TextStyle(color: Color(0xff643600)),
+              ),
+            )
+          : null,
+     
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -136,16 +160,22 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       height: 44,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(22),
-                        image: const DecorationImage(
+                        image: widget.user?.profilePicture != null
+                            ? DecorationImage(
+                                fit: BoxFit.contain,
+                                image: NetworkImage(
+                                    widget.user?.profilePicture?.path ?? ''),
+                              )
+                            : const DecorationImage(
                           fit: BoxFit.contain,
                           image: AssetImage(
                               'assets/page-1/images/ellipse-4-bg.png'),
                         ),
                       ),
                     ),
-                    const Text(
-                      'Old Nabhaites',
-                      style: TextStyle(
+                    Text(
+                      widget.user?.fullName ?? '',
+                      style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
