@@ -84,8 +84,8 @@ class _ImageViewerState extends State<ImageViewer> {
                 children: [
                   isNetworkImage()
                       ? Container(
-                          width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height - 200,
+                          width: MediaQuery.of(context).size.width,
                           child: Image.network(
                             widget.imagePath,
                             fit: BoxFit.cover, // Adjust the fit as needed
