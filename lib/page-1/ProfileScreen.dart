@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/models/user_model.dart';
@@ -288,8 +289,7 @@ class ProfileView extends StatelessWidget {
                         );
                       },
                       style: TextButton.styleFrom(
-                        backgroundColor:
-                           const Color(
+                        backgroundColor: const Color(
                             0xFF0077b5), // Set the background color to blue
                       ),
                       child: const Row(
@@ -661,13 +661,7 @@ class _PostStatsState extends State<_PostStats> {
                 size: 25,
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  PageTransition(
-                    type: PageTransitionType.scale,
-                    alignment: Alignment.bottomCenter,
-                    child: CommentPage(),
-                  ),
-                );
+                // showCommentModal(context);
               },
             ),
             const SizedBox(
