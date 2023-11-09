@@ -30,21 +30,19 @@ class _EmailInputPageState extends State<emailInputPage> {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
+          statusBarColor: Color.fromARGB(255, 167, 135, 135),
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.light,
         ),
         elevation: 1,
         backgroundColor: Colors.white,
         leading: IconButton(
-          // Use the iOS-style back button icon
           icon: const Icon(
             Icons.arrow_back_ios,
             color: const Color(0xff643600),
           ),
           onPressed: () {
-            Navigator.of(context)
-                .pop(); // Navigate back when the button is pressed
+            Navigator.of(context).pop();
           },
         ),
         centerTitle: true,
@@ -61,7 +59,7 @@ class _EmailInputPageState extends State<emailInputPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "We'll send you a code to your email",
+                "Verify your email",
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 20),
@@ -113,9 +111,6 @@ class _EmailInputPageState extends State<emailInputPage> {
                             }
                             return null;
                           },
-                          // onSaved: (value) {
-                          //   _email = value!;
-                          // },
                         ),
                       ),
                     ],
@@ -128,7 +123,10 @@ class _EmailInputPageState extends State<emailInputPage> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Login with password'),
+                  child: const Text(
+                    'Login with password',
+                    style: TextStyle(color: Color.fromARGB(255, 167, 135, 135)),
+                  ),
                 ),
                 ElevatedButton(
                   style: ButtonStyle(

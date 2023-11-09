@@ -9,6 +9,7 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
+import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PostScreen extends StatefulWidget {
@@ -415,7 +416,15 @@ class _PostStatsState extends State<_PostStats> {
             _PostButton(
               icon: Icon(Icons.insert_comment_outlined,
                   color: Colors.grey[600], size: 25),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  PageTransition(
+                    type: PageTransitionType.scale,
+                    alignment: Alignment.bottomCenter,
+                    child: CommentPage(),
+                  ),
+                );
+              },
             ),
             const SizedBox(
               width: 16,
