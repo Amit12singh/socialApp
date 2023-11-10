@@ -8,7 +8,7 @@ class ArticleModel {
   final String? id;
   final String title;
   final List<ProfilePicture>? media;
-  final DateTime? createdAt;
+  final DateTime createdAt;
   final DateTime? deletedAt;
   final DateTime? updatedAt;
   final UserModel? owner;
@@ -22,7 +22,7 @@ class ArticleModel {
     this.media,
     this.deletedAt,
     this.updatedAt,
-    this.createdAt,
+    required this.createdAt,
     this.likes,
     this.comments,
     this.owner,

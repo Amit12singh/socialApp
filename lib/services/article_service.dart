@@ -191,15 +191,14 @@ class PostService {
 
 
 
-  Future<BoolResponseModel> addComment(String articleId, String comment,
-      List<String> deletedMedia, String id) async {
+  Future<BoolResponseModel> addComment(String articleId, String comment) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
             fetchPolicy: FetchPolicy.cacheAndNetwork,
-            document: gql(UPDATE_ARTICLE),
+            document: gql(ADD_COMMENT),
             variables: {
-              "data": {"articleId": articleId, "comment": comment}
+              "data": {"articleId": articleId.toString(), "comment": comment}
             }),
       );
 
@@ -210,6 +209,8 @@ class PostService {
             success: false,
             isError: true);
       }
+
+      print(result);
 
       final response = result.data?['addComment'];
       if (response != null) {

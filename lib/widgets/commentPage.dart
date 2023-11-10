@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/comment_model.dart';
 import 'package:myapp/models/user_model.dart';
+import 'package:myapp/services/article_service.dart';
 import 'package:myapp/widgets/comment_card.dart';
 
 class CommentScreen extends StatefulWidget {
   final UserModel loggedInUser;
-  final List<CommentModel>? comments;
-  CommentScreen({Key? key, required this.loggedInUser, required this.comments})
+  final ArticleModel? post;
+  CommentScreen({Key? key, required this.loggedInUser, required this.post})
       : super(key: key);
 
   @override
@@ -16,68 +18,58 @@ class CommentScreen extends StatefulWidget {
 class _CommentScreenState extends State<CommentScreen> {
   final TextEditingController commentEditingController =
       TextEditingController();
+  late List<CommentModel> comments = [];
 
-  void postComment(String uid, String name, String profilePic) async {
-    // try {
-    //   String res = await FireStoreMethods().postComment(
-    //     widget.snap['postId'],
-    //     commentEditingController.text,
-    //     uid,
-    //     name,
-    //     profilePic,
-    //   );
+  final PostService postService = PostService();
 
-    //   if (res != 'success') {
-    //     showSnackBar(
-    //       res,
-    //       context,
-    //     );
-    //   }
-    //   setState(() {
-    //     commentEditingController.text = "";
-    //   });
-    // } catch (err) {
-    //   showSnackBar(
-    //     err.toString(),
-    //     context,
-    //   );
-    // }
+  void postComment(String id, String comment) async {
+    CommentModel newComment = CommentModel(
+        id: UniqueKey().toString(),
+        user: widget.loggedInUser,
+        comment: comment,
+        createdAt: DateTime.now());
+
+    comments.insert(0, newComment);
+    await postService.addComment(id, comment);
+    
+
   }
 
   @override
   void initState() {
     super.initState();
-    load();
+    comments = widget.post?.comments ?? [] as List<CommentModel>;
   }
 
-  load() {
-    print('print');
-    print('${widget.loggedInUser.profilePicture?.path}');
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Comments'),
-          centerTitle: false,
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: const Color.fromARGB(255, 167, 135, 135),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.arrow_back_ios_new_outlined)),
         ),
         body: Container(
-          child: widget.comments!.isEmpty
-              ? Center(
-                  child: Container(
-                    child: Text(
-                      'No comments yet.',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-                    ),
+        child: comments.isEmpty
+            ? const Center(
+                child: Text(
+                  'No comments yet.',
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                   ),
                 )
               : ListView.builder(
-                  itemCount: widget.comments?.length,
+                itemCount: comments.length,
                   itemBuilder: (ctx, index) {
                     return CommentCard(
-                      comment: widget.comments![index],
+                    comment: comments[index],
                     );
                   }),
         ),
@@ -113,17 +105,20 @@ class _CommentScreenState extends State<CommentScreen> {
                             border: InputBorder.none,
                           ),
                           onSubmitted: (e) {
-                            //   postComment(
-                            //       widget.usersnap['uid'],
-                            //       widget.usersnap['name'],
-                            //       widget.usersnap['photoUrl']);
-                            //
+                      postComment(widget.post?.id ?? '', e);
+                      commentEditingController.text = '';
+                            
                           },
                         ),
                       ),
-                    )
+              ),
+                   
                   ],
-                ))));
+
+          ),
+        ),
+      ),
+    );
   }
 }
 

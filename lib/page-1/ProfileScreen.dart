@@ -17,6 +17,7 @@ import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ProfileScreen extends StatefulWidget {
   final UserModel? user;
@@ -482,12 +483,12 @@ class _PostHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '${post.createdAt}.',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12.0,
+                    timeago.format(
+                      post.createdAt, // Your DateTime object
+                      locale: 'en', // Use the same locale as set in step 3
                     ),
                   ),
+                  const SizedBox(width: 10),
                   Icon(
                     Icons.public,
                     color: Colors.grey[600],

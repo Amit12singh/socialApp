@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/comment_model.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 
 class CommentCard extends StatelessWidget {
   final CommentModel comment;
@@ -18,7 +18,7 @@ class CommentCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                  comment.user?.profilePicture?.path ?? '',
+                  comment.user.profilePicture?.path ?? '',
                 ),
                 radius: 18,
               ),
@@ -27,21 +27,34 @@ class CommentCard extends StatelessWidget {
                   padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(color: Colors.grey[200]),
                   margin:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      const EdgeInsets.only(bottom: 0, left: 15, right: 15),
                   child: Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          comment.user?.fullName ?? '',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              comment.user.fullName,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              timeago.format(
+                                comment.createdAt, // Your DateTime object
+                                locale:
+                                    'en', // Use the same locale as set in step 3
+                              ),
+                            )
+                          ],
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10), // Text(DateFormat.yMMMd()
-                          //     .format(comment.data()['datePublished'].toDate())),
+                          margin: const EdgeInsets.symmetric(vertical: 10), //
+                              
                           child: Text(comment.comment),
-                        )
+                        ),
+                       
                       ],
                     ),
                   ),
@@ -49,10 +62,10 @@ class CommentCard extends StatelessWidget {
               )
             ],
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 60),
-            child: Text('Like'),
-          )
+          // Container(
+          //   margin: EdgeInsets.symmetric(horizontal: 60),
+          //   child: Text('Like'),
+          // )
         ],
       ),
     );
