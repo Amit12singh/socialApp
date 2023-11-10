@@ -4,16 +4,23 @@ import 'package:myapp/models/user_model.dart';
 
 class HandleToken {
   // Create storage
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   Future<bool> saveAccessToken(user) async {
     const storage = FlutterSecureStorage();
 
 // Write value
     final loggedinUser = UserModel(
-        fullName: user['fullName'], email: user['email'], id: user['id']);
+      fullName: user['fullName'],
+      email: user['email'],
+      id: user['id'],
+      profilePicture: user['profileImage'] != null
+          ? ProfilePicture.fromJson(user['profileImage'])
+          : null,
+    );
 
     final jsonString = json.encode(loggedinUser.toJson());
+   
 
     try {
       await storage.write(key: 'accessToken', value: user["accessToken"]);
@@ -29,7 +36,7 @@ class HandleToken {
   }
 
   Future<bool> clearAccessToken() async {
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     try {
       await storage.delete(key: 'accessToken');
       return true;

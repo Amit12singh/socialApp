@@ -3,6 +3,13 @@ const LOGIN_USER = """
   login(data: \$data) {
     email
     fullName
+     profileImage {
+          id
+          mimeType
+          name
+          path
+          type
+        }
     id
     message
     role

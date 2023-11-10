@@ -129,14 +129,16 @@ class UserModel {
       profession: map['profession'],
       profilePicture: map['profileImage'] != null
           ? ProfilePicture.fromJson(map['profileImage'])
-          : null,
+          : map['profilePicture'] != null
+              ? ProfilePicture.fromJson(map['profilePicture'])
+              : null,
       createdAt:
           map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
       deletedAt:
           map['deletedAt'] != null ? DateTime.parse(map['deletedAt']) : null,
       updatedAt:
           map['updatedAt'] != null ? DateTime.parse(map['updatedAt']) : null,
-      password: map['password'],
+     
     );
   }
 }

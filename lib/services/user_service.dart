@@ -50,6 +50,8 @@ class GraphQLService {
 
       Map? res = result.data?["login"];
 
+      print(res);
+
       final isSaved = await handleTokenService.saveAccessToken(res);
       if (isSaved) {
         return BoolResponseModel(

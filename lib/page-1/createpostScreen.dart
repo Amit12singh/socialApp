@@ -128,7 +128,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               leading: IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios,
-                  color: const Color(0xff643600),
+                  color: Color(0xff643600),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -137,7 +137,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               centerTitle: true,
               title: const Text(
                 'Edit post',
-                style: const TextStyle(color: Color(0xff643600)),
+                style: TextStyle(color: Color(0xff643600)),
               ),
             )
           : null,
@@ -154,13 +154,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(right: 10.0),
-                      width: 44,
-                      height: 44,
+                      width: 50,
+                      height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(22),
                         image: widget.user?.profilePicture != null
                             ? DecorationImage(
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                                 image: NetworkImage(
                                     widget.user?.profilePicture?.path ?? ''),
                               )
