@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/chat_model.dart';
 import 'package:myapp/models/user_model.dart';
@@ -8,12 +9,13 @@ import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
-import 'package:myapp/page-1/feeds/post.dart';
+import 'package:myapp/page-1/feeds/postScreen.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
 
@@ -73,8 +75,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
   }
 
-
-
   @override
   void initState() {
     super.initState();
@@ -95,9 +95,6 @@ class _ProfileScreenState extends State<ProfileScreen>
       _user = user;
     });
   }
-
-
-  
 
   @override
   void dispose() {
@@ -266,7 +263,7 @@ class ProfileView extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(height: 2), 
+                const SizedBox(height: 2),
                 const Text(
                   'Old Nabhaies',
                   style: TextStyle(
@@ -292,8 +289,8 @@ class ProfileView extends StatelessWidget {
                         );
                       },
                       style: TextButton.styleFrom(
-                        backgroundColor:
-                            Colors.blue, // Set the background color to blue
+                        backgroundColor: const Color(
+                            0xFF0077b5), // Set the background color to blue
                       ),
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
@@ -505,7 +502,7 @@ class _PostHeader extends StatelessWidget {
         PopupMenuButton<String>(
           icon: const Icon(
             Icons.more_horiz,
-            color: Colors.black,
+            color: Color.fromARGB(255, 167, 135, 135),
           ),
           onSelected: (value) {
             if (value == 'edit') {
@@ -632,7 +629,7 @@ class _PostStatsState extends State<_PostStats> {
         ),
         const Divider(),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _PostButton(
               icon: Icon(
@@ -640,7 +637,7 @@ class _PostStatsState extends State<_PostStats> {
                 color: _isLiked
                     ? const Color.fromARGB(255, 167, 135, 135)
                     : Colors.grey[600],
-                size: 20,
+                size: 25,
               ),
               onTap: () {
                 setState(() {
@@ -654,9 +651,22 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
+            Spacer(),
             const SizedBox(
               width: 8,
-            )
+            ),
+            _PostButton(
+              icon: Icon(
+                Icons.insert_comment_outlined,
+                size: 25,
+              ),
+              onTap: () {
+                // showCommentModal(context);
+              },
+            ),
+            const SizedBox(
+              width: 8,
+            ),
           ],
         ),
       ],

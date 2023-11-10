@@ -7,9 +7,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Test</string>
+	<string>PPS ONA</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need this access to upload photo</string>
+	<string>Allow photo access to add photos to your feed.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow camera access to add photos to your feed.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

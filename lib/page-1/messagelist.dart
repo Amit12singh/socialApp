@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/page-1/ChatScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/models/chat_model.dart';
-import 'package:myapp/page-1/feeds/post.dart';
+import 'package:myapp/page-1/feeds/postScreen.dart';
 import 'package:myapp/services/chat_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:page_transition/page_transition.dart';
@@ -87,46 +87,61 @@ class _MessengerPageState extends State<MessengerPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundImage:
-                                    NetworkImage(chatItem.avatarImage ?? ''),
-                              ),
+                              chatItem.avatarImage != null
+                                  ? CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 30,
+                                      backgroundImage: NetworkImage(
+                                          chatItem.avatarImage ?? ''),
+                                    )
+                                  : const CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 30,
+                                      backgroundImage: AssetImage(
+                                          'assets/page-1/images/ellipse-1-bg-Ztm.png'),
+                                    ),
                             ],
                           ),
                           const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    chatItem.name,
-                                    style: const TextStyle(
-                                      color: Color.fromARGB(255, 18, 16, 16),
-                                      fontFamily: 'Quicksand',
-                                      fontSize: 17,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        chatItem.name,
+                                        style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 18, 16, 16),
+                                          fontFamily: 'Quicksand',
+                                          fontSize: 17,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 100,
-                                  ),
-                                  Text(
-                                    chatItem.time ?? '',
-                                    style: const TextStyle(
-                                      color: Color.fromARGB(179, 17, 16, 16),
+                                    const SizedBox(
+                                      width: 100,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                chatItem.text ?? '',
-                                style: const TextStyle(
-                                  color: Color.fromARGB(179, 18, 17, 17),
+                                    Text(
+                                      chatItem.time ?? '',
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(179, 17, 16, 16),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 5),
+                                Text(
+                                  chatItem.text ?? '',
+                                  style: const TextStyle(
+                                    color: Color.fromARGB(179, 18, 17, 17),
+                                  ),
+                                ),
+                              ],
+                            ),
                           )
                         ],
                       ),

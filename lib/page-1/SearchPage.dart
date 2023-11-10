@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
 import 'package:myapp/page-1/feeds/bottombar.dart';
-import 'package:myapp/page-1/feeds/post.dart';
+import 'package:myapp/page-1/feeds/postScreen.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:page_transition/page_transition.dart';
 

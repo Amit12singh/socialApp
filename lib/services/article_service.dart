@@ -82,35 +82,39 @@ class PostService {
     }
   }
 
-  Future<List> getArticles({
+  Future<List<ArticleModel>> getArticles({
     PaginationModel? data,
   }) async {
     try {
-      QueryResult result = await client.query(
-        QueryOptions(
-          fetchPolicy: FetchPolicy.networkOnly,
-          document: gql(GET_ALL_POSTS),
-          variables: {
-            'data': {
-              "page": data?.page ?? null,
-              "perPage": data?.perPage ?? null,
-              "search": data?.search
-            },
+      QueryResult result = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
+        document: gql(GET_ALL_POSTS),
+        variables: {
+          'data': {
+            "page": data?.page ?? null,
+            "perPage": data?.perPage ?? null,
+            "search": data?.search
           },
-        ),
-      );
+        },
+      ));
+
+      print('result');
 
       if (result.hasException) {
+        print(result.exception);
         throw Exception(result.exception);
       } else {
         List res = result.data?['getAllArticles']?['data'];
+        print("object");
+        print(res);
 
-        List articles =
+        List<ArticleModel> articles =
             res.map((article) => ArticleModel.fromJson(article)).toList();
-
+        print(articles);
         return articles;
       }
     } catch (error) {
+      print(error);
       return [];
     }
   }

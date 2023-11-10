@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/page-1/create_post_screen.dart';
+import 'package:myapp/page-1/About_us.dart';
+import 'package:myapp/page-1/Notification_page.dart';
+import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/messagelist.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
-import 'package:myapp/page-1/feeds/post.dart';
+import 'package:myapp/page-1/feeds/postScreen.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/SearchPage.dart';
@@ -32,7 +34,6 @@ class _FeedScreenState extends State<FeedScreen> {
         const SnackBar(
           content: Text(
             'Logged out successfully',
-            
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
@@ -41,7 +42,6 @@ class _FeedScreenState extends State<FeedScreen> {
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           elevation: 10,
-
         ),
       );
 
@@ -100,7 +100,38 @@ class _FeedScreenState extends State<FeedScreen> {
                     size: 25,
                     color: Color.fromARGB(255, 167, 135, 135),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      PageTransition(
+                        type: PageTransitionType.scale,
+                        alignment: Alignment.bottomCenter,
+                        child: const NotificationPage(),
+                      ),
+                    );
+                  },
+                ),
+                PopupMenuButton<String>(
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: Color.fromARGB(255, 167, 135, 135),
+                  ),
+                  onSelected: (value) {
+                    if (value == 'about') {
+                      Navigator.of(context).push(
+                        PageTransition(
+                          type: PageTransitionType.scale,
+                          alignment: Alignment.bottomCenter,
+                          child: About_us(),
+                        ),
+                      );
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem<String>(
+                      value: 'about',
+                      child: Text('About Us'),
+                    ),
+                  ],
                 ),
               ]
             : currentPage == 3
@@ -184,7 +215,7 @@ class _FeedScreenState extends State<FeedScreen> {
               PageTransition(
                 type: PageTransitionType.scale,
                 alignment: Alignment.bottomCenter,
-                child: const CreatePostScreen(),
+                child: CreatePostScreen(),
               ),
             );
           },
@@ -196,7 +227,6 @@ class _FeedScreenState extends State<FeedScreen> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       // resizeToAvoidBottomInset: false, // fluter 2.x
-
     );
   }
 }

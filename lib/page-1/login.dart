@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:myapp/models/response_model.dart';
+import 'package:myapp/page-1/Batch_Mates.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
-import 'package:myapp/page-1/forgetPassword.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/emailInputPage.dart';
+import 'package:myapp/widgets/processingRequest.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,10 +17,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GraphQLService _graphQLService = GraphQLService();
+  final storage = FlutterSecureStorage();
   bool rememberMe = false;
 
-  bool _loggedIn = false;
   bool _loading = false;
+  void _load() async {
+    await storage.write(key: 'isFirstloggedIn', value: "false");
+  }
 
   bool _isValidEmail(String email) {
     final RegExp emailRegExp =
@@ -27,15 +32,70 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<bool> forgotPassword(String email) async {
-    print(email);
-
     BoolResponseModel response =
         await _graphQLService.forgotPassword(email: email);
-    print(response);
     if (response.success) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  void login() async {
+    final isLogedin = await _graphQLService.login(
+        email: _email, password: _password, context: context);
+
+    if (isLogedin.success) {
+      _loading = false;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isLogedin.message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Colors.green,
+          elevation: 14,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      if (await storage.read(key: 'isFirstloggedIn') == 'false') {
+        Navigator.of(context).pushReplacement(
+          PageTransition(
+            type: PageTransitionType.scale,
+            alignment: Alignment.bottomCenter,
+            child: FeedScreen(),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          PageTransition(
+            type: PageTransitionType.scale,
+            alignment: Alignment.bottomCenter,
+            child: BatchMatePage(),
+          ),
+        );
+      }
+      _load();
+    }
+    if (isLogedin.isError) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isLogedin.message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Colors.red,
+          elevation: 14,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     }
   }
 
@@ -287,52 +347,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             _formKey.currentState!.save();
 
                             _loading = true;
-
-                            final isLogedin = await _graphQLService.login(
-                                email: _email,
-                                password: _password,
-                                context: context);
-                            _loading = false;
-
-                            if (isLogedin.success) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    isLogedin.message,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  backgroundColor: Colors.green,
-                                  elevation: 14,
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
-                              Navigator.of(context).pushReplacement(
-                                PageTransition(
-                                  type: PageTransitionType.scale,
-                                  alignment: Alignment.bottomCenter,
-                                  child: FeedScreen(),
-                                ),
-                              );
+                            if (_loading) {
+                              showProcessingDialog(context);
                             }
-                            if (isLogedin.isError) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    isLogedin.message,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  backgroundColor: Colors.red,
-                                  elevation: 14,
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
-                            }
+
+                            login();
                           }
                         },
                         shape: RoundedRectangleBorder(
@@ -380,7 +399,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(
+                          Navigator.of(context).push(
                             PageTransition(
                               type: PageTransitionType.scale,
                               alignment: Alignment.bottomCenter,

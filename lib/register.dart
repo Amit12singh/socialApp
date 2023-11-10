@@ -6,6 +6,7 @@ import 'package:myapp/page-1/verificationEmail.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:myapp/widgets/datePicker.dart';
+import 'package:myapp/widgets/processingRequest.dart';
 import 'package:page_transition/page_transition.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -25,9 +26,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passedOutYearController = TextEditingController();
   TextEditingController professionController = TextEditingController();
   TextEditingController currentCityController = TextEditingController();
-  // OutlineInputBorder errorBorder = const OutlineInputBorder(
-  //   borderSide: BorderSide(color: Colors.red),
-  // );
 
   final GraphQLService _graphQLService = GraphQLService();
   String? _selectedHouse;
@@ -80,11 +78,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     if (response.success == false) {
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
-
           content: Text(
             response.message,
             textAlign: TextAlign.center,
@@ -302,6 +300,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         FilteringTextInputFormatter.allow(
                                             RegExp(r'[0-9]')),
                                       ],
+                                      maxLength: 10,
                                       decoration: InputDecoration(
                                         hintText: 'Enter your Phone Number *',
                                         prefixIcon: Row(
@@ -337,7 +336,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         } else if (value.length != 10) {
                                           return 'Phone number must be 10 digits long.';
                                         }
-                                        return null; // Return null to indicate no validation error.
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -350,7 +349,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             height: 70,
                             child: datePicker(
                                 dateController: passedOutYearController,
-                                hintText: "Select passed out year"),
+                                hintText: "ICSE"),
                           ),
                           SizedBox(height: 15 * fem),
                           Container(
@@ -704,7 +703,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SnackBar(
                                     backgroundColor: Colors.red,
                                     behavior: SnackBarBehavior.floating,
-
                                     content: Text(
                                       'Passwords do not match, Please enter correct Password',
                                       textAlign: TextAlign.center,
@@ -714,6 +712,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 );
                               } else {
                                 if (_formKey.currentState!.validate()) {
+                                  showProcessingDialog(context);
                                   _create();
                                 }
                               }
@@ -768,12 +767,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                PageTransition(
-                                  type: PageTransitionType.scale,
-                                  alignment: Alignment.bottomCenter,
-                                  child: LoginScreen(),
-                                ),
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                '/login',
+                                (route) => false,
                               );
                             },
                             style: TextButton.styleFrom(

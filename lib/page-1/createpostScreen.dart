@@ -4,6 +4,7 @@ import 'package:myapp/models/article_model.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/page-1/feeds/post_imgaes_view.dart';
+import 'package:myapp/widgets/processingRequest.dart';
 import 'package:page_transition/page_transition.dart';
 
 class CreatePostScreen extends StatefulWidget {
@@ -44,22 +45,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             postController.text, [], [], widget.post?.id ?? '');
 
     if (_isPostCreated) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Post created successfully',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.green,
-          behavior: SnackBarBehavior.floating,
-
-        ),
-      );
-
       Navigator.of(context).pushReplacement(
         PageTransition(
           type: PageTransitionType.scale,
@@ -68,29 +53,60 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         ),
       );
     }
+    // Navigator.of(context).pop();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Post created successfully',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+
+    if (!_isPostCreated) {
+      Navigator.of(context).pop();
+    }
+
     setState(() {
       isPosting = false;
     });
   }
 
   Future<void> _captuteImage() async {
-    var image =
-        await _picker.pickImage(source: ImageSource.camera, imageQuality: 1);
+    try {
+      var image =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 1);
 
-    if (image != null) {
-      setState(() {
-        _mediaFileList = [..._mediaFileList, image];
-      });
+      if (image != null) {
+        setState(() {
+          _mediaFileList = [..._mediaFileList, image];
+        });
+      }
+    } catch (e) {
+      final a = 2;
+      print(e.toString());
     }
   }
 
   Future<void> selectImage() async {
-    List<XFile>? images = await _picker.pickMultiImage();
+    try {
+      List<XFile>? images = await _picker.pickMultiImage();
 
-    if (images.isNotEmpty) {
-      setState(() {
-        _mediaFileList = [..._mediaFileList, ...images];
-      });
+      if (images.isNotEmpty) {
+        setState(() {
+          _mediaFileList = [..._mediaFileList, ...images];
+        });
+      }
+    } catch (e) {
+      final a = e.toString();
+      final b = 2;
+      print(e.toString());
     }
   }
 
@@ -182,11 +198,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ],
               ),
               const SizedBox(height: 30.0),
-              if (isPosting)
-                Center(
-                  child: CircularProgressIndicator(),
-                ),
-              const SizedBox(height: 30.0),
+              if (isPosting) const SizedBox(height: 30.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -264,17 +276,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ],
               ),
-              if (isPosting)
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
               const SizedBox(height: 40),
               Container(
                 color: const Color.fromARGB(255, 220, 166, 112),
                 margin: const EdgeInsets.only(bottom: 50.0),
                 child: InkWell(
                   onTap: () {
-                    _createPost();
+                    if (postController.text.isNotEmpty) {
+                      showProcessingDialog(context);
+                      _createPost();
+                    }
                   },
                   child: Container(
                     width: double.infinity,
