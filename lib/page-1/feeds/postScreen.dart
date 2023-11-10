@@ -1,9 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations
-
 import 'package:flutter/material.dart';
-
 import 'package:myapp/models/article_model.dart';
-
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
 import 'package:myapp/page-1/seeMoreText.dart';
@@ -11,8 +8,9 @@ import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
 import 'package:myapp/widgets/commentPage.dart';
-
 import 'package:page_transition/page_transition.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 
 class PostScreen extends StatefulWidget {
   const PostScreen({
@@ -241,12 +239,12 @@ class _PostHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '${post.createdAt}.',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12.0,
+                    timeago.format(
+                      post.createdAt, // Your DateTime object
+                      locale: 'en', // Use the same locale as set in step 3
                     ),
                   ),
+                  const SizedBox(width: 10),
                   Icon(
                     Icons.public,
                     color: Colors.grey[600],
@@ -269,7 +267,10 @@ class _PostHeader extends StatelessWidget {
                       PageTransition(
                         type: PageTransitionType.scale,
                         alignment: Alignment.bottomCenter,
-                        child: CreatePostScreen(post: post),
+                        child: CreatePostScreen(
+                          post: post,
+                          user: post.owner,
+                        ),
                       ),
                     );
                   } else if (value == 'delete') {
@@ -320,6 +321,7 @@ class _PostStatsState extends State<_PostStats> {
   bool _isLiked = false;
   int likeCount = 0;
   bool isRendered = false;
+  late UserModel loggedInUser;
 
   @override
   void initState() {
@@ -340,6 +342,7 @@ class _PostStatsState extends State<_PostStats> {
       isRendered = true;
       setState(() {
         _isLiked = isLiked;
+        loggedInUser = currentUser;
       });
     }
     if (widget.post.totalLikes - 1 == widget.post.likes!.length && isRendered) {
@@ -366,28 +369,35 @@ class _PostStatsState extends State<_PostStats> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 10),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              likeCount.toString(),
-              style: TextStyle(
-                color: Colors.grey[600],
-              ),
-            ),
-            const SizedBox(width: 4),
-            Container(
-              padding: const EdgeInsets.all(4.0),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: likeCount > 0
-                  ? const Icon(
+            Row(
+              children: [
+                Text(
+                  likeCount > 0 ? likeCount.toString() : 'No likes yet.',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
                       Icons.thumb_up_sharp,
                       color: Color.fromARGB(255, 167, 135, 135),
                       size: 15,
-                    )
-                  : const SizedBox(),
+                    )),
+              ],
             ),
+            widget.post.comments!.isNotEmpty
+                ? Text(
+                    widget.post.comments!.length.toString() + ' comments' ?? '')
+                : const Text("Be the first comment")
           ],
         ),
         const Divider(),
@@ -419,7 +429,13 @@ class _PostStatsState extends State<_PostStats> {
               icon: Icon(Icons.insert_comment_outlined,
                   color: Colors.grey[600], size: 25),
               onTap: () {
-                // showCommentModal(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CommentScreen(
+                        loggedInUser: loggedInUser,
+                        post: widget.post),
+                  ),
+                );
               },
             ),
             const SizedBox(

@@ -6,7 +6,9 @@ import 'package:myapp/services/user_service.dart';
 import 'package:page_transition/page_transition.dart';
 
 class BatchMatePage extends StatefulWidget {
-  const BatchMatePage({Key? key}) : super(key: key);
+  BatchMatePage({Key? key, this.user}) : super(key: key);
+
+  UserModel? user;
 
   @override
   State<BatchMatePage> createState() => _BatchMatePageState();
@@ -26,6 +28,8 @@ class _BatchMatePageState extends State<BatchMatePage> {
   }
 
   Future<void> _load() async {
+    print('batchmate');
+    print('${widget.user?.passedOutYear}');
     final allUsers = await userService.getUsers(search: enteredKeyword);
     setState(() {
       _allUsers = allUsers;
@@ -44,8 +48,8 @@ class _BatchMatePageState extends State<BatchMatePage> {
   PreferredSizeWidget appBar(BuildContext context) {
     return AppBar(
       backgroundColor: const Color.fromARGB(255, 167, 135, 135),
-      title: const Text(
-        'YOUR NABHAITES',
+      title: Text(
+        'Your batch mates from ICSE year ${widget.user?.passedOutYear}',
         style: TextStyle(color: Colors.black),
       ),
       centerTitle: true,
@@ -85,6 +89,7 @@ class _BatchMatePageState extends State<BatchMatePage> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
+                
               ),
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
@@ -101,7 +106,9 @@ class _BatchMatePageState extends State<BatchMatePage> {
                     shape: BoxShape.circle,
                     image: allUser[index].profilePicture != null
                         ? DecorationImage(
+                            fit: BoxFit.cover,
                             image: NetworkImage(
+                              
                                 allUser[index].profilePicture?.path ?? ''),
                           )
                         : const DecorationImage(

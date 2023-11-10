@@ -83,7 +83,6 @@ class UserModel {
   final DateTime? deletedAt;
   final DateTime? updatedAt;
 
-  final String? password;
 
   UserModel(
       {this.id,
@@ -92,8 +91,7 @@ class UserModel {
       this.profilePicture,
       this.deletedAt,
       this.updatedAt,
-      this.createdAt,
-    this.password,
+    this.createdAt,
     this.currentCity,
     this.house,
     this.houseNumber,
@@ -110,6 +108,7 @@ class UserModel {
       'fullName': fullName,
       'email': email,
       'profilePicture': profilePicture?.toJson(),
+      'passedOutYear': passedOutYear,
       'createdAt': createdAt?.toIso8601String(),
       'deletedAt': deletedAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
@@ -125,18 +124,21 @@ class UserModel {
       currentCity: map['currentCity'],
       house: map['house'],
       houseNumber: map['houseNumber'],
-      passedOutYear: map['passedOutYear'],
+      passedOutYear: map['yearPassedOut'] ?? map['passedOutYear'],
+             
       profession: map['profession'],
       profilePicture: map['profileImage'] != null
           ? ProfilePicture.fromJson(map['profileImage'])
-          : null,
+          : map['profilePicture'] != null
+              ? ProfilePicture.fromJson(map['profilePicture'])
+              : null,
       createdAt:
           map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
       deletedAt:
           map['deletedAt'] != null ? DateTime.parse(map['deletedAt']) : null,
       updatedAt:
           map['updatedAt'] != null ? DateTime.parse(map['updatedAt']) : null,
-      password: map['password'],
+     
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/About_us.dart';
 import 'package:myapp/page-1/Notification_page.dart';
 import 'package:myapp/page-1/createpostScreen.dart';
@@ -25,20 +26,43 @@ class _FeedScreenState extends State<FeedScreen> {
   final GraphQLService userService = GraphQLService();
   bool isExpanded = false;
   int currentPage = 0;
+  late UserModel user;
 
-  void _handleLogout(BuildContext context) async {
+  @override
+  void initState() {
+    super.initState();
+    _setUser();
+  }
+
+  void _setUser() async {
+    final UserModel? _user = await localStorageService.getUser();
+
+    setState(() {
+      user = _user!;
+    });
+  }
+
+  void _handleLogout(BuildContext context, String val) async {
     bool isCleared = await localStorageService.clearAccessToken();
 
     if (isCleared) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Logged out successfully',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
+        SnackBar(
+          content: val == "delete_account"
+              ? const Text(
+                  'Account will be deleted.Thank you for visit us.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                )
+              : const Text(
+                  'Logged out successfully',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           elevation: 10,
@@ -134,7 +158,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   ],
                 ),
               ]
-            : currentPage == 3
+            : currentPage == 4
                 ? [
                     PopupMenuButton<String>(
                       icon: const Icon(
@@ -143,7 +167,10 @@ class _FeedScreenState extends State<FeedScreen> {
                       ),
                       onSelected: (value) {
                         if (value == 'log_out') {
-                          _handleLogout(context);
+                          _handleLogout(context, 'log_out');
+                        }
+                        if (value == 'delete_account') {
+                          _handleLogout(context, 'delete_account');
                         }
                       },
                       itemBuilder: (BuildContext context) {
@@ -153,6 +180,13 @@ class _FeedScreenState extends State<FeedScreen> {
                             child: ListTile(
                               leading: Icon(Icons.exit_to_app),
                               title: Text('Log Out'),
+                            ),
+                          ),
+                          const PopupMenuItem<String>(
+                            value: 'delete_account',
+                            child: ListTile(
+                              leading: Icon(Icons.exit_to_app),
+                              title: Text('Delete Account'),
                             ),
                           ),
                         ];
@@ -168,18 +202,19 @@ class _FeedScreenState extends State<FeedScreen> {
             currentPage = page;
           });
         },
-        children: const <Widget>[
-          PostScreen(),
-          SearchPage(),
-          MessengerPage(),
-          ProfileScreen(),
+        children: <Widget>[
+          const PostScreen(),
+          const SearchPage(),
+          CreatePostScreen(user: user),
+          const MessengerPage(),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
-        iconSize: 30,
+        iconSize: 22,
         selectedItemColor: const Color.fromARGB(255, 167, 135, 135),
         currentIndex: currentPage,
         onTap: (index) {
@@ -198,6 +233,10 @@ class _FeedScreenState extends State<FeedScreen> {
             label: 'Search',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Create',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.message),
             label: 'Messages',
           ),
@@ -207,26 +246,26 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         ],
       ),
-      floatingActionButton: Visibility(
-        visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              PageTransition(
-                type: PageTransitionType.scale,
-                alignment: Alignment.bottomCenter,
-                child: CreatePostScreen(),
-              ),
-            );
-          },
-          backgroundColor: const Color.fromARGB(255, 167, 135, 135),
-          elevation: 6,
-          child: const Icon(Icons.add),
-        ),
-      ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
-      // resizeToAvoidBottomInset: false, // fluter 2.x
+      // floatingActionButton: Visibility(
+      //   visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+      //   child: FloatingActionButton(
+      //     onPressed: () {
+      //       Navigator.of(context).push(
+      //         PageTransition(
+      //           type: PageTransitionType.scale,
+      //           alignment: Alignment.bottomCenter,
+      //           child: CreatePostScreen(),
+      //         ),
+      //       );
+      //     },
+      //     backgroundColor: const Color.fromARGB(255, 167, 135, 135),
+      //     elevation: 6,
+      //     child: const Icon(Icons.add),
+      //   ),
+      // ),
+      // floatingActionButtonLocation:
+      //     FloatingActionButtonLocation.miniCenterDocked,
+      //  resizeToAvoidBottomInset: false, // fluter 2.x
     );
   }
 }

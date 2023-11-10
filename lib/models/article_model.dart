@@ -1,3 +1,5 @@
+
+import 'package:myapp/models/comment_model.dart';
 import 'package:myapp/models/like_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/utilities/localstorage.dart';
@@ -6,11 +8,12 @@ class ArticleModel {
   final String? id;
   final String title;
   final List<ProfilePicture>? media;
-  final DateTime? createdAt;
+  final DateTime createdAt;
   final DateTime? deletedAt;
   final DateTime? updatedAt;
   final UserModel? owner;
   final List<Like>? likes;
+  final List<CommentModel>? comments;
   int totalLikes;
 
   ArticleModel({
@@ -19,8 +22,9 @@ class ArticleModel {
     this.media,
     this.deletedAt,
     this.updatedAt,
-    this.createdAt,
+    required this.createdAt,
     this.likes,
+    this.comments,
     this.owner,
   }) : totalLikes = likes?.length ?? 0;
 
@@ -54,6 +58,11 @@ class ArticleModel {
               .map((likedUser) => Like.fromJson(likedUser))
               .toList()
           : <Like>[],
+      comments: (json['comments'] != null)
+          ? (json['comments'] as List)
+              .map((comment) => CommentModel.fromJson(comment))
+              .toList()
+          : <CommentModel>[],
       owner: UserModel.fromJson(json['owner']),
       title: json['title'],
       createdAt: DateTime.parse(json['createdAt']),

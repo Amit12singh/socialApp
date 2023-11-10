@@ -3,6 +3,25 @@ const GET_ALL_POSTS = """
   getAllArticles(data: \$data) {
     data {
       id
+      comments {
+        comment
+        createdAt
+        deletedAt
+        id
+        updatedAt
+        user {
+          id
+          profileImage {
+            mimeType
+            id
+            name
+            path
+            type
+          }
+          fullName
+          email
+        }
+      }
       likes {
         id
         user {
@@ -86,6 +105,11 @@ query Me(\$userId: String!) {
     profile {
       email
       fullName
+      currentCity
+      yearPassedOut
+      house
+      houseNumber
+      phoneNumber
       id
       profileImage {
         mimeType

@@ -15,9 +15,9 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
-import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ProfileScreen extends StatefulWidget {
   final UserModel? user;
@@ -114,8 +114,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
-                collapsedHeight: 180,
-                expandedHeight: 250,
+                collapsedHeight: 300,
+                expandedHeight: 200,
                 flexibleSpace:
                     ProfileView(userTimeline: posts, receiver: receiver),
               ),
@@ -215,7 +215,7 @@ class ProfileView extends StatelessWidget {
           Column(
             children: [
               Text(
-                userTimeline?.totalPosts.toString() ?? '0',
+                userTimeline?.totalPosts.toString() ?? 'No posts yet.',
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black,
@@ -231,7 +231,7 @@ class ProfileView extends StatelessWidget {
           Column(
             children: [
               Text(
-                userTimeline?.totalLikes.toString() ?? '0',
+                userTimeline?.totalLikes.toString() ?? 'No likes yet.',
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black,
@@ -263,19 +263,129 @@ class ProfileView extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 3),
                 const Text(
-                  'Old Nabhaies',
+                  'Old Nabhaites',
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 15,
+                    fontSize: 16,
                   ),
                 ),
+                const SizedBox(height: 3),
+
+                Row(
+                  children: [
+                    const Text(
+                      "Lives in :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      userTimeline?.profile.currentCity ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 3),
+
+                Row(
+                  children: [
+                    const Text(
+                      "Contact :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      userTimeline?.profile.phoneNumber ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 3),
+
+                Row(
+                  children: [
+                    const Text(
+                      "Passedout in:",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      userTimeline?.profile.passedOutYear ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 3),
+
+                Row(
+                  children: [
+                    const Text(
+                      "House/House no. :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '${userTimeline?.profile.house ?? ' '},${userTimeline?.profile.houseNumber ?? ' '}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    )
+                  ],
+                )
+                 
               ],
             ),
-            receiver != null
-                ? Align(
-                    alignment: Alignment.topCenter,
+          ],
+        ),
+      ),
+      const SizedBox(
+        height: 5,
+      ),
+      receiver != null
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: [
+                  Expanded(
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -292,25 +402,16 @@ class ProfileView extends StatelessWidget {
                         backgroundColor: const Color(
                             0xFF0077b5), // Set the background color to blue
                       ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            width:
-                                8, // Add some space between the icon and text
-                          ),
-                          Text(
-                            'Message',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
+                      child: const Text(
+                        'Message',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  )
-                : const SizedBox()
-          ],
-        ),
-      )
+                  ),
+                ],
+              ),
+            )
+          : const SizedBox(),
     ]));
   }
 }
@@ -483,12 +584,12 @@ class _PostHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '${post.createdAt}.',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12.0,
+                    timeago.format(
+                      post.createdAt, // Your DateTime object
+                      locale: 'en', // Use the same locale as set in step 3
                     ),
                   ),
+                  const SizedBox(width: 10),
                   Icon(
                     Icons.public,
                     color: Colors.grey[600],
@@ -510,7 +611,10 @@ class _PostHeader extends StatelessWidget {
                 PageTransition(
                   type: PageTransitionType.scale,
                   alignment: Alignment.bottomCenter,
-                  child: CreatePostScreen(post: post),
+                  child: CreatePostScreen(
+                    post: post,
+                    user: post.owner,
+                  ),
                 ),
               );
             } else if (value == 'delete') {

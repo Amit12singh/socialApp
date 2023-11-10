@@ -3,6 +3,16 @@ const LOGIN_USER = """
   login(data: \$data) {
     email
     fullName
+    yearPassedOut
+      houseNumber
+  
+     profileImage {
+          id
+          mimeType
+          name
+          path
+          type
+        }
     id
     message
     role
@@ -212,4 +222,23 @@ mutation Mutation(\$data: UserUpdateInput!) {
     success
   }
 }
+""";
+
+const ADD_COMMENT = """
+mutation Mutation(\$data: CommentInput!) {
+  addComment(data: \$data) {
+    id
+    user {
+      fullName
+      id
+      email
+    }
+    comment
+    article {
+      id
+      title
+    }
+  }
+}
+
 """;
