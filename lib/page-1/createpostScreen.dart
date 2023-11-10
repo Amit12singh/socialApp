@@ -30,7 +30,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   bool isUpdate = false;
   // late UserModel user;
 
-
   @override
   void initState() {
     super.initState();
@@ -134,7 +133,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-        ),
+              ),
               centerTitle: true,
               title: const Text(
                 'Edit post',
@@ -142,7 +141,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ),
             )
           : null,
-     
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -167,10 +165,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                     widget.user?.profilePicture?.path ?? ''),
                               )
                             : const DecorationImage(
-                          fit: BoxFit.contain,
-                          image: AssetImage(
-                              'assets/page-1/images/ellipse-4-bg.png'),
-                        ),
+                                fit: BoxFit.contain,
+                                image: AssetImage(
+                                    'assets/page-1/images/ellipse-4-bg.png'),
+                              ),
                       ),
                     ),
                     Text(

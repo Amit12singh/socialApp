@@ -44,7 +44,16 @@ class _CommentScreenState extends State<CommentScreen> {
     // }
   }
 
-  dynamic() => print(widget.loggedInUser);
+  @override
+  void initState() {
+    super.initState();
+    load();
+  }
+
+  load() {
+    print('print');
+    print('${widget.loggedInUser.profilePicture?.path}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +89,19 @@ class _CommentScreenState extends State<CommentScreen> {
                 padding: const EdgeInsets.only(left: 16, right: 8),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          widget.loggedInUser.profilePicture?.path ?? ''),
-                      radius: 20,
-                      backgroundColor: Colors.transparent,
-                    ),
+                    widget.loggedInUser.profilePicture != null
+                        ? CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                widget.loggedInUser.profilePicture?.path ?? ''),
+                            radius: 20,
+                            backgroundColor: Colors.transparent,
+                          )
+                        : const CircleAvatar(
+                            backgroundImage: AssetImage(
+                                'assets/page-1/images/ellipse-1-bg-nRo.png'),
+                            radius: 20,
+                            backgroundColor: Colors.transparent,
+                          ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16, right: 8),
