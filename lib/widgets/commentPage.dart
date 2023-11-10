@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/comment_model.dart';
+import 'package:myapp/models/user_model.dart';
+import 'package:myapp/widgets/comment_card.dart';
 
 class CommentScreen extends StatefulWidget {
-  final snap;
-  final usersnap;
-  CommentScreen({Key? key, required this.snap, required this.usersnap})
+  final UserModel loggedInUser;
+  final List<CommentModel>? comments;
+  CommentScreen({Key? key, required this.loggedInUser, required this.comments})
       : super(key: key);
 
   @override
@@ -15,31 +18,33 @@ class _CommentScreenState extends State<CommentScreen> {
       TextEditingController();
 
   void postComment(String uid, String name, String profilePic) async {
-    try {
-      String res = await FireStoreMethods().postComment(
-        widget.snap['postId'],
-        commentEditingController.text,
-        uid,
-        name,
-        profilePic,
-      );
+    // try {
+    //   String res = await FireStoreMethods().postComment(
+    //     widget.snap['postId'],
+    //     commentEditingController.text,
+    //     uid,
+    //     name,
+    //     profilePic,
+    //   );
 
-      if (res != 'success') {
-        showSnackBar(
-          res,
-          context,
-        );
-      }
-      setState(() {
-        commentEditingController.text = "";
-      });
-    } catch (err) {
-      showSnackBar(
-        err.toString(),
-        context,
-      );
-    }
+    //   if (res != 'success') {
+    //     showSnackBar(
+    //       res,
+    //       context,
+    //     );
+    //   }
+    //   setState(() {
+    //     commentEditingController.text = "";
+    //   });
+    // } catch (err) {
+    //   showSnackBar(
+    //     err.toString(),
+    //     context,
+    //   );
+    // }
   }
+
+  dynamic() => print(widget.loggedInUser);
 
   @override
   Widget build(BuildContext context) {
@@ -48,27 +53,24 @@ class _CommentScreenState extends State<CommentScreen> {
           title: const Text('Comments'),
           centerTitle: false,
         ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('posts')
-              .doc(widget.snap['postId'])
-              .collection('comments')
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (ctx, index) {
-                  return CommentCard(
-                    postsnap: snapshot.data!.docs[index],
-                    usersnap: widget.usersnap,
-                  );
-                });
-          },
+        body: Container(
+          child: widget.comments!.isEmpty
+              ? Center(
+                  child: Container(
+                    child: Text(
+                      'No comments yet.',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: widget.comments?.length,
+                  itemBuilder: (ctx, index) {
+                    return CommentCard(
+                      comment: widget.comments![index],
+                    );
+                  }),
         ),
         bottomNavigationBar: SafeArea(
             child: Container(
@@ -79,9 +81,10 @@ class _CommentScreenState extends State<CommentScreen> {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(widget.usersnap['photoUrl']),
-                      radius: 18,
+                      backgroundImage: NetworkImage(
+                          widget.loggedInUser.profilePicture?.path ?? ''),
+                      radius: 20,
+                      backgroundColor: Colors.transparent,
                     ),
                     Expanded(
                       child: Padding(
@@ -89,14 +92,16 @@ class _CommentScreenState extends State<CommentScreen> {
                         child: TextField(
                           controller: commentEditingController,
                           decoration: InputDecoration(
-                            hintText: 'Comment as ${widget.usersnap['name']}',
+                            hintText:
+                                'Comment as ${widget.loggedInUser.fullName}',
                             border: InputBorder.none,
                           ),
                           onSubmitted: (e) {
-                            postComment(
-                                widget.usersnap['uid'],
-                                widget.usersnap['name'],
-                                widget.usersnap['photoUrl']);
+                            //   postComment(
+                            //       widget.usersnap['uid'],
+                            //       widget.usersnap['name'],
+                            //       widget.usersnap['photoUrl']);
+                            //
                           },
                         ),
                       ),
@@ -104,4 +109,8 @@ class _CommentScreenState extends State<CommentScreen> {
                   ],
                 ))));
   }
+}
+
+showSnackBar(String content, BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(content)));
 }

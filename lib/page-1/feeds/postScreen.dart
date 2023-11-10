@@ -7,6 +7,7 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
+import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PostScreen extends StatefulWidget {
@@ -318,6 +319,7 @@ class _PostStatsState extends State<_PostStats> {
   bool _isLiked = false;
   int likeCount = 0;
   bool isRendered = false;
+  late UserModel loggedInUser;
 
   @override
   void initState() {
@@ -338,6 +340,7 @@ class _PostStatsState extends State<_PostStats> {
       isRendered = true;
       setState(() {
         _isLiked = isLiked;
+        loggedInUser = currentUser;
       });
     }
     if (widget.post.totalLikes - 1 == widget.post.likes!.length && isRendered) {
@@ -372,23 +375,21 @@ class _PostStatsState extends State<_PostStats> {
               children: [
                 Text(
                   likeCount > 0 ? likeCount.toString() : 'No likes yet.',
-              style: TextStyle(
-                color: Colors.grey[600],
-              ),
-            ),
-            const SizedBox(width: 4),
-            Container(
-              padding: const EdgeInsets.all(4.0),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-              ),
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
                     child: const Icon(
                       Icons.thumb_up_sharp,
                       color: Color.fromARGB(255, 167, 135, 135),
                       size: 15,
-                    )
-                  
-            ),
+                    )),
               ],
             ),
             widget.post.comments!.isNotEmpty
@@ -426,7 +427,13 @@ class _PostStatsState extends State<_PostStats> {
               icon: Icon(Icons.insert_comment_outlined,
                   color: Colors.grey[600], size: 25),
               onTap: () {
-                // showCommentModal(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CommentScreen(
+                        loggedInUser: loggedInUser,
+                        comments: widget.post?.comments),
+                  ),
+                );
               },
             ),
             const SizedBox(
