@@ -263,14 +263,15 @@ class ProfileView extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 3),
                 const Text(
-                  'Old Nabhaies',
+                  'Old Nabhaites',
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 15,
+                    fontSize: 16,
                   ),
                 ),
+                const SizedBox(height: 3),
 
                 Row(
                   children: [
@@ -279,7 +280,7 @@ class ProfileView extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(
@@ -290,11 +291,13 @@ class ProfileView extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 3),
+
                 Row(
                   children: [
                     const Text(
@@ -302,7 +305,7 @@ class ProfileView extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(
@@ -313,11 +316,13 @@ class ProfileView extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 3),
+
                 Row(
                   children: [
                     const Text(
@@ -325,7 +330,7 @@ class ProfileView extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(
@@ -336,19 +341,21 @@ class ProfileView extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 3),
+
                 Row(
                   children: [
                     const Text(
-                      "House",
+                      "House/House no. :",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(
@@ -359,7 +366,7 @@ class ProfileView extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     )
                   ],
