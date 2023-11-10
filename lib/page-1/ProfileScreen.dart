@@ -272,7 +272,6 @@ class ProfileView extends StatelessWidget {
                 ),
               ],
             ),
-           
           ],
         ),
       ),
@@ -298,7 +297,6 @@ class ProfileView extends StatelessWidget {
                         );
                       },
                       style: TextButton.styleFrom(
-                        
                         backgroundColor: const Color(
                             0xFF0077b5), // Set the background color to blue
                       ),
@@ -312,7 +310,6 @@ class ProfileView extends StatelessWidget {
               ),
             )
           : const SizedBox(),
-     
     ]));
   }
 }

@@ -1,56 +1,107 @@
-// import 'package:flutter/material.dart';
-// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:flutter/material.dart';
 
-// void showCommentModal(BuildContext context) {
-//   showMaterialModalBottomSheet(
-//     context: context,
-//     builder: (context) => CommentModal(),
-//   );
-// }
+class CommentScreen extends StatefulWidget {
+  final snap;
+  final usersnap;
+  CommentScreen({Key? key, required this.snap, required this.usersnap})
+      : super(key: key);
 
-// class CommentModal extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       controller: ModalScrollController.of(context),
-//       child: Container(
-//         padding: EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               'Comments',
-//               style: TextStyle(
-//                 fontSize: 20.0,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             SizedBox(height: 16.0),
-//             _buildComment('User 1', 'This is an awesome comment!'),
-//             _buildComment('User 2', 'Great job on this app!'),
-//             _buildComment('User 3', 'I love the design.'),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
+  @override
+  State<CommentScreen> createState() => _CommentScreenState();
+}
 
-//   Widget _buildComment(String user, String comment) {
-//     return Container(
-//       margin: EdgeInsets.only(bottom: 16.0),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             user,
-//             style: TextStyle(
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//           SizedBox(height: 8.0),
-//           Text(comment),
-//         ],
-//       ),
-//     );
-//   }
-// }
+class _CommentScreenState extends State<CommentScreen> {
+  final TextEditingController commentEditingController =
+      TextEditingController();
+
+  void postComment(String uid, String name, String profilePic) async {
+    try {
+      String res = await FireStoreMethods().postComment(
+        widget.snap['postId'],
+        commentEditingController.text,
+        uid,
+        name,
+        profilePic,
+      );
+
+      if (res != 'success') {
+        showSnackBar(
+          res,
+          context,
+        );
+      }
+      setState(() {
+        commentEditingController.text = "";
+      });
+    } catch (err) {
+      showSnackBar(
+        err.toString(),
+        context,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Comments'),
+          centerTitle: false,
+        ),
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('posts')
+              .doc(widget.snap['postId'])
+              .collection('comments')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (ctx, index) {
+                  return CommentCard(
+                    postsnap: snapshot.data!.docs[index],
+                    usersnap: widget.usersnap,
+                  );
+                });
+          },
+        ),
+        bottomNavigationBar: SafeArea(
+            child: Container(
+                height: kToolbarHeight,
+                margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                padding: const EdgeInsets.only(left: 16, right: 8),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage:
+                          NetworkImage(widget.usersnap['photoUrl']),
+                      radius: 18,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 8),
+                        child: TextField(
+                          controller: commentEditingController,
+                          decoration: InputDecoration(
+                            hintText: 'Comment as ${widget.usersnap['name']}',
+                            border: InputBorder.none,
+                          ),
+                          onSubmitted: (e) {
+                            postComment(
+                                widget.usersnap['uid'],
+                                widget.usersnap['name'],
+                                widget.usersnap['photoUrl']);
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ))));
+  }
+}

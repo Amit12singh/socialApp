@@ -42,19 +42,27 @@ class _FeedScreenState extends State<FeedScreen> {
     });
   }
 
-  void _handleLogout(BuildContext context) async {
+  void _handleLogout(BuildContext context, String val) async {
     bool isCleared = await localStorageService.clearAccessToken();
 
     if (isCleared) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Logged out successfully',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
+        SnackBar(
+          content: val == "delete_account"
+              ? const Text(
+                  'Account will be deleted.Thank you for visit us.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                )
+              : const Text(
+                  'Logged out successfully',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           elevation: 10,
@@ -150,7 +158,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   ],
                 ),
               ]
-            : currentPage == 3
+            : currentPage == 4
                 ? [
                     PopupMenuButton<String>(
                       icon: const Icon(
@@ -159,7 +167,10 @@ class _FeedScreenState extends State<FeedScreen> {
                       ),
                       onSelected: (value) {
                         if (value == 'log_out') {
-                          _handleLogout(context);
+                          _handleLogout(context, 'log_out');
+                        }
+                        if (value == 'delete_account') {
+                          _handleLogout(context, 'delete_account');
                         }
                       },
                       itemBuilder: (BuildContext context) {
@@ -169,6 +180,13 @@ class _FeedScreenState extends State<FeedScreen> {
                             child: ListTile(
                               leading: Icon(Icons.exit_to_app),
                               title: Text('Log Out'),
+                            ),
+                          ),
+                          const PopupMenuItem<String>(
+                            value: 'delete_account',
+                            child: ListTile(
+                              leading: Icon(Icons.exit_to_app),
+                              title: Text('Delete Account'),
                             ),
                           ),
                         ];
