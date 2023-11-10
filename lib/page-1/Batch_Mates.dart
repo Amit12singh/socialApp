@@ -3,10 +3,13 @@ import 'package:myapp/models/user_model.dart';
 
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/services/user_service.dart';
+import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/widgets/processingRequest.dart';
 import 'package:page_transition/page_transition.dart';
 
 class BatchMatePage extends StatefulWidget {
-  const BatchMatePage({Key? key}) : super(key: key);
+  UserModel? user;
+  BatchMatePage({Key? key, this.user}) : super(key: key);
 
   @override
   State<BatchMatePage> createState() => _BatchMatePageState();
@@ -14,6 +17,7 @@ class BatchMatePage extends StatefulWidget {
 
 class _BatchMatePageState extends State<BatchMatePage> {
   final GraphQLService userService = GraphQLService();
+  final HandleToken localStorageService = HandleToken();
 
   List<UserModel> _allUsers = [];
 
@@ -26,14 +30,23 @@ class _BatchMatePageState extends State<BatchMatePage> {
   }
 
   Future<void> _load() async {
+
+   
+    showProcessingDialog(context);
+    print(widget.user);
+   
     final allUsers = await userService.getUsers(search: enteredKeyword);
+   
     setState(() {
       _allUsers = allUsers;
     });
+    Navigator.of(context).pop();
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: appBar(context),
       body: listView(_allUsers),
@@ -41,11 +54,15 @@ class _BatchMatePageState extends State<BatchMatePage> {
     );
   }
 
+
+ 
+
   PreferredSizeWidget appBar(BuildContext context) {
+   
     return AppBar(
       backgroundColor: const Color.fromARGB(255, 167, 135, 135),
-      title: const Text(
-        'YOUR NABHAITES',
+      title: Text(
+        'Your barchmates form ICSE year 2010',
         style: TextStyle(color: Colors.black),
       ),
       centerTitle: true,
@@ -92,7 +109,7 @@ class _BatchMatePageState extends State<BatchMatePage> {
                   width: 65,
                   height: 65,
                   decoration: BoxDecoration(
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.white,
                         spreadRadius: 1,
@@ -118,7 +135,7 @@ class _BatchMatePageState extends State<BatchMatePage> {
         const SizedBox(height: 4),
         Text(
           allUser[index].fullName,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -135,7 +152,7 @@ class _BatchMatePageState extends State<BatchMatePage> {
           PageTransition(
             type: PageTransitionType.scale,
             alignment: Alignment.bottomCenter,
-            child: FeedScreen(),
+            child: const FeedScreen(),
           ),
         );
       },
@@ -159,7 +176,7 @@ class _BatchMatePageState extends State<BatchMatePage> {
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 height: 1.5,
-                color: const Color(0xffffffff),
+                color: Color(0xffffffff),
               ),
             ),
           ],

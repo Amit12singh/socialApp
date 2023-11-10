@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:myapp/models/response_model.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/Batch_Mates.dart';
 import 'package:myapp/page-1/feeds/homescreen.dart';
 import 'package:myapp/register.dart';
 import 'package:myapp/services/user_service.dart';
+import 'package:myapp/utilities/localstorage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/emailInputPage.dart';
 import 'package:myapp/widgets/processingRequest.dart';
@@ -18,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GraphQLService _graphQLService = GraphQLService();
   final storage = FlutterSecureStorage();
+  final HandleToken localStorageService = HandleToken();
+
   bool rememberMe = false;
 
   bool _loading = false;
@@ -74,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
           PageTransition(
             type: PageTransitionType.scale,
             alignment: Alignment.bottomCenter,
-            child: BatchMatePage(),
+            child: BatchMatePage(user: await localStorageService.getUser()),
           ),
         );
       }

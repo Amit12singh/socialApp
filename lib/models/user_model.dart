@@ -125,7 +125,7 @@ class UserModel {
       currentCity: map['currentCity'],
       house: map['house'],
       houseNumber: map['houseNumber'],
-      passedOutYear: map['passedOutYear'],
+      passedOutYear: map['yearPassedOut'] ?? map['passedOutYearR'],
       profession: map['profession'],
       profilePicture: map['profileImage'] != null
           ? ProfilePicture.fromJson(map['profileImage'])

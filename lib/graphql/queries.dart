@@ -105,6 +105,11 @@ query Me(\$userId: String!) {
     profile {
       email
       fullName
+      currentCity
+      yearPassedOut
+      house
+      houseNumber
+      phoneNumber
       id
       profileImage {
         mimeType

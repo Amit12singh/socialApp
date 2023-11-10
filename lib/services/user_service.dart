@@ -99,7 +99,7 @@ class GraphQLService {
       );
       if (result.hasException) {
         BoolResponseModel response = BoolResponseModel(
-            message: result?.exception?.graphqlErrors[0].message ??
+            message: result.exception?.graphqlErrors[0].message ??
                 'Something went wrong.',
             success: false,
             isError: true);
@@ -162,7 +162,7 @@ class GraphQLService {
 
       if (result.hasException) {
         throw Exception(
-            {"message": result?.exception?.graphqlErrors[0].message});
+            {"message": result.exception?.graphqlErrors[0].message});
       } else {
         List res = result.data?['getAllUser']?['data'];
 

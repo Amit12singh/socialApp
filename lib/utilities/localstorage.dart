@@ -14,6 +14,7 @@ class HandleToken {
       fullName: user['fullName'],
       email: user['email'],
       id: user['id'],
+      passedOutYear: user['yearPassedOut'],
       profilePicture: user['profileImage'] != null
           ? ProfilePicture.fromJson(user['profileImage'])
           : null,
