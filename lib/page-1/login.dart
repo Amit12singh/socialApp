@@ -27,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _loading = false;
   void _load() async {
     await storage.write(key: 'isFirstloggedIn', value: "false");
+   
   }
 
   bool _isValidEmail(String email) {
@@ -74,11 +75,14 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else {
+
+        final UserModel? loggedInUser = await localStorageService.getUser();
+
         Navigator.of(context).pushReplacement(
           PageTransition(
             type: PageTransitionType.scale,
             alignment: Alignment.bottomCenter,
-            child: BatchMatePage(user: await localStorageService.getUser()),
+            child: BatchMatePage(user: loggedInUser),
           ),
         );
       }

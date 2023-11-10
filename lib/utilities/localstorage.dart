@@ -8,9 +8,10 @@ class HandleToken {
 
   Future<bool> saveAccessToken(user) async {
     const storage = FlutterSecureStorage();
+    print('user response ${user['yearPassedOut']}');
 
 // Write value
-    final loggedinUser = UserModel(
+    UserModel loggedinUser = UserModel(
       fullName: user['fullName'],
       email: user['email'],
       id: user['id'],
@@ -20,7 +21,10 @@ class HandleToken {
           : null,
     );
 
+    
+    
     final jsonString = json.encode(loggedinUser.toJson());
+    print('jsonString ${jsonString}');
    
 
     try {

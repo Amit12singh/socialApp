@@ -3,6 +3,9 @@ const LOGIN_USER = """
   login(data: \$data) {
     email
     fullName
+    yearPassedOut
+      houseNumber
+  
      profileImage {
           id
           mimeType
