@@ -61,7 +61,7 @@ class _BatchMatePageState extends State<BatchMatePage> {
    
     return AppBar(
       backgroundColor: const Color.fromARGB(255, 167, 135, 135),
-      title: Text(
+      title: const Text(
         'Your barchmates form ICSE year 2010',
         style: TextStyle(color: Colors.black),
       ),
