@@ -101,20 +101,16 @@ class PostService {
 
 
       if (result.hasException) {
-        print(result.exception);
         throw Exception(result.exception);
       } else {
         List res = result.data?['getAllArticles']?['data'];
-        print("object");
-        print(res);
+      
 
         List<ArticleModel> articles =
             res.map((article) => ArticleModel.fromJson(article)).toList();
-        print(articles);
         return articles;
       }
     } catch (error) {
-      print(error);
       return [];
     }
   }
@@ -210,7 +206,6 @@ class PostService {
             isError: true);
       }
 
-      print(result);
 
       final response = result.data?['addComment'];
       if (response != null) {

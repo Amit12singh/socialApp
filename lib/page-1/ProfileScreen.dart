@@ -15,6 +15,7 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -662,6 +663,7 @@ class _PostStats extends StatefulWidget {
 class _PostStatsState extends State<_PostStats> {
   bool _isLiked = false;
   int likeCount = 0;
+  late UserModel loggedInUser;
   bool isRendered = false;
 
   @override
@@ -683,6 +685,7 @@ class _PostStatsState extends State<_PostStats> {
       isRendered = true;
       setState(() {
         _isLiked = isLiked;
+        loggedInUser = currentUser;
       });
     }
     if (widget.post.totalLikes - 1 == widget.post.likes!.length && isRendered) {
@@ -710,25 +713,34 @@ class _PostStatsState extends State<_PostStats> {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              likeCount.toString(),
-              style: TextStyle(color: Colors.grey[600], fontSize: 14),
+            Row(
+              children: [
+                Text(
+                  likeCount.toString(),
+                  style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                ),
+                const SizedBox(width: 4),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: likeCount > 0
+                      ? const Icon(
+                          Icons.thumb_up_sharp,
+                          color: Color.fromARGB(255, 167, 135, 135),
+                          size: 15,
+                        )
+                      : const SizedBox(),
+                ),
+              ],
             ),
-            const SizedBox(width: 4),
-            Container(
-              padding: const EdgeInsets.all(4.0),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: likeCount > 0
-                  ? const Icon(
-                      Icons.thumb_up_sharp,
-                      color: Color.fromARGB(255, 167, 135, 135),
-                      size: 15,
-                    )
-                  : const SizedBox(),
-            ),
+            widget.post.comments!.isNotEmpty
+                ? Text(
+                    widget.post.comments!.length.toString() + ' comments' ?? '')
+                : const Text("No comments yet.")
           ],
         ),
         const Divider(),
@@ -755,17 +767,22 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
-            Spacer(),
+            const Spacer(),
             const SizedBox(
               width: 8,
             ),
             _PostButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.insert_comment_outlined,
                 size: 25,
               ),
               onTap: () {
-                // showCommentModal(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CommentScreen(
+                        loggedInUser: loggedInUser, post: widget.post),
+                  ),
+                );
               },
             ),
             const SizedBox(

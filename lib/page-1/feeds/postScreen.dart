@@ -43,7 +43,6 @@ class _PostScreenState extends State<PostScreen> {
 
   void _loadData() async {
     final List<ArticleModel> _posts = await _postService.getArticles();
-    print('post screen');
     print(_posts);
     setState(() {
       posts = _posts as List<ArticleModel>;
@@ -397,7 +396,7 @@ class _PostStatsState extends State<_PostStats> {
             widget.post.comments!.isNotEmpty
                 ? Text(
                     widget.post.comments!.length.toString() + ' comments' ?? '')
-                : const Text("Be the first comment")
+                : const Text("No comments yet.")
           ],
         ),
         const Divider(),

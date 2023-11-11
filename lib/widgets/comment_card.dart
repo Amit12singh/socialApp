@@ -16,12 +16,20 @@ class CommentCard extends StatelessWidget {
         children: [
           Row(
             children: [
+              comment.user.profilePicture != null
+                  ?
               CircleAvatar(
                 backgroundImage: NetworkImage(
                   comment.user.profilePicture?.path ?? '',
                 ),
                 radius: 18,
-              ),
+                    )
+                  : const CircleAvatar(
+                      backgroundImage: AssetImage(
+                          'assets/page-1/images/ellipse-1-bg-nRo.png'),
+                      radius: 20,
+                      backgroundColor: Colors.transparent,
+                    ),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(15),
