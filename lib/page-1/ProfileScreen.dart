@@ -115,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
-                collapsedHeight: 300,
+                collapsedHeight: 280,
                 expandedHeight: 200,
                 flexibleSpace:
                     ProfileView(userTimeline: posts, receiver: receiver),
@@ -273,7 +273,6 @@ class ProfileView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 3),
-
                 Row(
                   children: [
                     const Text(
@@ -298,7 +297,6 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 3),
-
                 Row(
                   children: [
                     const Text(
@@ -323,7 +321,6 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 3),
-
                 Row(
                   children: [
                     const Text(
@@ -348,7 +345,6 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 3),
-
                 Row(
                   children: [
                     const Text(
@@ -372,7 +368,6 @@ class ProfileView extends StatelessWidget {
                     )
                   ],
                 )
-                 
               ],
             ),
           ],

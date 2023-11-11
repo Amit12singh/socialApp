@@ -27,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _loading = false;
   void _load() async {
     await storage.write(key: 'isFirstloggedIn', value: "false");
-   
   }
 
   bool _isValidEmail(String email) {
@@ -75,7 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else {
-
         final UserModel? loggedInUser = await localStorageService.getUser();
 
         Navigator.of(context).pushReplacement(
@@ -349,7 +347,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       SizedBox(height: 30 * fem),
-                      MaterialButton(
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xff643600),
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20 * fem),
+                            ),
+                          ),
+                        ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
@@ -362,16 +371,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             login();
                           }
                         },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20 * fem),
-                        ),
+                        // style: RoundedRectangleBorder(
+                        //   borderRadius: BorderRadius.circular(20 * fem),
+                        // ),
                         child: Container(
-                          width: 500 * fem,
+                          width: 600 * fem,
                           height: 58 * fem,
-                          decoration: BoxDecoration(
-                            color: const Color(0xff643600),
-                            borderRadius: BorderRadius.circular(16 * fem),
-                          ),
+                          // decoration: BoxDecoration(
+                          //   color: const Color(0xff643600),
+                          //   borderRadius: BorderRadius.circular(20 * fem),
+                          // ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -385,11 +394,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: const Color(0xffffffff),
                                 ),
                               ),
-                              SizedBox(width: 10 * fem),
-                              Icon(
-                                Icons.login,
-                                size: 20.98 * fem,
-                              ),
+                              // SizedBox(width: 10 * fem),
+                              // Icon(
+                              //   Icons.login,
+                              //   size: 20.98 * fem,
+                              // ),
                             ],
                           ),
                         ),

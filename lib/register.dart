@@ -692,7 +692,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 15 * fem),
-                          MaterialButton(
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xff643600),
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20 * fem),
+                                ),
+                              ),
+                            ),
                             onPressed: () async {
                               String password = passwordController.text;
                               String confirmPassword =
@@ -717,18 +728,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 }
                               }
                             },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20 * fem),
-                            ),
                             child: Container(
-                              // onPressed:(){},
-
                               width: 332 * fem,
                               height: 58 * fem,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff643600),
-                                borderRadius: BorderRadius.circular(16 * fem),
-                              ),
+                              // decoration: BoxDecoration(
+                              //   color: const Color(0xff643600),
+                              //   borderRadius: BorderRadius.circular(16 * fem),
+                              // ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -742,14 +748,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       color: const Color(0xffffffff),
                                     ),
                                   ),
-                                  SizedBox(width: 5 * fem),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.login,
-                                      size: 17.98 * fem,
-                                    ),
-                                  ),
+                                  // SizedBox(width: 5 * fem),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(8.0),
+                                  //   child: Icon(
+                                  //     Icons.login,
+                                  //     size: 17.98 * fem,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),

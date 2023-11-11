@@ -31,8 +31,6 @@ class _CommentScreenState extends State<CommentScreen> {
 
     comments.insert(0, newComment);
     await postService.addComment(id, comment);
-    
-
   }
 
   @override
@@ -41,13 +39,11 @@ class _CommentScreenState extends State<CommentScreen> {
     comments = widget.post?.comments ?? [] as List<CommentModel>;
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Comments'),
+      appBar: AppBar(
+        title: const Text('Comments'),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: const Color.fromARGB(255, 167, 135, 135),
@@ -56,65 +52,61 @@ class _CommentScreenState extends State<CommentScreen> {
               Navigator.of(context).pop();
             },
             icon: Icon(Icons.arrow_back_ios_new_outlined)),
-        ),
-        body: Container(
+      ),
+      body: Container(
         child: comments.isEmpty
             ? const Center(
                 child: Text(
                   'No comments yet.',
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-                  ),
-                )
-              : ListView.builder(
+                ),
+              )
+            : ListView.builder(
                 itemCount: comments.length,
-                  itemBuilder: (ctx, index) {
-                    return CommentCard(
+                itemBuilder: (ctx, index) {
+                  return CommentCard(
                     comment: comments[index],
-                    );
-                  }),
-        ),
-        bottomNavigationBar: SafeArea(
-            child: Container(
-                height: kToolbarHeight,
-                margin: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                padding: const EdgeInsets.only(left: 16, right: 8),
-                child: Row(
-                  children: [
-                    widget.loggedInUser.profilePicture != null
-                        ? CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                widget.loggedInUser.profilePicture?.path ?? ''),
-                            radius: 20,
-                            backgroundColor: Colors.transparent,
-                          )
-                        : const CircleAvatar(
-                            backgroundImage: AssetImage(
-                                'assets/page-1/images/ellipse-1-bg-nRo.png'),
-                            radius: 20,
-                            backgroundColor: Colors.transparent,
-                          ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 8),
-                        child: TextField(
-                          controller: commentEditingController,
-                          decoration: InputDecoration(
-                            hintText:
-                                'Comment as ${widget.loggedInUser.fullName}',
-                            border: InputBorder.none,
-                          ),
-                          onSubmitted: (e) {
+                  );
+                }),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          height: kToolbarHeight,
+          margin:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: const EdgeInsets.only(left: 16, right: 8),
+          child: Row(
+            children: [
+              widget.loggedInUser.profilePicture != null
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          widget.loggedInUser.profilePicture?.path ?? ''),
+                      radius: 20,
+                      backgroundColor: Colors.transparent,
+                    )
+                  : const CircleAvatar(
+                      backgroundImage: AssetImage(
+                          'assets/page-1/images/ellipse-1-bg-nRo.png'),
+                      radius: 20,
+                      backgroundColor: Colors.transparent,
+                    ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 8),
+                  child: TextField(
+                    controller: commentEditingController,
+                    decoration: InputDecoration(
+                      hintText: 'Comment as ${widget.loggedInUser.fullName}',
+                      border: InputBorder.none,
+                    ),
+                    onSubmitted: (e) {
                       postComment(widget.post?.id ?? '', e);
                       commentEditingController.text = '';
-                            
-                          },
-                        ),
-                      ),
+                    },
+                  ),
+                ),
               ),
-                   
-                  ],
-
+            ],
           ),
         ),
       ),

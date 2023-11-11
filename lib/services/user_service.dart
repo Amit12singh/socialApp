@@ -135,7 +135,6 @@ class GraphQLService {
 
       final res = result.data?["me"];
 
-      print(res);
 
       if (res?["success"] == true) {
         final profile = UserTimelineModel.fromJson(res);
