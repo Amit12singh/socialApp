@@ -294,35 +294,36 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ],
               ),
               const SizedBox(height: 40),
-              Container(
-                color: const Color.fromARGB(255, 220, 166, 112),
-                margin: const EdgeInsets.only(bottom: 50.0),
-                child: InkWell(
-                  onTap: () {
-                    if (postController.text.isNotEmpty) {
-                      showProcessingDialog(context);
-                      _createPost();
-                    }
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          'POST',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    Color(0xff643600),
+                  ),
+                ),
+                onPressed: () async {
+                  if (postController.text.isNotEmpty) {
+                    showProcessingDialog(context);
+                    _createPost();
+                  }
+                },
+                child: Container(
+                  width: double.infinity,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        'POST',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(255, 248, 245, 245),
                         ),
                       ),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

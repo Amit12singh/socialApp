@@ -11,7 +11,6 @@ import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-
 class PostScreen extends StatefulWidget {
   const PostScreen({
     Key? key,
@@ -432,8 +431,7 @@ class _PostStatsState extends State<_PostStats> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => CommentScreen(
-                        loggedInUser: loggedInUser,
-                        post: widget.post),
+                        loggedInUser: loggedInUser, post: widget.post),
                   ),
                 );
               },

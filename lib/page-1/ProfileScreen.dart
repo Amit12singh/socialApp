@@ -15,6 +15,7 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -114,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
-                collapsedHeight: 300,
+                collapsedHeight: 280,
                 expandedHeight: 200,
                 flexibleSpace:
                     ProfileView(userTimeline: posts, receiver: receiver),
@@ -272,7 +273,6 @@ class ProfileView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 3),
-
                 Row(
                   children: [
                     const Text(
@@ -297,7 +297,6 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 3),
-
                 Row(
                   children: [
                     const Text(
@@ -322,7 +321,6 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 3),
-
                 Row(
                   children: [
                     const Text(
@@ -347,7 +345,6 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 3),
-
                 Row(
                   children: [
                     const Text(
@@ -371,7 +368,6 @@ class ProfileView extends StatelessWidget {
                     )
                   ],
                 )
-                 
               ],
             ),
           ],
@@ -765,7 +761,12 @@ class _PostStatsState extends State<_PostStats> {
                 size: 25,
               ),
               onTap: () {
-                // showCommentModal(context);
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) => CommentScreen(
+                //         loggedInUser: loggedInUser ,post: widget.post),
+                //   ),
+                // );
               },
             ),
             const SizedBox(
