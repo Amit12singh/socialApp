@@ -11,7 +11,6 @@ import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-
 class PostScreen extends StatefulWidget {
   const PostScreen({
     Key? key,
@@ -43,7 +42,6 @@ class _PostScreenState extends State<PostScreen> {
 
   void _loadData() async {
     final List<ArticleModel> _posts = await _postService.getArticles();
-    print('post screen');
     print(_posts);
     setState(() {
       posts = _posts as List<ArticleModel>;
@@ -397,7 +395,7 @@ class _PostStatsState extends State<_PostStats> {
             widget.post.comments!.isNotEmpty
                 ? Text(
                     widget.post.comments!.length.toString() + ' comments' ?? '')
-                : const Text("Be the first comment")
+                : const Text("No comments yet.")
           ],
         ),
         const Divider(),
@@ -432,8 +430,7 @@ class _PostStatsState extends State<_PostStats> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => CommentScreen(
-                        loggedInUser: loggedInUser,
-                        post: widget.post),
+                        loggedInUser: loggedInUser, post: widget.post),
                   ),
                 );
               },
