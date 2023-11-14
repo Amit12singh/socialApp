@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
           PageTransition(
             type: PageTransitionType.scale,
             alignment: Alignment.bottomCenter,
-            child: Onboarding(),
+            child: onboardingScreen(),
           ),
         );
         _load();
@@ -61,24 +61,17 @@ class _SplashScreenState extends State<SplashScreen> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
 
     return Container(
-      width: double.infinity,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(
-            68.67 * fem, 301.53 * fem, 68.67 * fem, 301.53 * fem),
-        width: double.infinity,
-        height: 812 * fem,
-        decoration: const BoxDecoration(
-          color: Color(0xffd9d9d9),
-        ),
-        child: Center(
-          child: SizedBox(
-            width: 237.65 * fem,
-            height: 208.94 * fem,
-            child: Image.asset(
-              'assets/page-1/images/logo-3-removebg-preview-1.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+      padding: EdgeInsets.fromLTRB(
+          68.67 * fem, 301.53 * fem, 68.67 * fem, 301.53 * fem),
+      decoration: const BoxDecoration(
+        color: Color(0xffd9d9d9),
+      ),
+      child: Center(
+        child: Image.asset(
+          'assets/page-1/images/logo-3-removebg-preview-1.png',
+          fit: BoxFit.cover,
+          width: 200,
+          height: 200,
         ),
       ),
     );

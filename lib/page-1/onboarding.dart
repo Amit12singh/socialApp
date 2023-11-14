@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/IntroPages/Intro_Page_1.dart';
+import 'package:myapp/IntroPages/Intro_Page_2.dart';
+import 'package:myapp/IntroPages/Intro_Page_3.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class Onboarding extends StatefulWidget {
+class onboardingScreen extends StatefulWidget {
+  const onboardingScreen({super.key});
+
   @override
-  _OnboardingState createState() => _OnboardingState();
+  State<onboardingScreen> createState() => _onboardingScreenState();
 }
 
-class _OnboardingState extends State<Onboarding> {
+class _onboardingScreenState extends State<onboardingScreen> {
+  PageController _controller = PageController();
   bool _loading = false;
-
+  bool onLastPage = false;
   void navigateToLoginScreen() async {
     setState(() {
       _loading = true;
@@ -29,155 +36,74 @@ class _OnboardingState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 380;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
     return Scaffold(
-      appBar: null,
-      backgroundColor: Color(0xff643600),
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: EdgeInsets.zero,
-        margin: EdgeInsets.zero,
-        decoration: BoxDecoration(),
-        child: Stack(
-          children: [
-            Positioned(
-              left: 25 * fem,
-              top: 670 * fem,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    PageTransition(
-                      type: PageTransitionType.scale,
-                      alignment: Alignment.bottomCenter,
-                      child: LoginScreen(),
-                    ),
-                  );
-                },
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                ),
-                child: Container(
-                  width: 325 * fem,
-                  height: 56 * fem,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(45 * fem),
-                    image: const DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(
-                        'assets/page-1/images/rectangle-1.png',
-                      ),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Get Started',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 16 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5 * ffem / fem,
-                        letterSpacing: 0.32 * fem,
-                        color: const Color(0xff643600),
-                      ),
-                    ),
+      body: Stack(
+        children: [
+          PageView(
+            controller: _controller,
+            onPageChanged: (index) {
+              setState(() {
+                onLastPage = (index == 2);
+              });
+            },
+            children: const [
+              IntroPage1(),
+              IntroPage2(),
+              IntroPage3(),
+            ],
+          ),
+          Container(
+            alignment: const Alignment(0, 0.9),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      _controller.jumpToPage(2);
+                    },
+                    child: const Text('skip')),
+                SmoothPageIndicator(
+                  controller: _controller,
+                  count: 3,
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Colors.blue,
+                    dotColor: Colors.grey,
+                    dotHeight: 12,
+                    dotWidth: 12,
+                    spacing: 8,
                   ),
                 ),
-              ),
+                onLastPage
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                            PageTransition(
+                              type: PageTransitionType.scale,
+                              alignment: Alignment.bottomCenter,
+                              child: LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text('done'),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          _controller.nextPage(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn,
+                          );
+                        },
+                        child: const Text('next'),
+                      ),
+              ],
             ),
-            Positioned(
-              left: 319 * fem,
-              top: 40 * fem,
-              child: Align(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      PageTransition(
-                        type: PageTransitionType.scale,
-                        alignment: Alignment.bottomCenter,
-                        child: LoginScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'SKIP',
-                    style: TextStyle(
-                      fontFamily: 'Work Sans',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.28 * fem,
-                      color: const Color(0xffffffff),
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-              ),
+          ),
+          if (_loading)
+            Center(
+              child: CircularProgressIndicator(),
             ),
-            Positioned(
-              left: 39.5 * fem,
-              top: 150 * fem,
-              child: Container(
-                width: 296 * fem,
-                height: 152 * fem,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          0 * fem, 0 * fem, 0 * fem, 10 * fem),
-                      constraints: BoxConstraints(
-                        maxWidth: 255 * fem,
-                      ),
-                      child: Text(
-                        'FIND YOUR OLD\nNABHAITES ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 35 * ffem,
-                          fontWeight: FontWeight.w400,
-                          height: 1.2857142857 * ffem / fem,
-                          color: const Color(0xffffffff),
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: 296 * fem,
-                      ),
-                      child: Text(
-                        'Enjoy together, happy to share and save your message with your old friends.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14 * ffem,
-                          fontWeight: FontWeight.w500,
-                          height: 1.8571428571 * ffem / fem,
-                          letterSpacing: 0.28 * fem,
-                          color: const Color(0xccffffff),
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            if (_loading)
-              Center(
-                child: CircularProgressIndicator(),
-              ),
-          ],
-        ),
+        ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: navigateToLoginScreen,
-      //   child: Icon(Icons.login),
-      // ),
     );
   }
 }

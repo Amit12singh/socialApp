@@ -198,6 +198,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
                                     ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5)),
+                                    ),
+                                  ),
+                                  cursorColor: Colors.transparent,
+                                  style: TextStyle(
+                                    color: Colors.black,
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -249,6 +261,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
                                     ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5)),
+                                    ),
+                                  ),
+                                  cursorColor: Colors.transparent,
+                                  style: TextStyle(
+                                    color: Colors.black,
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -338,7 +362,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 12 * ffem,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.bold,
                                 height: 1.5 * ffem,
                                 color: const Color(0xff643600),
                               ),
@@ -371,16 +395,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             login();
                           }
                         },
-                        // style: RoundedRectangleBorder(
-                        //   borderRadius: BorderRadius.circular(20 * fem),
-                        // ),
                         child: Container(
                           width: 600 * fem,
                           height: 58 * fem,
-                          // decoration: BoxDecoration(
-                          //   color: const Color(0xff643600),
-                          //   borderRadius: BorderRadius.circular(20 * fem),
-                          // ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -394,11 +411,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: const Color(0xffffffff),
                                 ),
                               ),
-                              // SizedBox(width: 10 * fem),
-                              // Icon(
-                              //   Icons.login,
-                              //   size: 20.98 * fem,
-                              // ),
                             ],
                           ),
                         ),
