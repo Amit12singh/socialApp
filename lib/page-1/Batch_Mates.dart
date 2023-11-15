@@ -47,7 +47,7 @@ class _BatchMatePageState extends State<BatchMatePage> {
 
   PreferredSizeWidget appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color.fromARGB(255, 167, 135, 135),
+      backgroundColor: Color.fromARGB(255, 244, 242, 242),
       title: Text(
         'Your batch mates from ICSE year ${widget.user?.passedOutYear}',
         style: TextStyle(color: Colors.black),
@@ -77,19 +77,18 @@ class _BatchMatePageState extends State<BatchMatePage> {
             width: 67,
             height: 67,
             padding: const EdgeInsets.all(4.0),
-            decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color(0xFF982282), Color(0xFFEEA863)])),
+            // decoration: const BoxDecoration(
+            //     shape: BoxShape.circle,
+            //     gradient: LinearGradient(
+            //         begin: Alignment.topCenter,
+            //         end: Alignment.bottomCenter,
+            //         colors: [Color(0xFF982282), Color(0xFFEEA863)])),
             child: Container(
               width: 65,
               height: 65,
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Color.fromARGB(255, 173, 147, 147),
                 shape: BoxShape.circle,
-                
               ),
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
@@ -108,7 +107,6 @@ class _BatchMatePageState extends State<BatchMatePage> {
                         ? DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              
                                 allUser[index].profilePicture?.path ?? ''),
                           )
                         : const DecorationImage(
@@ -136,40 +134,46 @@ class _BatchMatePageState extends State<BatchMatePage> {
   }
 
   Widget bottom(BuildContext context) {
-    return MaterialButton(
-      onPressed: () async {
-        await Navigator.of(context).pushReplacement(
-          PageTransition(
-            type: PageTransitionType.scale,
-            alignment: Alignment.bottomCenter,
-            child: FeedScreen(),
-          ),
-        );
-      },
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Container(
-        width: 500,
-        height: 55,
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 167, 135, 135),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Let's get started",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                height: 1.5,
-                color: const Color(0xffffffff),
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: MaterialButton(
+        onPressed: () async {
+          await Navigator.of(context).pushReplacement(
+            PageTransition(
+              type: PageTransitionType.scale,
+              alignment: Alignment.bottomCenter,
+              child: FeedScreen(),
             ),
-          ],
+          );
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            width: 500,
+            height: 55,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 167, 135, 135),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Let's get started",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    height: 1.5,
+                    color: const Color(0xffffffff),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

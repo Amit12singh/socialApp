@@ -52,7 +52,11 @@ class _PostScreenState extends State<PostScreen> {
   Widget build(BuildContext context) {
     if (posts.isEmpty) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(
+            Color.fromARGB(255, 167, 135, 135),
+          ),
+        ),
       );
     } else {
       return ListView.builder(
@@ -107,14 +111,18 @@ class _PostScreenState extends State<PostScreen> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(22),
-                                color: Colors.grey[300],
-                              ),
+                              // width: 100,
+                              // height: 100,
+                              // decoration: BoxDecoration(
+                              //   borderRadius: BorderRadius.circular(22),
+                              //   color: Colors.grey[300],
+                              // ),
                               child: const Center(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Color.fromARGB(255, 167, 135, 135),
+                                  ),
+                                ),
                               ),
                             );
                           } else if (snapshot.hasError) {

@@ -455,7 +455,11 @@ class _PostScreenState extends State<ProfilePostScreen> {
   Widget build(BuildContext context) {
     if (widget.posts == null) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(
+            Color.fromARGB(255, 167, 135, 135),
+          ),
+        ),
       );
     } else {
       if (widget.posts!.isEmpty) {
@@ -516,6 +520,9 @@ class _PostScreenState extends State<ProfilePostScreen> {
                   } else {
                     return Center(
                       child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Color.fromARGB(255, 167, 135, 135),
+                        ),
                         value: loadingProgress.expectedTotalBytes != null
                             ? loadingProgress.cumulativeBytesLoaded /
                                 loadingProgress.expectedTotalBytes!

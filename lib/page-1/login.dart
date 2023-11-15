@@ -299,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       : Icons.visibility_off,
                                   size: 25 * fem,
                                   color: _isPasswordVisible
-                                      ? Colors.blue
+                                      ? Color.fromARGB(255, 167, 135, 135)
                                       : Colors.grey,
                                 ),
                               ),
@@ -443,7 +443,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Register Now',
                           style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 12 * ffem,
+                            fontSize: 15 * ffem,
                             fontWeight: FontWeight.w500,
                             height: 1.5 * ffem,
                             color: const Color(0xff643600),
