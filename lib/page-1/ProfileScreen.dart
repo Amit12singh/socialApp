@@ -15,6 +15,7 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/widgets/AddFriends.dart';
 import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
@@ -115,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             return [
               SliverAppBar(
                 backgroundColor: Colors.white,
-                collapsedHeight: 280,
+                collapsedHeight: 300,
                 expandedHeight: 200,
                 flexibleSpace:
                     ProfileView(userTimeline: posts, receiver: receiver),
@@ -256,125 +257,132 @@ class ProfileView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  userTimeline?.profile.fullName ?? '',
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userTimeline?.profile.fullName ?? '',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      const Text(
+                        'Old Nabhaites',
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          const Text(
+                            "Lives in :",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            userTimeline?.profile.currentCity ?? '',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          const Text(
+                            "Contact :",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            userTimeline?.profile.phoneNumber ?? '',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          const Text(
+                            "Passed out in:",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            userTimeline?.profile.passedOutYear ?? '',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          const Text(
+                            "House/House no. :",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '${userTimeline?.profile.house ?? ' '},${userTimeline?.profile.houseNumber ?? ' '}',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 3),
-                const Text(
-                  'Old Nabhaites',
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Row(
-                  children: [
-                    const Text(
-                      "Lives in :",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      userTimeline?.profile.currentCity ?? '',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                Row(
-                  children: [
-                    const Text(
-                      "Contact :",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      userTimeline?.profile.phoneNumber ?? '',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                Row(
-                  children: [
-                    const Text(
-                      "Passedout in:",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      userTimeline?.profile.passedOutYear ?? '',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                Row(
-                  children: [
-                    const Text(
-                      "House/House no. :",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '${userTimeline?.profile.house ?? ' '},${userTimeline?.profile.houseNumber ?? ' '}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    )
-                  ],
-                )
               ],
             ),
           ],
         ),
       ),
       const SizedBox(
-        height: 5,
+        height: 0,
       ),
       receiver != null
           ? Padding(
@@ -382,7 +390,18 @@ class ProfileView extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextButton(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 167, 135, 135),
+                        ),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -390,20 +409,23 @@ class ProfileView extends StatelessWidget {
                             type: PageTransitionType.scale,
                             alignment: Alignment.bottomCenter,
                             child: ChatScreen(
-                                receiver: receiver ?? {} as ChatModel),
+                              receiver: receiver ?? {} as ChatModel,
+                            ),
                           ),
                         );
                       },
-                      style: TextButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF0077b5), // Set the background color to blue
-                      ),
                       child: const Text(
                         'Message',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            height: 1.5),
                       ),
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  AddFriend(),
                 ],
               ),
             )
