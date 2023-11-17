@@ -57,12 +57,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         email: emailController.text,
         password: passwordController.text,
         fullName: fullNameController.text,
-        currentCity: currentCityController.text,
-        house: _selectedHouse ?? '',
-        houseNumber: houseNumberController.text,
+        currentCity: "Delhi",
+        house: "Ravi",
+        houseNumber: "12",
         passedOutYear: passedOutYearController.text,
         phoneNumber: phoneNumberController.text,
-        profession: professionController.text);
+        profession: "Engineer");
 
     if (response.success == true) {
       setState(() {
@@ -385,6 +385,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
+                          
                           SizedBox(height: 15 * fem),
                           SizedBox(
                             height: 70,
@@ -393,250 +394,250 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 hintText: "ICSE"),
                           ),
                           SizedBox(height: 15 * fem),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 8.33 * fem),
-                            padding: EdgeInsets.fromLTRB(
-                              12.5 * fem,
-                              6.5 * fem,
-                              6.5 * fem,
-                              12.5 * fem,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xfff9f9f9),
-                              borderRadius: BorderRadius.circular(20 * fem),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.house_rounded,
-                                    size: 20 * fem,
-                                  ),
-                                  SizedBox(width: 10.5 * fem),
-                                  Expanded(
-                                    child: DropdownButtonFormField<String>(
-                                      value: _selectedHouse,
-                                      icon: Icon(Icons.arrow_drop_down),
-                                      iconSize: 24,
-                                      elevation: 16,
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          _selectedHouse = newValue;
-                                        });
-                                      },
-                                      items: [
-                                        'Beas',
-                                        'Jamuna',
-                                        'Ravi',
-                                        'Satluj'
-                                      ].map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                      decoration: InputDecoration.collapsed(
-                                        hintText: 'House',
-                                        hintStyle: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 15 * ffem,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1.5 * ffem,
-                                          color: const Color(0xffdadbd8),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 15 * fem),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 8.33 * fem),
-                            padding: EdgeInsets.fromLTRB(
-                              12.5 * fem,
-                              6.5 * fem,
-                              6.5 * fem,
-                              12.5 * fem,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xfff9f9f9),
-                              borderRadius: BorderRadius.circular(20 * fem),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.house_siding_rounded,
-                                    size: 20 * fem,
-                                  ),
-                                  SizedBox(width: 10.5 * fem),
-                                  Expanded(
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      controller: houseNumberController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Your House Number',
-                                        hintStyle: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 15 * ffem,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1.5 * ffem,
-                                          color: const Color(0xffdadbd8),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.black
-                                                  .withOpacity(0.5)),
-                                        ),
-                                      ),
-                                      cursorColor: Colors.transparent,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Your house number.';
-                                        }
-                                        return null; // Return null to indicate no validation error.
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 15 * fem),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 8.33 * fem),
-                            padding: EdgeInsets.fromLTRB(
-                              12.5 * fem,
-                              6.5 * fem,
-                              6.5 * fem,
-                              12.5 * fem,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xfff9f9f9),
-                              borderRadius: BorderRadius.circular(20 * fem),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_city,
-                                    size: 20 * fem,
-                                  ),
-                                  SizedBox(width: 10.5 * fem),
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: currentCityController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Current Resident *',
-                                        hintStyle: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 15 * ffem,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1.5 * ffem,
-                                          color: const Color(0xffdadbd8),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.black
-                                                  .withOpacity(0.5)),
-                                        ),
-                                      ),
-                                      cursorColor: Colors.transparent,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Enter current resident city.';
-                                        }
-                                        return null; // Return null to indicate no validation error.
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 15 * fem),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 8.33 * fem),
-                            padding: EdgeInsets.fromLTRB(
-                              12.5 * fem,
-                              6.5 * fem,
-                              6.5 * fem,
-                              12.5 * fem,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xfff9f9f9),
-                              borderRadius: BorderRadius.circular(20 * fem),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.work_history,
-                                    size: 20 * fem,
-                                  ),
-                                  SizedBox(width: 10.5 * fem),
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: professionController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Your Profession *',
-                                        hintStyle: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 15 * ffem,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1.5 * ffem,
-                                          color: const Color(0xffdadbd8),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.black
-                                                  .withOpacity(0.5)),
-                                        ),
-                                      ),
-                                      cursorColor: Colors.transparent,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Tell us about your profession.';
-                                        }
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        _email = value!;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          // Container(
+                          //   margin: EdgeInsets.only(bottom: 8.33 * fem),
+                          //   padding: EdgeInsets.fromLTRB(
+                          //     12.5 * fem,
+                          //     6.5 * fem,
+                          //     6.5 * fem,
+                          //     12.5 * fem,
+                          //   ),
+                          //   decoration: BoxDecoration(
+                          //     color: const Color(0xfff9f9f9),
+                          //     borderRadius: BorderRadius.circular(20 * fem),
+                          //   ),
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.all(5.0),
+                          //     child: Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.house_rounded,
+                          //           size: 20 * fem,
+                          //         ),
+                          //         SizedBox(width: 10.5 * fem),
+                          //         Expanded(
+                          //           child: DropdownButtonFormField<String>(
+                          //             value: _selectedHouse,
+                          //             icon: Icon(Icons.arrow_drop_down),
+                          //             iconSize: 24,
+                          //             elevation: 16,
+                          //             onChanged: (String? newValue) {
+                          //               setState(() {
+                          //                 _selectedHouse = newValue;
+                          //               });
+                          //             },
+                          //             items: [
+                          //               'Beas',
+                          //               'Jamuna',
+                          //               'Ravi',
+                          //               'Satluj'
+                          //             ].map<DropdownMenuItem<String>>(
+                          //                 (String value) {
+                          //               return DropdownMenuItem<String>(
+                          //                 value: value,
+                          //                 child: Text(value),
+                          //               );
+                          //             }).toList(),
+                          //             decoration: InputDecoration.collapsed(
+                          //               hintText: 'House',
+                          //               hintStyle: TextStyle(
+                          //                 fontFamily: 'Poppins',
+                          //                 fontSize: 15 * ffem,
+                          //                 fontWeight: FontWeight.w500,
+                          //                 height: 1.5 * ffem,
+                          //                 color: const Color(0xffdadbd8),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(height: 15 * fem),
+                          // Container(
+                          //   margin: EdgeInsets.only(bottom: 8.33 * fem),
+                          //   padding: EdgeInsets.fromLTRB(
+                          //     12.5 * fem,
+                          //     6.5 * fem,
+                          //     6.5 * fem,
+                          //     12.5 * fem,
+                          //   ),
+                          //   decoration: BoxDecoration(
+                          //     color: const Color(0xfff9f9f9),
+                          //     borderRadius: BorderRadius.circular(20 * fem),
+                          //   ),
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.all(5.0),
+                          //     child: Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.house_siding_rounded,
+                          //           size: 20 * fem,
+                          //         ),
+                          //         SizedBox(width: 10.5 * fem),
+                          //         Expanded(
+                          //           child: TextFormField(
+                          //             keyboardType: TextInputType.number,
+                          //             controller: houseNumberController,
+                          //             decoration: InputDecoration(
+                          //               hintText: 'Your House Number',
+                          //               hintStyle: TextStyle(
+                          //                 fontFamily: 'Poppins',
+                          //                 fontSize: 15 * ffem,
+                          //                 fontWeight: FontWeight.w500,
+                          //                 height: 1.5 * ffem,
+                          //                 color: const Color(0xffdadbd8),
+                          //               ),
+                          //               focusedBorder: UnderlineInputBorder(
+                          //                 borderSide:
+                          //                     BorderSide(color: Colors.black),
+                          //               ),
+                          //               enabledBorder: UnderlineInputBorder(
+                          //                 borderSide: BorderSide(
+                          //                     color: Colors.black
+                          //                         .withOpacity(0.5)),
+                          //               ),
+                          //             ),
+                          //             cursorColor: Colors.transparent,
+                          //             style: TextStyle(
+                          //               color: Colors.black,
+                          //             ),
+                          //             validator: (value) {
+                          //               if (value!.isEmpty) {
+                          //                 return 'Your house number.';
+                          //               }
+                          //               return null; // Return null to indicate no validation error.
+                          //             },
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(height: 15 * fem),
+                          // Container(
+                          //   margin: EdgeInsets.only(bottom: 8.33 * fem),
+                          //   padding: EdgeInsets.fromLTRB(
+                          //     12.5 * fem,
+                          //     6.5 * fem,
+                          //     6.5 * fem,
+                          //     12.5 * fem,
+                          //   ),
+                          //   decoration: BoxDecoration(
+                          //     color: const Color(0xfff9f9f9),
+                          //     borderRadius: BorderRadius.circular(20 * fem),
+                          //   ),
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.all(5.0),
+                          //     child: Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.location_city,
+                          //           size: 20 * fem,
+                          //         ),
+                          //         SizedBox(width: 10.5 * fem),
+                          //         Expanded(
+                          //           child: TextFormField(
+                          //             controller: currentCityController,
+                          //             decoration: InputDecoration(
+                          //               hintText: 'Current Resident *',
+                          //               hintStyle: TextStyle(
+                          //                 fontFamily: 'Poppins',
+                          //                 fontSize: 15 * ffem,
+                          //                 fontWeight: FontWeight.w500,
+                          //                 height: 1.5 * ffem,
+                          //                 color: const Color(0xffdadbd8),
+                          //               ),
+                          //               focusedBorder: UnderlineInputBorder(
+                          //                 borderSide:
+                          //                     BorderSide(color: Colors.black),
+                          //               ),
+                          //               enabledBorder: UnderlineInputBorder(
+                          //                 borderSide: BorderSide(
+                          //                     color: Colors.black
+                          //                         .withOpacity(0.5)),
+                          //               ),
+                          //             ),
+                          //             cursorColor: Colors.transparent,
+                          //             style: TextStyle(
+                          //               color: Colors.black,
+                          //             ),
+                          //             validator: (value) {
+                          //               if (value!.isEmpty) {
+                          //                 return 'Enter current resident city.';
+                          //               }
+                          //               return null; // Return null to indicate no validation error.
+                          //             },
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(height: 15 * fem),
+                          // Container(
+                          //   margin: EdgeInsets.only(bottom: 8.33 * fem),
+                          //   padding: EdgeInsets.fromLTRB(
+                          //     12.5 * fem,
+                          //     6.5 * fem,
+                          //     6.5 * fem,
+                          //     12.5 * fem,
+                          //   ),
+                          //   decoration: BoxDecoration(
+                          //     color: const Color(0xfff9f9f9),
+                          //     borderRadius: BorderRadius.circular(20 * fem),
+                          //   ),
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.all(5.0),
+                          //     child: Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.work_history,
+                          //           size: 20 * fem,
+                          //         ),
+                          //         SizedBox(width: 10.5 * fem),
+                          //         Expanded(
+                          //           child: TextFormField(
+                          //             controller: professionController,
+                          //             decoration: InputDecoration(
+                          //               hintText: 'Your Profession *',
+                          //               hintStyle: TextStyle(
+                          //                 fontFamily: 'Poppins',
+                          //                 fontSize: 15 * ffem,
+                          //                 fontWeight: FontWeight.w500,
+                          //                 height: 1.5 * ffem,
+                          //                 color: const Color(0xffdadbd8),
+                          //               ),
+                          //               focusedBorder: UnderlineInputBorder(
+                          //                 borderSide:
+                          //                     BorderSide(color: Colors.black),
+                          //               ),
+                          //               enabledBorder: UnderlineInputBorder(
+                          //                 borderSide: BorderSide(
+                          //                     color: Colors.black
+                          //                         .withOpacity(0.5)),
+                          //               ),
+                          //             ),
+                          //             cursorColor: Colors.transparent,
+                          //             style: TextStyle(
+                          //               color: Colors.black,
+                          //             ),
+                          //             validator: (value) {
+                          //               if (value!.isEmpty) {
+                          //                 return 'Tell us about your profession.';
+                          //               }
+                          //               return null;
+                          //             },
+                          //             onSaved: (value) {
+                          //               _email = value!;
+                          //             },
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(height: 15 * fem),
                           Container(
                             margin: EdgeInsets.only(bottom: 8.33 * fem),
