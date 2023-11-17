@@ -66,10 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
           behavior: SnackBarBehavior.floating,
         ),
       );
-      if (
-
-          // await storage.read(key: 'isFirstloggedIn') == 'false'
-          false) {
+      if (await storage.read(key: 'isFirstloggedIn') == 'false') {
         Navigator.of(context).pushReplacement(
           PageTransition(
             type: PageTransitionType.scale,

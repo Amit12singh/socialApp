@@ -15,7 +15,8 @@ class MessengerPage extends StatefulWidget {
   State<MessengerPage> createState() => _MessengerPageState();
 }
 
-class _MessengerPageState extends State<MessengerPage> {
+class _MessengerPageState extends State<MessengerPage>
+    with AutomaticKeepAliveClientMixin {
   final HandleToken localStorageService = HandleToken();
   final ChatService _chatService = ChatService();
 
@@ -153,4 +154,8 @@ class _MessengerPageState extends State<MessengerPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

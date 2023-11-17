@@ -30,6 +30,8 @@ class _CommentScreenState extends State<CommentScreen> {
         createdAt: DateTime.now());
 
     comments.insert(0, newComment);
+    setState(() {});
+
     await postService.addComment(id, comment);
   }
 
@@ -96,6 +98,15 @@ class _CommentScreenState extends State<CommentScreen> {
                   child: TextField(
                     controller: commentEditingController,
                     decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.send),
+                        color: Color(0xff643600),
+                        onPressed: () {
+                          postComment(widget.post?.id ?? '',
+                              commentEditingController.text);
+                          commentEditingController.text = '';
+                        },
+                      ),
                       hintText: 'Comment as ${widget.loggedInUser.fullName}',
                       border: InputBorder.none,
                     ),

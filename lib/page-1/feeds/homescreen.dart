@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/models/response_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/About_us.dart';
 import 'package:myapp/page-1/Notification_page.dart';
@@ -25,6 +26,7 @@ class _FeedScreenState extends State<FeedScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   final HandleToken localStorageService = HandleToken();
   final GraphQLService userService = GraphQLService();
+
   bool isExpanded = false;
   int currentPage = 0;
   UserModel? user;
@@ -43,13 +45,11 @@ class _FeedScreenState extends State<FeedScreen> {
     });
   }
 
-  void _handleLogout(BuildContext context, String val) async {
-    bool? isSuccess = await showDialog<bool>(
+  void _handleLogout(BuildContext context) async {
+    bool? isSuccess = await showCupertinoDialog<bool>(
       context: context,
       builder: (context) => CupertinoAlertDialog(
-        title: Text(val == 'delete_account'
-            ? 'Are you sure you wan\'t to delete your account?\n All your data will be deleted'
-            : 'Are you sure you wan\'t to logout?'),
+        title: const Text('Are you sure you wan\'t to logout?'),
         actions: [
           CupertinoDialogAction(
             /// This parameter indicates this action is the default,
@@ -73,29 +73,86 @@ class _FeedScreenState extends State<FeedScreen> {
         ],
       ),
     );
+
     if (!(isSuccess == true)) {
       return;
     }
+
     bool isCleared = await localStorageService.clearAccessToken();
 
     if (isCleared) {
       ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Logged out successfully',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          elevation: 10,
+        ),
+      );
+
+      Navigator.of(context).pushAndRemoveUntil(
+        PageTransition(
+            type: PageTransitionType.scale,
+            alignment: Alignment.bottomCenter,
+            child: LoginScreen()),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
+  void _deleteAccount(BuildContext context) async {
+    bool? isSuccess = await showCupertinoDialog<bool>(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text(
+            'Are you sure you wan\'t to delete your account?\n All your data will be deleted'),
+        actions: [
+          CupertinoDialogAction(
+            /// This parameter indicates this action is the default,
+            /// and turns the action's text to bold text.
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+            child: const Text('No'),
+          ),
+          CupertinoDialogAction(
+            /// This parameter indicates the action would perform
+            /// a destructive action such as deletion, and turns
+            /// the action's text color to red.
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+
+    if (!(isSuccess == true)) {
+      return;
+    }
+    final BoolResponseModel response =
+        await userService.deleteAccount(id: user?.id ?? '');
+
+    if (response.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: val == "delete_account"
-              ? const Text(
-                  'Account will be deleted.Thank you for visit us.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                )
-              : const Text(
-                  'Logged out successfully',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
+          content: Text(
+            response.message,
+            textAlign: TextAlign.center,
+            // ignore: prefer_const_constructors
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           elevation: 10,
@@ -178,13 +235,13 @@ class _FeedScreenState extends State<FeedScreen> {
                         PageTransition(
                           type: PageTransitionType.scale,
                           alignment: Alignment.bottomCenter,
-                          child: About_us(),
+                          child: const About_us(),
                         ),
                       );
                     }
                   },
                   itemBuilder: (BuildContext context) => [
-                    PopupMenuItem<String>(
+                    const PopupMenuItem<String>(
                       value: 'about',
                       child: Text('About Us'),
                     ),
@@ -200,10 +257,10 @@ class _FeedScreenState extends State<FeedScreen> {
                       ),
                       onSelected: (value) {
                         if (value == 'log_out') {
-                          _handleLogout(context, 'log_out');
+                          _handleLogout(context);
                         }
                         if (value == 'delete_account') {
-                          _handleLogout(context, 'delete_account');
+                          _deleteAccount(context);
                         }
                       },
                       itemBuilder: (BuildContext context) {

@@ -385,13 +385,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
-                          
+
                           SizedBox(height: 15 * fem),
                           SizedBox(
                             height: 70,
                             child: datePicker(
                                 dateController: passedOutYearController,
-                                hintText: "ICSE"),
+                                hintText: "Select ICSE date"),
                           ),
                           SizedBox(height: 15 * fem),
                           // Container(

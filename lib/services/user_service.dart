@@ -14,7 +14,6 @@ class GraphQLService {
   static HandleToken handleTokenService = HandleToken();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-
   Future<bool> forgotPasswordFunc(String email) async {
     print(email);
 
@@ -134,7 +133,6 @@ class GraphQLService {
       }
 
       final res = result.data?["me"];
-
 
       if (res?["success"] == true) {
         final profile = UserTimelineModel.fromJson(res);
@@ -265,14 +263,13 @@ class GraphQLService {
       final response = result.data?['resetPassword'];
       if (response?['success']) {
         return BoolResponseModel(
-          message: "Password updated successfully",
-          success: true,
-          isError: false);
+            message: "Password updated successfully",
+            success: true,
+            isError: false);
       } else {
         return BoolResponseModel(
             message: 'Something went wrong.', success: false, isError: true);
       }
-     
     } catch (error) {
       return BoolResponseModel(
           message: 'Something went wrong.', success: false, isError: true);
@@ -339,7 +336,42 @@ class GraphQLService {
     }
   }
 
+  Future<BoolResponseModel> deleteAccount({required String id}) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          fetchPolicy: FetchPolicy.cacheAndNetwork,
+          document: gql(DELETE_ACCOUNT),
+          variables: {
+            "data": {"id": id},
+          },
+        ),
+      );
+      if (result.hasException) {
+        BoolResponseModel response = BoolResponseModel(
+            message: result?.exception?.graphqlErrors[0].message ??
+                'Something went wrong.',
+            success: false,
+            isError: true);
+        return response;
+      }
 
+      Map res = result.data?["deleteUser"];
 
+      print(res);
 
+      if (res?["success"]) {
+        return BoolResponseModel(
+            message: 'Account deleted successfully.',
+            success: true,
+            isError: false);
+      } else {
+        return BoolResponseModel(
+            message: 'Something went wrong.', success: false, isError: true);
+      }
+    } catch (error) {
+      return BoolResponseModel(
+          message: 'Something went wrong.', success: false, isError: true);
+    }
+  }
 }

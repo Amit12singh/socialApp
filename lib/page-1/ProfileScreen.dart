@@ -31,7 +31,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   final HandleToken localStorageService = HandleToken();
   final GraphQLService userService = GraphQLService();
 
@@ -162,6 +162,10 @@ class _ProfileScreenState extends State<ProfileScreen>
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class MyDelegate extends SliverPersistentHeaderDelegate {
@@ -383,9 +387,6 @@ class ProfileView extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      const SizedBox(
-        height: 0,
       ),
       receiver != null
           ? Padding(

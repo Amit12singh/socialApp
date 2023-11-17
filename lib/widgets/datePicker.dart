@@ -59,8 +59,10 @@ class _datePickerState extends State<datePicker> {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-    return Scaffold(
-      body: Padding(
+    return GestureDetector(
+      onTap: () => _selectYear(context),
+      child: Container(
+        color: Colors.grey.shade100.withOpacity(0.6),
         padding: EdgeInsets.symmetric(horizontal: 8.33 * fem),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -68,31 +70,30 @@ class _datePickerState extends State<datePicker> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 16.5, horizontal: 12.5),
-              child: GestureDetector(
-                onTap: () {
-                  _selectYear(context);
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Icon(
-                      Icons.date_range,
-                      size: 20 * fem,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Icon(
+                    Icons.date_range,
+                    size: 20 * fem,
+                  ),
+                  SizedBox(width: 20.5 * fem),
+                  Text(
+                    ShowText, // Display selected date here
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 15 * ffem,
+                      fontWeight: ShowText == 'Select ICSE date'
+                          ? FontWeight.w100
+                          : FontWeight.w500,
+                      height: 1.5 * ffem,
+                      color: ShowText == 'Select ICSE date'
+                          ? Colors.grey.shade700
+                          : Color.fromARGB(255, 3, 3, 3),
                     ),
-                    SizedBox(width: 20.5 * fem),
-                    Text(
-                      ShowText, // Display selected date here
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 15 * ffem,
-                        fontWeight: FontWeight.w500,
-                        height: 1.5 * ffem,
-                        color: Color.fromARGB(255, 3, 3, 3),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           ],

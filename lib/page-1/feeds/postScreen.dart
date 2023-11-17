@@ -20,7 +20,8 @@ class PostScreen extends StatefulWidget {
   _PostScreenState createState() => _PostScreenState();
 }
 
-class _PostScreenState extends State<PostScreen> {
+class _PostScreenState extends State<PostScreen>
+    with AutomaticKeepAliveClientMixin {
   final _postService = PostService();
 
   late UserModel? _currentUser;
@@ -59,11 +60,17 @@ class _PostScreenState extends State<PostScreen> {
         ),
       );
     } else {
-      return ListView.builder(
-        itemCount: posts.length,
-        itemBuilder: (context, index) {
-          return buildPostCard(posts[index]);
+      return RefreshIndicator(
+        onRefresh: () async {
+          _loadUser();
+          _loadData();
         },
+        child: ListView.builder(
+          itemCount: posts.length,
+          itemBuilder: (context, index) {
+            return buildPostCard(posts[index]);
+          },
+        ),
       );
     }
   }
@@ -111,19 +118,18 @@ class _PostScreenState extends State<PostScreen> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Container(
-                              // width: 100,
-                              // height: 100,
-                              // decoration: BoxDecoration(
-                              //   borderRadius: BorderRadius.circular(22),
-                              //   color: Colors.grey[300],
-                              // ),
-                              child: const Center(
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Color.fromARGB(255, 167, 135, 135),
-                                  ),
-                                ),
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 0.38,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
                               ),
+                              // child: const Center(
+                              //   child: CircularProgressIndicator(
+                              //     valueColor: AlwaysStoppedAnimation<Color>(
+                              //       Color.fromARGB(255, 167, 135, 135),
+                              //     ),
+                              //   ),
+                              // ),
                             );
                           } else if (snapshot.hasError) {
                             return Container(
@@ -176,6 +182,10 @@ class _PostScreenState extends State<PostScreen> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class _PostHeader extends StatelessWidget {

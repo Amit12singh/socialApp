@@ -20,7 +20,8 @@ class CreatePostScreen extends StatefulWidget {
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }
 
-class _CreatePostScreenState extends State<CreatePostScreen> {
+class _CreatePostScreenState extends State<CreatePostScreen>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController postController = TextEditingController();
   PostService postService = PostService();
   List<XFile> _mediaFileList = [];
@@ -356,4 +357,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
