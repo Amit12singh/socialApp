@@ -544,16 +544,19 @@ class _PostScreenState extends State<ProfilePostScreen> {
                   if (loadingProgress == null) {
                     return child;
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          Color.fromARGB(255, 167, 135, 135),
-                        ),
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
+                    return Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.38,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
                       ),
+                      // child: const Center(
+                      //   child: CircularProgressIndicator(
+                      //     valueColor: AlwaysStoppedAnimation<Color>(
+                      //       Color.fromARGB(255, 167, 135, 135),
+                      //     ),
+                      //   ),
+                      // ),
                     );
                   }
                 },
