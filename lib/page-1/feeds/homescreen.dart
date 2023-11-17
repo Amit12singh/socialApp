@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/models/response_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/About_us.dart';
 import 'package:myapp/page-1/Notification_page.dart';
@@ -24,6 +25,7 @@ class _FeedScreenState extends State<FeedScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   final HandleToken localStorageService = HandleToken();
   final GraphQLService userService = GraphQLService();
+   
   bool isExpanded = false;
   int currentPage = 0;
   late UserModel user;
@@ -42,27 +44,19 @@ class _FeedScreenState extends State<FeedScreen> {
     });
   }
 
-  void _handleLogout(BuildContext context, String val) async {
+  void _handleLogout(BuildContext context) async {
     bool isCleared = await localStorageService.clearAccessToken();
 
     if (isCleared) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: val == "delete_account"
-              ? const Text(
-                  'Account will be deleted.Thank you for visit us.',
+        const SnackBar(
+          content: Text(
+            'Logged out successfully',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
                   ),
-                )
-              : const Text(
-                  'Logged out successfully',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
+          ),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           elevation: 10,
@@ -78,6 +72,38 @@ class _FeedScreenState extends State<FeedScreen> {
       );
     }
   }
+
+  void _deleteAccount(BuildContext context) async {
+    final BoolResponseModel response =
+        await userService.deleteAccount(id: user.id ?? '');
+
+    if (response.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            response.message,
+            textAlign: TextAlign.center,
+            // ignore: prefer_const_constructors
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          elevation: 10,
+        ),
+      );
+
+      Navigator.of(context).pushAndRemoveUntil(
+        PageTransition(
+            type: PageTransitionType.scale,
+            alignment: Alignment.bottomCenter,
+            child: LoginScreen()),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -145,13 +171,13 @@ class _FeedScreenState extends State<FeedScreen> {
                         PageTransition(
                           type: PageTransitionType.scale,
                           alignment: Alignment.bottomCenter,
-                          child: About_us(),
+                          child: const About_us(),
                         ),
                       );
                     }
                   },
                   itemBuilder: (BuildContext context) => [
-                    PopupMenuItem<String>(
+                    const PopupMenuItem<String>(
                       value: 'about',
                       child: Text('About Us'),
                     ),
@@ -167,10 +193,10 @@ class _FeedScreenState extends State<FeedScreen> {
                       ),
                       onSelected: (value) {
                         if (value == 'log_out') {
-                          _handleLogout(context, 'log_out');
+                          _handleLogout(context);
                         }
                         if (value == 'delete_account') {
-                          _handleLogout(context, 'delete_account');
+                          _deleteAccount(context);
                         }
                       },
                       itemBuilder: (BuildContext context) {
