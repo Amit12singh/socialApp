@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/models/user_model.dart';
@@ -43,6 +44,38 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   void _handleLogout(BuildContext context, String val) async {
+    bool? isSuccess = await showDialog<bool>(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(val == 'delete_account'
+            ? 'Are you sure you wan\'t to delete your account?\n All your data will be deleted'
+            : 'Are you sure you wan\'t to logout?'),
+        actions: [
+          CupertinoDialogAction(
+            /// This parameter indicates this action is the default,
+            /// and turns the action's text to bold text.
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+            child: const Text('No'),
+          ),
+          CupertinoDialogAction(
+            /// This parameter indicates the action would perform
+            /// a destructive action such as deletion, and turns
+            /// the action's text color to red.
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+    if (!(isSuccess == true)) {
+      return;
+    }
     bool isCleared = await localStorageService.clearAccessToken();
 
     if (isCleared) {

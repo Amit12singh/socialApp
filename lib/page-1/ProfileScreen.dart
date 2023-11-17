@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 1, vsync: this);
 
     _loadData();
   }
@@ -280,30 +280,30 @@ class ProfileView extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      const SizedBox(height: 3),
-                      Row(
-                        children: [
-                          const Text(
-                            "Lives in :",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            userTimeline?.profile.currentCity ?? '',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // const SizedBox(height: 3),
+                      // Row(
+                      //   children: [
+                      //     const Text(
+                      //       "Lives in :",
+                      //       style: TextStyle(
+                      //         color: Colors.black,
+                      //         fontWeight: FontWeight.w400,
+                      //         fontSize: 16,
+                      //       ),
+                      //     ),
+                      //     const SizedBox(
+                      //       width: 5,
+                      //     ),
+                      //     Text(
+                      //       userTimeline?.profile.currentCity ?? '',
+                      //       style: const TextStyle(
+                      //         color: Colors.black,
+                      //         fontWeight: FontWeight.w400,
+                      //         fontSize: 16,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       const SizedBox(height: 3),
                       Row(
                         children: [
@@ -353,29 +353,29 @@ class ProfileView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 3),
-                      Row(
-                        children: [
-                          const Text(
-                            "House/House no. :",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${userTimeline?.profile.house ?? ' '},${userTimeline?.profile.houseNumber ?? ' '}',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     const Text(
+                      //       "House/House no. :",
+                      //       style: TextStyle(
+                      //         color: Colors.black,
+                      //         fontWeight: FontWeight.w400,
+                      //         fontSize: 16,
+                      //       ),
+                      //     ),
+                      //     const SizedBox(
+                      //       width: 5,
+                      //     ),
+                      //     Text(
+                      //       '${userTimeline?.profile.house ?? ' '},${userTimeline?.profile.houseNumber ?? ' '}',
+                      //       style: const TextStyle(
+                      //         color: Colors.black,
+                      //         fontWeight: FontWeight.w400,
+                      //         fontSize: 16,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
