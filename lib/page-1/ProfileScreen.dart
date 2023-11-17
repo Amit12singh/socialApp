@@ -15,6 +15,8 @@ import 'package:myapp/page-1/seeMoreText.dart';
 import 'package:myapp/services/article_service.dart';
 import 'package:myapp/services/user_service.dart';
 import 'package:myapp/utilities/localstorage.dart';
+import 'package:myapp/widgets/AddFriends.dart';
+import 'package:myapp/widgets/commentPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:myapp/widgets/avatarWithbutton.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -255,130 +257,132 @@ class ProfileView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  userTimeline?.profile.fullName ?? '',
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userTimeline?.profile.fullName ?? '',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      const Text(
+                        'Old Nabhaites',
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          const Text(
+                            "Lives in :",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            userTimeline?.profile.currentCity ?? '',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          const Text(
+                            "Contact :",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            userTimeline?.profile.phoneNumber ?? '',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          const Text(
+                            "Passed out in:",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            userTimeline?.profile.passedOutYear ?? '',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        children: [
+                          const Text(
+                            "House/House no. :",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '${userTimeline?.profile.house ?? ' '},${userTimeline?.profile.houseNumber ?? ' '}',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 3),
-                const Text(
-                  'Old Nabhaites',
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 3),
-
-                Row(
-                  children: [
-                    const Text(
-                      "Lives in :",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      userTimeline?.profile.currentCity ?? '',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-
-                Row(
-                  children: [
-                    const Text(
-                      "Contact :",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      userTimeline?.profile.phoneNumber ?? '',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-
-                Row(
-                  children: [
-                    const Text(
-                      "Passedout in:",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      userTimeline?.profile.passedOutYear ?? '',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-
-                Row(
-                  children: [
-                    const Text(
-                      "House/House no. :",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '${userTimeline?.profile.house ?? ' '},${userTimeline?.profile.houseNumber ?? ' '}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    )
-                  ],
-                )
-                 
               ],
             ),
           ],
         ),
       ),
       const SizedBox(
-        height: 5,
+        height: 0,
       ),
       receiver != null
           ? Padding(
@@ -386,7 +390,18 @@ class ProfileView extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextButton(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 167, 135, 135),
+                        ),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -394,20 +409,23 @@ class ProfileView extends StatelessWidget {
                             type: PageTransitionType.scale,
                             alignment: Alignment.bottomCenter,
                             child: ChatScreen(
-                                receiver: receiver ?? {} as ChatModel),
+                              receiver: receiver ?? {} as ChatModel,
+                            ),
                           ),
                         );
                       },
-                      style: TextButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF0077b5), // Set the background color to blue
-                      ),
                       child: const Text(
                         'Message',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            height: 1.5),
                       ),
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  AddFriend(),
                 ],
               ),
             )
@@ -459,7 +477,11 @@ class _PostScreenState extends State<ProfilePostScreen> {
   Widget build(BuildContext context) {
     if (widget.posts == null) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(
+            Color.fromARGB(255, 167, 135, 135),
+          ),
+        ),
       );
     } else {
       if (widget.posts!.isEmpty) {
@@ -520,6 +542,9 @@ class _PostScreenState extends State<ProfilePostScreen> {
                   } else {
                     return Center(
                       child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Color.fromARGB(255, 167, 135, 135),
+                        ),
                         value: loadingProgress.expectedTotalBytes != null
                             ? loadingProgress.cumulativeBytesLoaded /
                                 loadingProgress.expectedTotalBytes!
@@ -662,6 +687,7 @@ class _PostStats extends StatefulWidget {
 class _PostStatsState extends State<_PostStats> {
   bool _isLiked = false;
   int likeCount = 0;
+  late UserModel loggedInUser;
   bool isRendered = false;
 
   @override
@@ -683,6 +709,7 @@ class _PostStatsState extends State<_PostStats> {
       isRendered = true;
       setState(() {
         _isLiked = isLiked;
+        loggedInUser = currentUser;
       });
     }
     if (widget.post.totalLikes - 1 == widget.post.likes!.length && isRendered) {
@@ -710,25 +737,34 @@ class _PostStatsState extends State<_PostStats> {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              likeCount.toString(),
-              style: TextStyle(color: Colors.grey[600], fontSize: 14),
+            Row(
+              children: [
+                Text(
+                  likeCount.toString(),
+                  style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                ),
+                const SizedBox(width: 4),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: likeCount > 0
+                      ? const Icon(
+                          Icons.thumb_up_sharp,
+                          color: Color.fromARGB(255, 167, 135, 135),
+                          size: 15,
+                        )
+                      : const SizedBox(),
+                ),
+              ],
             ),
-            const SizedBox(width: 4),
-            Container(
-              padding: const EdgeInsets.all(4.0),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: likeCount > 0
-                  ? const Icon(
-                      Icons.thumb_up_sharp,
-                      color: Color.fromARGB(255, 167, 135, 135),
-                      size: 15,
-                    )
-                  : const SizedBox(),
-            ),
+            widget.post.comments!.isNotEmpty
+                ? Text(
+                    widget.post.comments!.length.toString() + ' comments' ?? '')
+                : const Text("No comments yet.")
           ],
         ),
         const Divider(),
@@ -755,17 +791,22 @@ class _PostStatsState extends State<_PostStats> {
                 });
               },
             ),
-            Spacer(),
+            const Spacer(),
             const SizedBox(
               width: 8,
             ),
             _PostButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.insert_comment_outlined,
                 size: 25,
               ),
               onTap: () {
-                // showCommentModal(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CommentScreen(
+                        loggedInUser: loggedInUser, post: widget.post),
+                  ),
+                );
               },
             ),
             const SizedBox(

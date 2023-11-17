@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/page-1/ProfileScreen.dart';
-import 'package:myapp/page-1/feeds/bottombar.dart';
 import 'package:myapp/page-1/feeds/postScreen.dart';
 import 'package:myapp/services/user_service.dart';
+import 'package:myapp/widgets/AddFriends.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SearchPage extends StatefulWidget {
@@ -75,13 +75,12 @@ class _SearchPageState extends State<SearchPage> {
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(
                     color: Color.fromARGB(80, 167, 135, 135),
-                  ), // Color when not focused
+                  ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(
-                    color:
-                        Color.fromARGB(80, 167, 135, 135), // Color when focused
+                    color: Color.fromARGB(80, 167, 135, 135),
                   ),
                 ),
               ),
@@ -125,12 +124,15 @@ class _SearchPageState extends State<SearchPage> {
                           margin: const EdgeInsets.symmetric(vertical: 1),
                           child: ListTile(
                             leading: Avatar(user: _foundUsers[index]),
-                            title: Text(
-                              _foundUsers[index].fullName,
-                              style: const TextStyle(
-                                  color: Color.fromARGB(255, 167, 135, 135),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16),
+                            title: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(
+                                _foundUsers[index].fullName,
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 167, 135, 135),
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16),
+                              ),
                             ),
                           ),
                         ),

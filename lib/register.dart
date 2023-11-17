@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/IntroPages/PrivacyPolicy.dart';
 import 'package:myapp/models/response_model.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/verificationEmail.dart';
@@ -205,6 +206,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           height: 1.5 * ffem,
                                           color: const Color(0xffdadbd8),
                                         ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ),
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
@@ -253,6 +267,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           height: 1.5 * ffem,
                                           color: const Color(0xffdadbd8),
                                         ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ),
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
@@ -328,6 +355,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           height: 1.5 * ffem,
                                           color: const Color(0xffdadbd8),
                                         ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ),
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                       keyboardType: TextInputType.number,
                                       validator: (value) {
@@ -447,6 +487,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           height: 1.5 * ffem,
                                           color: const Color(0xffdadbd8),
                                         ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ),
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
@@ -494,6 +547,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           height: 1.5 * ffem,
                                           color: const Color(0xffdadbd8),
                                         ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ),
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
@@ -541,6 +607,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           height: 1.5 * ffem,
                                           color: const Color(0xffdadbd8),
                                         ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ),
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
@@ -606,6 +685,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ),
                                         // errorBorder: errorBorder,
                                         // focusedErrorBorder: errorBorder,
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ),
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
@@ -673,6 +765,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ),
                                         // errorBorder: errorBorder,
                                         // focusedErrorBorder: errorBorder,
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ),
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
@@ -692,7 +797,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           SizedBox(height: 15 * fem),
-                          MaterialButton(
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xff643600),
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20 * fem),
+                                ),
+                              ),
+                            ),
                             onPressed: () async {
                               String password = passwordController.text;
                               String confirmPassword =
@@ -717,18 +833,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 }
                               }
                             },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20 * fem),
-                            ),
                             child: Container(
-                              // onPressed:(){},
-
                               width: 332 * fem,
                               height: 58 * fem,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff643600),
-                                borderRadius: BorderRadius.circular(16 * fem),
-                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -740,14 +847,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       fontWeight: FontWeight.w700,
                                       height: 1.5 * ffem,
                                       color: const Color(0xffffffff),
-                                    ),
-                                  ),
-                                  SizedBox(width: 5 * fem),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.login,
-                                      size: 17.98 * fem,
                                     ),
                                   ),
                                 ],
@@ -780,28 +879,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               'Log in',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: 12 * ffem,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 14 * ffem,
+                                fontWeight: FontWeight.bold,
                                 height: 1.5 * ffem,
                                 color: const Color(0xff643600),
                               ),
                             ),
                           ),
                           SizedBox(height: 0.5 * fem),
-                          Center(
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.symmetric(vertical: 0.5 * fem),
-                              child: Text(
-                                'By creating an account, you agree to our Terms & Conditions and agree to Privacy Policy.',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12 * ffem,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.5 * ffem,
-                                  color: const Color(0xff643600),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                PageTransition(
+                                  type: PageTransitionType.scale,
+                                  alignment: Alignment.bottomCenter,
+                                  child: PrivacyPolicyScreen(),
                                 ),
-                                textAlign: TextAlign.center,
+                              );
+                            },
+                            child: Center(
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.symmetric(vertical: 0.5 * fem),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text:
+                                        'By creating an account, you agree to our Terms & Conditions and agree to Privacy Policy.',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 12 * ffem,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5 * ffem,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Color(0xff643600),
+                                      decorationStyle:
+                                          TextDecorationStyle.solid,
+                                      color: const Color(0xff643600),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),

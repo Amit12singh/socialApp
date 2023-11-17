@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myapp/models/comment_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-
 class CommentCard extends StatelessWidget {
   final CommentModel comment;
   const CommentCard({Key? key, required this.comment}) : super(key: key);
@@ -16,18 +15,25 @@ class CommentCard extends StatelessWidget {
         children: [
           Row(
             children: [
+              comment.user.profilePicture != null
+                  ?
               CircleAvatar(
                 backgroundImage: NetworkImage(
                   comment.user.profilePicture?.path ?? '',
                 ),
                 radius: 18,
-              ),
+                    )
+                  : const CircleAvatar(
+                      backgroundImage: AssetImage(
+                          'assets/page-1/images/ellipse-1-bg-nRo.png'),
+                      radius: 20,
+                      backgroundColor: Colors.transparent,
+                    ),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(color: Colors.grey[200]),
-                  margin:
-                      const EdgeInsets.only(bottom: 0, left: 15, right: 15),
+                  margin: const EdgeInsets.only(bottom: 0, left: 15, right: 15),
                   child: Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,10 +57,9 @@ class CommentCard extends StatelessWidget {
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 10), //
-                              
+
                           child: Text(comment.comment),
                         ),
-                       
                       ],
                     ),
                   ),

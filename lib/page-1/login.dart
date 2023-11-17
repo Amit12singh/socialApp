@@ -27,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _loading = false;
   void _load() async {
     await storage.write(key: 'isFirstloggedIn', value: "false");
-   
   }
 
   bool _isValidEmail(String email) {
@@ -75,7 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else {
-
         final UserModel? loggedInUser = await localStorageService.getUser();
 
         Navigator.of(context).pushReplacement(
@@ -200,6 +198,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
                                     ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5)),
+                                    ),
+                                  ),
+                                  cursorColor: Colors.transparent,
+                                  style: TextStyle(
+                                    color: Colors.black,
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -251,6 +261,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height: 1.5 * ffem,
                                       color: const Color(0xffdadbd8),
                                     ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black.withOpacity(0.5)),
+                                    ),
+                                  ),
+                                  cursorColor: Colors.transparent,
+                                  style: TextStyle(
+                                    color: Colors.black,
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -277,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       : Icons.visibility_off,
                                   size: 25 * fem,
                                   color: _isPasswordVisible
-                                      ? Colors.blue
+                                      ? Color.fromARGB(255, 167, 135, 135)
                                       : Colors.grey,
                                 ),
                               ),
@@ -340,7 +362,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 12 * ffem,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.bold,
                                 height: 1.5 * ffem,
                                 color: const Color(0xff643600),
                               ),
@@ -349,7 +371,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       SizedBox(height: 30 * fem),
-                      MaterialButton(
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xff643600),
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20 * fem),
+                            ),
+                          ),
+                        ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
@@ -362,16 +395,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             login();
                           }
                         },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20 * fem),
-                        ),
                         child: Container(
-                          width: 500 * fem,
+                          width: 600 * fem,
                           height: 58 * fem,
-                          decoration: BoxDecoration(
-                            color: const Color(0xff643600),
-                            borderRadius: BorderRadius.circular(16 * fem),
-                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -384,11 +410,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   height: 1.5 * ffem,
                                   color: const Color(0xffffffff),
                                 ),
-                              ),
-                              SizedBox(width: 10 * fem),
-                              Icon(
-                                Icons.login,
-                                size: 20.98 * fem,
                               ),
                             ],
                           ),
@@ -422,7 +443,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Register Now',
                           style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 12 * ffem,
+                            fontSize: 15 * ffem,
                             fontWeight: FontWeight.w500,
                             height: 1.5 * ffem,
                             color: const Color(0xff643600),

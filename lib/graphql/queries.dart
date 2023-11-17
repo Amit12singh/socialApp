@@ -91,6 +91,26 @@ query Me(\$userId: String!) {
         type
       }
       id
+       comments {
+        id
+        comment
+        createdAt
+        deletedAt
+        id
+        updatedAt
+        user {
+          id
+          profileImage {
+            mimeType
+            id
+            name
+            path
+            type
+          }
+          fullName
+          email
+        }
+      }
       likes {
         id
         deletedAt
