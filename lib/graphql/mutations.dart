@@ -242,3 +242,14 @@ mutation Mutation(\$data: CommentInput!) {
 }
 
 """;
+
+
+const DELETE_ACCOUNT = """
+mutation DeleteUser(\$data: IDInput!) {
+  deleteUser(data: \$data) {
+    message
+    status
+    success
+  }
+}
+""";

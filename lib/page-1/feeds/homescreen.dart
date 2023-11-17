@@ -118,22 +118,22 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
         actions: currentPage == 0
             ? [
-                IconButton(
-                  icon: const Icon(
-                    Icons.notifications_active,
-                    size: 25,
-                    color: Color.fromARGB(255, 167, 135, 135),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      PageTransition(
-                        type: PageTransitionType.scale,
-                        alignment: Alignment.bottomCenter,
-                        child: const NotificationPage(),
-                      ),
-                    );
-                  },
-                ),
+                // IconButton(
+                //   icon: const Icon(
+                //     Icons.notifications_active,
+                //     size: 25,
+                //     color: Color.fromARGB(255, 167, 135, 135),
+                //   ),
+                //   onPressed: () {
+                //     Navigator.of(context).push(
+                //       PageTransition(
+                //         type: PageTransitionType.scale,
+                //         alignment: Alignment.bottomCenter,
+                //         child: const NotificationPage(),
+                //       ),
+                //     );
+                //   },
+                // ),
                 PopupMenuButton<String>(
                   icon: const Icon(
                     Icons.more_vert,
