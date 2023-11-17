@@ -94,8 +94,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   Future<void> _captuteImage() async {
     try {
-      var image =
-          await _picker.pickImage(source: ImageSource.camera, imageQuality: 1);
+      var image = await _picker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: 1,
+      );
 
       if (image != null) {
         setState(() {
