@@ -50,7 +50,7 @@ class _BatchMatePageState extends State<BatchMatePage> {
     return AppBar(
       backgroundColor: Color.fromARGB(255, 244, 242, 242),
       title: Text(
-        'Your batch mates from ICSE year ${widget.user?.passedOutYear}',
+        'Batch mates from ICSE ${widget.user?.passedOutYear}',
         style: TextStyle(color: Colors.black),
       ),
       centerTitle: true,

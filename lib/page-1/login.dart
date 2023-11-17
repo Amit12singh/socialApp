@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:myapp/models/response_model.dart';
@@ -65,7 +66,10 @@ class _LoginScreenState extends State<LoginScreen> {
           behavior: SnackBarBehavior.floating,
         ),
       );
-      if (await storage.read(key: 'isFirstloggedIn') == 'false') {
+      if (
+
+          // await storage.read(key: 'isFirstloggedIn') == 'false'
+          false) {
         Navigator.of(context).pushReplacement(
           PageTransition(
             type: PageTransitionType.scale,
@@ -108,6 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email = "";
   String _password = "";
   bool _isPasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,6 +198,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(width: 15 * fem),
                               Expanded(
                                 child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
                                     hintText: 'Enter Email',
                                     hintStyle: TextStyle(
@@ -252,6 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(width: 15 * fem),
                               Expanded(
                                 child: TextFormField(
+                                  textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     hintText: 'Enter password',
                                     hintStyle: TextStyle(

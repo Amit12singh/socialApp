@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:myapp/models/article_model.dart';
 import 'package:myapp/models/chat_model.dart';
@@ -51,6 +52,8 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   void _handleLogout(BuildContext context) async {
     bool isCleared = await localStorageService.clearAccessToken();
+    final storage = FlutterSecureStorage();
+    await storage.deleteAll();
 
     if (isCleared) {
       ScaffoldMessenger.of(context).showSnackBar(

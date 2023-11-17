@@ -9,9 +9,9 @@
 	<key>CFBundleDisplayName</key>
 	<string>PPS ONA</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow photo access to add photos to your feed.</string>
+	<string>This app requires access to the photo library to upload your feed photo</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow camera access to add photos to your feed.</string>
+	<string>This app requires access to the photo library to upload your feed photo</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

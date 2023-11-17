@@ -28,7 +28,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   // final HandleToken localStorageService = HandleToken();
   bool isPosting = false;
   bool isUpdate = false;
-  // late UserModel user;
+
+  final formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -96,7 +97,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     try {
       var image = await _picker.pickImage(
         source: ImageSource.camera,
-        imageQuality: 1,
       );
 
       if (image != null) {
@@ -112,7 +112,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   Future<void> selectImage() async {
     try {
-      List<XFile>? images = await _picker.pickMultiImage();
+      List<XFile>? images =
+          await _picker.pickMultiImage(maxHeight: 480, maxWidth: 640);
 
       if (images.isNotEmpty) {
         setState(() {
@@ -196,28 +197,37 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ],
                 ),
               ),
-              Container(
-                  margin: const EdgeInsets.only(bottom: 25.0),
-                  child: TextField(
-                    controller: postController,
-                    decoration: const InputDecoration(
-                      hintText: "What’s on your mind?",
-                      hintStyle: TextStyle(
+              Form(
+                key: formkey,
+                child: Container(
+                    margin: const EdgeInsets.only(bottom: 25.0),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Caption is required';
+                        }
+                        return null;
+                      },
+                      controller: postController,
+                      decoration: const InputDecoration(
+                        hintText: "What’s on your mind?",
+                        hintStyle: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xffbebebe),
+                        ),
+                        border: InputBorder.none,
+                      ),
+                      style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xffbebebe),
+                        color: Color(0xff000000),
                       ),
-                      border: InputBorder.none,
-                    ),
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff000000),
-                    ),
-                    maxLines: null,
-                  )),
+                      maxLines: null,
+                    )),
+              ),
               const SizedBox(height: 30.0),
               Column(
                 children: [
@@ -314,6 +324,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ),
                 onPressed: () async {
+                  if (!formkey.currentState!.validate()) {
+                    return;
+                  }
                   if (postController.text.isNotEmpty) {
                     showProcessingDialog(context);
                     _createPost();

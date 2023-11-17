@@ -16,9 +16,7 @@ class MyApp extends StatelessWidget {
             errorColor: Colors.red,
             primaryColor: Color.fromARGB(255, 167, 135, 135)),
         home: Scaffold(
-          body: SingleChildScrollView(
-            child: SplashScreen(),
-          ),
+          body: SplashScreen(),
         ),
         routes: {
           '/login': (context) => LoginScreen(),

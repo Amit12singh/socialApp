@@ -9,6 +9,7 @@ import 'package:country_flags/country_flags.dart';
 import 'package:myapp/widgets/datePicker.dart';
 import 'package:myapp/widgets/processingRequest.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -888,14 +889,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           SizedBox(height: 0.5 * fem),
                           GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                PageTransition(
-                                  type: PageTransitionType.scale,
-                                  alignment: Alignment.bottomCenter,
-                                  child: PrivacyPolicyScreen(),
-                                ),
-                              );
+                            onTap: () async {
+                              if (!await launchUrl(Uri.parse(
+                                  'https://trifectadigimedia.com/privacy-policy-pps-ona/'))) {
+                                throw Exception('Could not launch');
+                              }
                             },
                             child: Center(
                               child: Padding(
