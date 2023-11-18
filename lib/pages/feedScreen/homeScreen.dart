@@ -1,0 +1,284 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:ppsona/models/user_model.dart';
+import 'package:ppsona/pages/About_us.dart';
+import 'package:ppsona/pages/FriendRequest.dart';
+import 'package:ppsona/pages/LoginScreen.dart';
+import 'package:ppsona/pages/MessageList.dart';
+import 'package:ppsona/pages/Notification_Page.dart';
+import 'package:ppsona/pages/ProfileScreen.dart';
+import 'package:ppsona/pages/SearchPage.dart';
+import 'package:ppsona/pages/createpostScreen.dart';
+import 'package:ppsona/pages/feedScreen/postScreen.dart';
+import 'package:ppsona/services/user_service.dart';
+import 'package:ppsona/utilities/LocalStorage.dart';
+
+class FeedScreen extends StatefulWidget {
+  const FeedScreen({Key? key}) : super(key: key);
+
+  @override
+  State<FeedScreen> createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends State<FeedScreen> {
+  final PageController _pageController = PageController(initialPage: 0);
+  final HandleToken localStorageService = HandleToken();
+  final GraphQLService userService = GraphQLService();
+  bool isExpanded = false;
+  int currentPage = 0;
+  late UserModel user;
+
+  @override
+  void initState() {
+    super.initState();
+    _setUser();
+  }
+
+  void _setUser() async {
+    final UserModel? _user = await localStorageService.getUser();
+
+    setState(() {
+      user = _user!;
+    });
+  }
+
+  void _handleLogout(BuildContext context, String val) async {
+    bool isCleared = await localStorageService.clearAccessToken();
+
+    if (isCleared) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: val == "delete_account"
+              ? const Text(
+                  'Account will be deleted.Thank you for visit us.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                )
+              : const Text(
+                  'Logged out successfully',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          elevation: 10,
+        ),
+      );
+
+      Navigator.of(context).pushAndRemoveUntil(
+        PageTransition(
+            type: PageTransitionType.scale,
+            alignment: Alignment.bottomCenter,
+            child: LoginScreen()),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
+        elevation: 1,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Container(
+            width: 60,
+            height: 60,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: Image.asset(
+              'assets/page-1/images/ellipse-1-bg.png',
+              width: 60,
+              height: 60,
+            ),
+          ),
+          onPressed: () {},
+        ),
+        titleSpacing: 3,
+        title: const Text(
+          'PPS ONA',
+          style: TextStyle(
+            color: Color.fromARGB(255, 167, 135, 135),
+            decoration: TextDecoration.none,
+            fontFamily: 'PermanentMarker-Regular',
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+        actions: currentPage == 0
+            ? [
+                IconButton(
+                  icon: const Icon(
+                    Icons.notifications_active,
+                    size: 25,
+                    color: Color.fromARGB(255, 167, 135, 135),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      PageTransition(
+                        type: PageTransitionType.scale,
+                        alignment: Alignment.bottomCenter,
+                        child: const NotificationPage(),
+                      ),
+                    );
+                  },
+                ),
+                PopupMenuButton<String>(
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: Color.fromARGB(255, 167, 135, 135),
+                  ),
+                  onSelected: (value) {
+                    if (value == 'about') {
+                      Navigator.of(context).push(
+                        PageTransition(
+                          type: PageTransitionType.scale,
+                          alignment: Alignment.bottomCenter,
+                          child: About_us(),
+                        ),
+                      );
+                    } else if (value == 'request') {
+                      Navigator.of(context).push(
+                        PageTransition(
+                          type: PageTransitionType.scale,
+                          alignment: Alignment.bottomCenter,
+                          child: FriendRequestPage(),
+                        ),
+                      );
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem<String>(
+                      value: 'about',
+                      child: Text('About Us'),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'request',
+                      child: Text('Friend Request'),
+                    ),
+                  ],
+                ),
+              ]
+            : currentPage == 4
+                ? [
+                    PopupMenuButton<String>(
+                      icon: const Icon(
+                        Icons.more_vert,
+                        color: Colors.black,
+                      ),
+                      onSelected: (value) {
+                        if (value == 'log_out') {
+                          _handleLogout(context, 'log_out');
+                        }
+                        if (value == 'delete_account') {
+                          _handleLogout(context, 'delete_account');
+                        }
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return <PopupMenuEntry<String>>[
+                          const PopupMenuItem<String>(
+                            value: 'log_out',
+                            child: ListTile(
+                              leading: Icon(Icons.exit_to_app),
+                              title: Text('Log Out'),
+                            ),
+                          ),
+                          const PopupMenuItem<String>(
+                            value: 'delete_account',
+                            child: ListTile(
+                              leading: Icon(Icons.exit_to_app),
+                              title: Text('Delete Account'),
+                            ),
+                          ),
+                        ];
+                      },
+                    ),
+                  ]
+                : [],
+      ),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (page) {
+          setState(() {
+            currentPage = page;
+          });
+        },
+        children: <Widget>[
+          const PostScreen(),
+          const SearchPage(),
+          CreatePostScreen(user: user),
+          const MessengerPage(),
+          const ProfileScreen(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        iconSize: 22,
+        selectedItemColor: const Color.fromARGB(255, 167, 135, 135),
+        currentIndex: currentPage,
+        onTap: (index) {
+          setState(() {
+            currentPage = index;
+          });
+          _pageController.jumpToPage(index);
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search_rounded),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Create',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            label: 'Messages',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
+      // floatingActionButton: Visibility(
+      //   visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+      //   child: FloatingActionButton(
+      //     onPressed: () {
+      //       Navigator.of(context).push(
+      //         PageTransition(
+      //           type: PageTransitionType.scale,
+      //           alignment: Alignment.bottomCenter,
+      //           child: CreatePostScreen(),
+      //         ),
+      //       );
+      //     },
+      //     backgroundColor: const Color.fromARGB(255, 167, 135, 135),
+      //     elevation: 6,
+      //     child: const Icon(Icons.add),
+      //   ),
+      // ),
+      // floatingActionButtonLocation:
+      //     FloatingActionButtonLocation.miniCenterDocked,
+      //  resizeToAvoidBottomInset: false, // fluter 2.x
+    );
+  }
+}
